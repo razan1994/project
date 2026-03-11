@@ -1,0 +1,187 @@
+<!-- Fixed Consultation Button and Modal Form (Template Design) -->
+<style>
+.fixed-consult-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 9999;
+    background: linear-gradient(90deg, #0e2238 0%, #1e90ff 100%);
+    color: #fff;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(30,144,255,0.18);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    border: 3px solid #fff;
+}
+.fixed-consult-btn:hover {
+    background: linear-gradient(90deg, #1e90ff 0%, #0e2238 100%);
+}
+#consultModal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0; top: 0; width: 100vw; height: 100vh;
+    background: rgba(14,34,56,0.45);
+    align-items: center;
+    justify-content: center;
+}
+#consultModal.active { display: flex; }
+.consult-modal-content {
+    background: #fff;
+    border-radius: 18px;
+    padding: 36px 28px 28px 28px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(30,144,255,0.13);
+    position: relative;
+    font-family: inherit;
+}
+.consult-modal-content .close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 2rem;
+    color: #1e90ff;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.consult-modal-content .close:hover { opacity: 1; }
+.consult-modal-content h4 {
+    color: #0e2238;
+    font-weight: 700;
+    margin-bottom: 18px;
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+}
+.consult-modal-content label { font-weight: 600; margin-top: 12px; color: #0e2238; font-size: 1rem; }
+.consult-modal-content input,
+.consult-modal-content select,
+.consult-modal-content textarea {
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #dbeafe;
+    background: #f8fafc;
+    font-size: 1rem;
+    color: #0e2238;
+    transition: border 0.2s;
+}
+.consult-modal-content input:focus,
+.consult-modal-content select:focus,
+.consult-modal-content textarea:focus {
+    border: 1.5px solid #1e90ff;
+    outline: none;
+}
+.consult-modal-content button[type="submit"] {
+    background: linear-gradient(90deg, #0e2238 0%, #1e90ff 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(30,144,255,0.10);
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+}
+.consult-modal-content button[type="submit"]:hover {
+    background: linear-gradient(90deg, #1e90ff 0%, #0e2238 100%);
+}
+.consult-modal-content input[type="file"] {
+    background: #f8fafc;
+    border: 1px dashed #1e90ff;
+    padding: 14px 10px;
+    color: #0e2238;
+    font-size: 0.98rem;
+}
+.consult-modal-content #consultSuccess {
+    color: #1e90ff;
+    margin-top: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+</style>
+
+<!-- Fixed Button -->
+<div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="Request Consultation">
+    <i class="icon icon-chat"></i>
+</div>
+
+<!-- Modal Form -->
+<div id="consultModal">
+    <div class="consult-modal-content dextheme-card">
+        <span class="close" id="closeConsultModal">&times;</span>
+        <h4>Request a Consultation</h4>
+        <form id="consultForm" enctype="multipart/form-data" autocomplete="off">
+            <label for="client_name">Full Name *</label>
+            <input type="text" id="client_name" name="client_name" required>
+
+            <label for="contact_number">Contact Number *</label>
+            <input type="text" id="contact_number" name="contact_number" required>
+
+            <label for="preferred_time">Preferred Time for Communication</label>
+            <input type="text" id="preferred_time" name="preferred_time">
+
+            <label for="building_type">Type of Building Required *</label>
+            <select id="building_type" name="building_type" required>
+                <option value="">Select...</option>
+                <option value="Villa">Villa</option>
+                <option value="Factory">Factory</option>
+                <option value="Commercial Project">Commercial Project</option>
+            </select>
+
+            <label for="approved_design">Do you have an approved design? *</label>
+            <select id="approved_design" name="approved_design" required>
+                <option value="">Select...</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <label for="land_area">Land Area</label>
+            <input type="text" id="land_area" name="land_area">
+
+            <label for="construction_area">Expected Construction Area</label>
+            <input type="text" id="construction_area" name="construction_area">
+
+            <label for="attachments">Attachments (optional)</label>
+            <input type="file" id="attachments" name="attachments" multiple
+                placeholder="If you wish to upload any attachments, such as a hand drawing, survey plan, ownership document, or any other relevant file.">
+
+            <button type="submit">Send Request</button>
+        </form>
+        <div id="consultSuccess" style="display:none;">Thank you! Your request has been sent.</div>
+    </div>
+</div>
+
+<script>
+// Modal open/close logic
+const openBtn = document.getElementById('openConsultModal');
+const modal = document.getElementById('consultModal');
+const closeBtn = document.getElementById('closeConsultModal');
+openBtn.onclick = () => modal.classList.add('active');
+closeBtn.onclick = () => modal.classList.remove('active');
+window.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+
+// Dummy form handler (no backend)
+document.getElementById('consultForm').onsubmit = function(e) {
+    e.preventDefault();
+    document.getElementById('consultSuccess').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('consultSuccess').style.display = 'none';
+        modal.classList.remove('active');
+        this.reset();
+    }, 2000);
+};
+</script>

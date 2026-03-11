@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Livewire\Frontend;
+
+use App\Models\Service;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Component;
+
+class ServiceSection extends Component
+{
+    public function getServicesProperty(): Collection
+    {
+        return Service::query()
+            ->where('status', 1)
+            ->orderByDesc('id')
+            ->get();
+    }
+
+    public function render()
+    {
+        return view('livewire.frontend.service-section', [
+            'services' => $this->services,
+            'featuredService' => $this->services->first(),
+        ]);
+    }
+}

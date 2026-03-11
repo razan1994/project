@@ -1,0 +1,4 @@
+.navbar .navbar-nav .dropdown .dropdown-menu.gradient-border {
+    border-bottom: 4px solid;
+    border-image: linear-gradient(90deg, #b07f47 0%, #8b6033 100%) 1;
+}

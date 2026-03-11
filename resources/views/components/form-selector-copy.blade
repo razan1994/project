@@ -1,0 +1,299 @@
+@props(['merchantTypes', 'servicesAll'])
+
+@push('styles')
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.14.1/build/css/intlTelInput.css">
+    <!-- country-select-js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/country-select-js/2.0.1/css/countrySelect.min.css">
+
+    <style>
+        .iti {
+            width: 100% !important;
+        }
+
+        .country-select {
+            width: 100% !important;
+        }
+
+        .contact-us-wrapper {
+            padding: 20px 0;
+        }
+
+        .step-container {
+            display: none;
+        }
+
+        .step-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .selector-button {
+            padding: 12px 28px;
+            font-size: 15px;
+            margin: 8px 8px 8px 0;
+            border: 2px solid #007bff;
+            border-radius: 25px;
+            cursor: pointer;
+            background-color: white;
+            color: #007bff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .selector-button:hover {
+            background-color: #007bff;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .selector-button.primary {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .selector-button.primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+        }
+
+        .back-button {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border-color: #dee2e6;
+        }
+
+        .back-button:hover {
+            background-color: #e2e6ea;
+            color: #5a6268;
+            border-color: #adb5bd;
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.15);
+        }
+
+        #stepUserType h3,
+        #stepBuyerType h3 {
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        #stepForms {
+            padding: 20px 0;
+        }
+
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #supplierFormContainer,
+        #buyerOutsourceFormContainer,
+        #contactUsFormContainer {
+            display: none;
+        }
+
+        #supplierFormContainer.active,
+        #buyerOutsourceFormContainer.active,
+        #contactUsFormContainer.active {
+            display: block;
+        }
+
+        .button-group {
+            margin-bottom: 20px;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <!-- intl-tel-input JS -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.14.1/build/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.14.1/build/js/utils.js"></script>
+
+    <!-- country-select-js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/country-select-js/2.0.1/js/countrySelect.min.js"></script>
+
+    <script>
+        let currentUserType = null;
+        let currentBuyerType = null;
+
+        // Single initialization function for all forms
+        function initializePhoneAndCountry(formType) {
+            // Map formType to container ID
+            let containerId;
+            if (formType === 'supplier') {
+                containerId = 'supplierFormContainer';
+            } else if (formType === 'outsourcing') {
+                containerId = 'buyerOutsourceFormContainer';
+            } else if (formType === 'direct-contact') {
+                containerId = 'contactUsFormContainer';
+            }
+
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const input = container.querySelector("#phone");
+            if (!input) return;
+
+            // Initialize intl-tel-input
+            const iti = window.intlTelInput(input, {
+                initialCountry: "jo",
+                separateDialCode: true,
+                placeholderNumberType: "MOBILE",
+            });
+
+            // Initialize country select (only for supplier and buyer-outsource)
+            const countryDropdown = $(container).find("#country_select");
+            if (countryDropdown.length) {
+                const countryCodeInput = $(container).find("#country_code");
+                const countryNameInput = $(container).find("#country_name");
+
+                countryDropdown.countrySelect({
+                    defaultCountry: 'jo',
+                    preferredCountries: ['jo', 'sa', 'ae'],
+                    responsiveDropdown: true
+                });
+
+                // Sync country dropdown -> phone input
+                countryDropdown.on('countrychange', function(e, countryData) {
+                    iti.setCountry(countryData.iso2);
+                    countryCodeInput.val(countryData.iso2);
+                    countryNameInput.val(countryData.name);
+                });
+
+                // Set initial hidden values
+                const initialCountry = iti.getSelectedCountryData();
+                countryCodeInput.val(initialCountry.iso2);
+                countryNameInput.val(initialCountry.name);
+                countryDropdown.countrySelect("selectCountry", initialCountry.iso2);
+            }
+
+            // Store iti instance on the input for form submission
+            input._iti = iti;
+        }
+
+        function showBuyerOrSupplier(type) {
+            currentUserType = type;
+
+            if (type === 'supplier') {
+                showForm('supplier');
+            } else {
+                // Show buyer type selection
+                document.getElementById('stepUserType').classList.remove('active');
+                document.getElementById('stepBuyerType').classList.add('active');
+            }
+        }
+
+        function showForm(type) {
+            // Hide all form containers completely
+            const supplierContainer = document.getElementById('supplierFormContainer');
+            const buyerOutsourceContainer = document.getElementById('buyerOutsourceFormContainer');
+            const contactUsContainer = document.getElementById('contactUsFormContainer');
+
+            if (supplierContainer) supplierContainer.classList.remove('active');
+            if (buyerOutsourceContainer) buyerOutsourceContainer.classList.remove('active');
+            if (contactUsContainer) contactUsContainer.classList.remove('active');
+
+            // Show selected form
+            if (type === 'supplier') {
+                supplierContainer.classList.add('active');
+            } else if (type === 'outsourcing') {
+                currentBuyerType = 'outsourcing';
+                buyerOutsourceContainer.classList.add('active');
+            } else if (type === 'direct-contact') {
+                currentBuyerType = 'direct-contact';
+                contactUsContainer.classList.add('active');
+            }
+
+            // Hide steps and show forms
+            document.getElementById('stepUserType').classList.remove('active');
+            document.getElementById('stepBuyerType').classList.remove('active');
+            document.getElementById('stepForms').classList.add('active');
+
+            // Initialize phone and country for selected form
+            setTimeout(() => {
+                initializePhoneAndCountry(type);
+            }, 100);
+        }
+
+        function goBack() {
+            const stepForms = document.getElementById('stepForms');
+            const stepBuyerType = document.getElementById('stepBuyerType');
+            const stepUserType = document.getElementById('stepUserType');
+
+            if (stepForms.classList.contains('active')) {
+                stepForms.classList.remove('active');
+                if (currentUserType === 'buyer') {
+                    stepBuyerType.classList.add('active');
+                } else {
+                    stepUserType.classList.add('active');
+                }
+            } else if (stepBuyerType.classList.contains('active')) {
+                stepBuyerType.classList.remove('active');
+                stepUserType.classList.add('active');
+                currentUserType = null;
+            }
+        }
+    </script>
+@endpush
+
+<div class="contact-us-wrapper">
+    <!-- Step 1: Choose User Type -->
+    <div id="stepUserType" class="step-container active">
+        <h3>What brings you here?</h3>
+        <div class="button-group">
+            <button class="selector-button primary" onclick="showBuyerOrSupplier('supplier')">I'm a Supplier</button>
+            <button class="selector-button primary" onclick="showBuyerOrSupplier('buyer')">I'm a Buyer</button>
+        </div>
+    </div>
+
+    <!-- Step 2: Choose Buyer Type -->
+    <div id="stepBuyerType" class="step-container">
+        <h3>How can we assist you?</h3>
+        <div class="button-group">
+            <button class="selector-button primary" onclick="showForm('outsourcing')">Outsourcing Services</button>
+            <button class="selector-button primary" onclick="showForm('direct-contact')">Directly contact with suppplier</button>
+        </div>
+        <button class="selector-button back-button" onclick="goBack()">← Back</button>
+    </div>
+
+    <!-- Step 3: Display Forms -->
+    <div id="stepForms" class="step-container">
+        <button class="selector-button back-button" onclick="goBack()" style="margin-bottom: 20px;">← Back</button>
+
+        <!-- Supplier Form -->
+        <div id="supplierFormContainer" class="form-container">
+            <x-supplier-form />
+        </div>
+
+        <!-- Buyer Outsource Form -->
+        <div id="buyerOutsourceFormContainer" class="form-container">
+            <x-buyer-outsource-form />
+        </div>
+
+        <!-- Contact Us Form -->
+        <div id="contactUsFormContainer" class="form-container">
+            <x-contact-us-form :merchantTypes="$merchantTypes" :servicesAll="$servicesAll" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<!-- Google Font -->
+<link
+    href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900%7CPlayfair+Display:400,400i,700,700i%7CRoboto:400,400i,500,700"
+    rel="stylesheet">
+
+<!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/ekiticons3b71.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/animate.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/css/gradient-navbar-border.css') }}"/>
+  <script type="text/javascript" src="{{ asset('assets/js/bootstrap.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/js/countUp.min.js') }}"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Vite CSS -->
+@vite(['resources/css/app.css'])
+

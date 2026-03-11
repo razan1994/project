@@ -1,0 +1,6 @@
+.gradient-border {
+    border-width: 0 0 4px 0 !important;
+    border-style: solid !important;
+    border-image: linear-gradient(90deg, #b07f47 0%, #8b6033 100%) 1 !important;
+    border-radius: 0 !important;
+}
