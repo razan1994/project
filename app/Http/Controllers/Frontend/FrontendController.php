@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ContactUs;
 use App\Models\ContactUsRequest;
 use App\Models\SeoPage;
+use App\Models\Blog;
 use App\Models\Service;
 use App\Models\SupportTicket;
 use Illuminate\Http\Request;
@@ -230,6 +231,80 @@ class FrontendController extends Controller
         ContactUsRequest::query()->create($validated);
 
         return back()->with('contact_success', 'Your message has been sent successfully.');
+    }
+
+    public function blogs(Route $route)
+    {
+        try {
+            $blogs = Blog::query()
+                ->where('status', 1)
+                ->orderByDesc('id')
+                ->paginate(9);
+
+            return view('frontend.blogs', compact('blogs'));
+        } catch (\Throwable $th) {
+            $function_name =  $route->getActionName();
+            $check_old_errors = new SupportTicket();
+            $check_old_errors = $check_old_errors->select('*')->where([
+                'error_location' => $th->getFile(),
+                'error_description' => $th->getMessage(),
+                'function_name' => $function_name,
+                'error_line' => $th->getLine(),
+            ])->get();
+
+            if ($check_old_errors->count() == 0) {
+                $new_error_ticket = SupportTicket::create([
+                    'error_location' => $th->getFile(),
+                    'error_description' => $th->getMessage(),
+                    'function_name' => $function_name,
+                    'error_line' =>  $th->getLine(),
+                ]);
+                $end_error_ticket = $new_error_ticket;
+            } else {
+                $end_error_ticket = $check_old_errors->first();
+            }
+            return view('errors.support_tickets', compact('th', 'function_name', 'end_error_ticket'));
+        }
+    }
+
+    public function blogDetails(Route $route, string $slug)
+    {
+        try {
+            $blog = Blog::query()
+                ->where(function ($query) use ($slug) {
+                    $query->where('alias_name_en', $slug)
+                        ->orWhere('alias_name_ar', $slug);
+                })
+                ->first();
+
+            if (!$blog) {
+                abort(404);
+            }
+
+            return view('frontend.blog-details', compact('blog'));
+        } catch (\Throwable $th) {
+            $function_name =  $route->getActionName();
+            $check_old_errors = new SupportTicket();
+            $check_old_errors = $check_old_errors->select('*')->where([
+                'error_location' => $th->getFile(),
+                'error_description' => $th->getMessage(),
+                'function_name' => $function_name,
+                'error_line' => $th->getLine(),
+            ])->get();
+
+            if ($check_old_errors->count() == 0) {
+                $new_error_ticket = SupportTicket::create([
+                    'error_location' => $th->getFile(),
+                    'error_description' => $th->getMessage(),
+                    'function_name' => $function_name,
+                    'error_line' =>  $th->getLine(),
+                ]);
+                $end_error_ticket = $new_error_ticket;
+            } else {
+                $end_error_ticket = $check_old_errors->first();
+            }
+            return view('errors.support_tickets', compact('th', 'function_name', 'end_error_ticket'));
+        }
     }
 
     public function faqs(Route $route)

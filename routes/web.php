@@ -18,6 +18,8 @@ Route::group(
             Route::get('/design-build-project', 'designBuildProject')->name('design-build-project');
             Route::get('/contact-us', 'contactUs')->name('contact-us');
             Route::post('/contact-us', 'submitContactUs')->name('contact-us.submit');
+            Route::get('/blogs', 'blogs')->name('blogs');
+            Route::get('/blogs/{slug}', 'blogDetails')->name('blogs.details');
             Route::get('/faqs', 'faqs')->name('faqs');
             Route::get('/terms-and-conditions', 'termsAndConditions')->name('terms-and-conditions');
             Route::get('/privacy-policy', 'privacyPolicy')->name('privacy-policy');

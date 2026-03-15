@@ -19,7 +19,7 @@
                              <a class="nav-link" href="{{ route('about-us') }}">About US</a>
                          </li>
                          <li class="nav-item">
-                             <a class="nav-link" href="#">Our Team</a>
+                             <a class="nav-link" href="{{ route('blogs') }}">Blogs</a>
                          </li>
                          <li class="nav-item">
                              <a class="nav-link" href="{{ route('services') }}">Services</a>

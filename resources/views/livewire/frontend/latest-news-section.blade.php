@@ -27,10 +27,10 @@
                             <p class="dextheme-card__text">
                                 {{ \Illuminate\Support\Str::limit(strip_tags($blog->description ?? ''), 180) }}
                             </p>
-                            <button class="dextheme-btn btn-primary hover-bg-white">
+                            <a href="{{ route('blogs.details', $blog->slug) }}" class="dextheme-btn btn-primary hover-bg-white">
                                 View More
                                 <i aria-hidden="true" class="icon icon-right-arrow"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
