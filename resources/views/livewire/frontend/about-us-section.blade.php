@@ -79,5 +79,5 @@
         </div>
     </div>
 
-    <livewire:frontend.contact-section />
+    @include('frontend.layout.partials.contact-section')
 </div>

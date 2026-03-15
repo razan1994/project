@@ -21,7 +21,6 @@
         <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
         <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="mailto:info@example.com" title="Email"><i class="fas fa-envelope"></i></a>
     </div>
     <!-- Floating WhatsApp Icon -->
     <a href="https://wa.me/" class="floating-whatsapp" target="_blank" title="Contact us on WhatsApp">

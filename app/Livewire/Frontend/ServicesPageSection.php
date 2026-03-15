@@ -8,16 +8,6 @@ use Livewire\Component;
 
 class ServicesPageSection extends Component
 {
-    protected array $icons = [
-        'icon-crane2',
-        'icon-drill',
-        'icon-brickwall',
-        'icon-energy-saving',
-        'icon-pencil_art',
-        'icon-improvement',
-        'icon-barrier',
-        'icon-apartment',
-    ];
 
     public function getServicesProperty(): Collection
     {
@@ -27,10 +17,6 @@ class ServicesPageSection extends Component
             ->get();
     }
 
-    public function iconFor(int $index): string
-    {
-        return $this->icons[$index % count($this->icons)];
-    }
 
     public function render()
     {

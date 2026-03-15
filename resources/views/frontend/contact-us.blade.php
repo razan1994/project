@@ -1,4 +1,3 @@
-@include('frontend.partials.fixed-consultation-button')
 @extends('frontend.layout.app')
 
 {{-- SEO SECTION --}}
@@ -42,5 +41,6 @@
         </div>
     </div>
 
-    <livewire:frontend.contact-section />
+    @include('frontend.layout.partials.contact-section')
+    @include('frontend.layout.partials.fixed-consultation-button')
 @endsection

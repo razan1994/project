@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\FeatureController;
 use App\Http\Controllers\Dashboard\MissionController;
 use App\Http\Controllers\Dashboard\PageDesignController;
 use App\Http\Controllers\Dashboard\PrivacyPolicyController;
+use App\Http\Controllers\Dashboard\SeoPagesController;
 use App\Http\Controllers\Dashboard\ServiceController;
 use App\Http\Controllers\Dashboard\SlidersController;
 use App\Http\Controllers\Dashboard\SupportTicketController;
@@ -200,6 +201,17 @@ Route::name('dashboard.')
                 Route::get('/', 'index')->name('index');
                 Route::get('/edit/{id}', 'edit')->name('edit');
                 Route::get('/create', 'create')->name('create');
+            });
+
+
+             // SEO Pages Routes :
+        // ------------------------------------------
+        Route::controller(SeoPagesController::class)
+            ->prefix('seo-pages')
+            ->name('seo-pages.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
             });
 
 

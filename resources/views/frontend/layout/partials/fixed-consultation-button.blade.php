@@ -26,21 +26,28 @@
     display: none;
     position: fixed;
     z-index: 10000;
-    left: 0; top: 0; width: 100vw; height: 100vh;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 24px;
     background: rgba(14,34,56,0.45);
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
 }
 #consultModal.active { display: flex; }
 .consult-modal-content {
     background: #fff;
     border-radius: 18px;
     padding: 36px 28px 28px 28px;
-    max-width: 440px;
-    width: 100%;
+    width: min(720px, 100%);
+    max-width: 720px;
+    max-height: calc(100vh - 48px);
     box-shadow: 0 8px 32px rgba(30,144,255,0.13);
     position: relative;
     font-family: inherit;
+    margin: auto;
+    overflow-y: auto;
 }
 .consult-modal-content .close {
     position: absolute;
@@ -62,6 +69,14 @@
     letter-spacing: 0.5px;
 }
 .consult-modal-content label { font-weight: 600; margin-top: 12px; color: #0e2238; font-size: 1rem; }
+.consult-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 16px;
+}
+.consult-form-field-full {
+    grid-column: 1 / -1;
+}
 .consult-modal-content input,
 .consult-modal-content select,
 .consult-modal-content textarea {
@@ -112,6 +127,27 @@
     font-weight: 600;
     text-align: center;
 }
+@media (max-width: 767px) {
+    #consultModal {
+        padding: 16px;
+    }
+
+    .consult-modal-content {
+        width: 100%;
+        max-height: calc(100vh - 32px);
+        padding: 24px 18px 20px 18px;
+        border-radius: 14px;
+    }
+
+    .consult-form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .consult-form-field-full {
+        grid-column: auto;
+    }
+}
 </style>
 
 <!-- Fixed Button -->
@@ -125,39 +161,57 @@
         <span class="close" id="closeConsultModal">&times;</span>
         <h4>Request a Consultation</h4>
         <form id="consultForm" enctype="multipart/form-data" autocomplete="off">
-            <label for="client_name">Full Name *</label>
-            <input type="text" id="client_name" name="client_name" required>
+            <div class="consult-form-grid">
+                <div>
+                    <label for="client_name">Full Name *</label>
+                    <input type="text" id="client_name" name="client_name" required>
+                </div>
 
-            <label for="contact_number">Contact Number *</label>
-            <input type="text" id="contact_number" name="contact_number" required>
+                <div>
+                    <label for="contact_number">Contact Number *</label>
+                    <input type="text" id="contact_number" name="contact_number" required>
+                </div>
 
-            <label for="preferred_time">Preferred Time for Communication</label>
-            <input type="text" id="preferred_time" name="preferred_time">
+                <div>
+                    <label for="preferred_time">Preferred Time for Communication</label>
+                    <input type="text" id="preferred_time" name="preferred_time">
+                </div>
 
-            <label for="building_type">Type of Building Required *</label>
-            <select id="building_type" name="building_type" required>
-                <option value="">Select...</option>
-                <option value="Villa">Villa</option>
-                <option value="Factory">Factory</option>
-                <option value="Commercial Project">Commercial Project</option>
-            </select>
+                <div>
+                    <label for="building_type">Type of Building Required *</label>
+                    <select id="building_type" name="building_type" required>
+                        <option value="">Select...</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Factory">Factory</option>
+                        <option value="Commercial Project">Commercial Project</option>
+                    </select>
+                </div>
 
-            <label for="approved_design">Do you have an approved design? *</label>
-            <select id="approved_design" name="approved_design" required>
-                <option value="">Select...</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
+                <div>
+                    <label for="approved_design">Do you have an approved design? *</label>
+                    <select id="approved_design" name="approved_design" required>
+                        <option value="">Select...</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
 
-            <label for="land_area">Land Area</label>
-            <input type="text" id="land_area" name="land_area">
+                <div>
+                    <label for="land_area">Land Area</label>
+                    <input type="text" id="land_area" name="land_area">
+                </div>
 
-            <label for="construction_area">Expected Construction Area</label>
-            <input type="text" id="construction_area" name="construction_area">
+                <div class="consult-form-field-full">
+                    <label for="construction_area">Expected Construction Area</label>
+                    <input type="text" id="construction_area" name="construction_area">
+                </div>
 
-            <label for="attachments">Attachments (optional)</label>
-            <input type="file" id="attachments" name="attachments" multiple
-                placeholder="If you wish to upload any attachments, such as a hand drawing, survey plan, ownership document, or any other relevant file.">
+                <div class="consult-form-field-full">
+                    <label for="attachments">Attachments (optional)</label>
+                    <input type="file" id="attachments" name="attachments" multiple
+                        placeholder="If you wish to upload any attachments, such as a hand drawing, survey plan, ownership document, or any other relevant file.">
+                </div>
+            </div>
 
             <button type="submit">Send Request</button>
         </form>

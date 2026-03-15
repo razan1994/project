@@ -129,7 +129,7 @@
 
 
     <!-- Section 10 -->
-    <livewire:frontend.contact-section />
+    @include('frontend.layout.partials.contact-section')
     <!-- Section 11 -->
     <div id="latest-news-section">
         <livewire:frontend.latest-news-section />

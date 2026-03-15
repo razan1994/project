@@ -12,7 +12,7 @@
         <div class="dextheme-row g-4 mt-4">
             @forelse ($blogs as $blog)
                 <div class="dextheme-blog-card dextheme-col-lg-4 dextheme-col-12">
-                    <div class="dextheme-card border-0 shadow-lg bg-white">
+                    <div class="dextheme-card border-0 border-bottom border-4 shadow-lg bg-white" style="border-image: linear-gradient(90deg, #b07f47 0%, #8b6033 100%) 1 !important; border-color: transparent;">
                         <div class="img-wrapper">
                             <img src="{{ $blog->image ? asset($blog->image) : asset('assets/images/400x350.png') }}" alt="{{ $blog->title }}" style="width: 100%; height: 250px; object-fit: cover; aspect-ratio: 16/10;">
                         </div>
@@ -36,7 +36,7 @@
                 </div>
             @empty
                 <div class="dextheme-blog-card dextheme-col-lg-4 dextheme-col-12">
-                    <div class="dextheme-card border-0 shadow-lg bg-white">
+                    <div class="dextheme-card border-0 border-bottom border-4 shadow-lg bg-white" style="border-image: linear-gradient(90deg, #b07f47 0%, #8b6033 100%) 1 !important; border-color: transparent;">
                         <div class="img-wrapper">
                             <img src="{{ asset('assets/images/400x350.png') }}" alt="news" style="width: 100%; height: 250px; object-fit: cover; aspect-ratio: 16/10;">
                         </div>

@@ -4,7 +4,7 @@
 @section('title')
     {{ isset($seoData->title) ? $seoData->title : __('frontend.navbar_about_us') }}
 @endsection
-@section(section: 'meta_title')
+@section('meta_title')
     {{ isset($seoData->title) ? $seoData->title : __('frontend.navbar_about_us') }}
 @endsection
 @section('meta_desc')

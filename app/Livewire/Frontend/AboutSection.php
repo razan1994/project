@@ -3,6 +3,7 @@
 namespace App\Livewire\Frontend;
 
 use App\Models\About;
+use App\Models\SeoPage;
 use Livewire\Component;
 
 class AboutSection extends Component
@@ -12,10 +13,16 @@ class AboutSection extends Component
         return About::query()->first();
     }
 
+    public function getSeoDataProperty()
+    {
+        return SeoPage::where('name', 'about_us')->first();
+    }
+
     public function render()
     {
         return view('livewire.frontend.about-section', [
             'about' => $this->about,
+            'seoData' => $this->seoData,
         ]);
     }
 }

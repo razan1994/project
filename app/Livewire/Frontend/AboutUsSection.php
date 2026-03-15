@@ -8,6 +8,7 @@ use App\Models\Values;
 use App\Models\Vision;
 use Livewire\Component;
 use App\Models\Feature;
+use App\Models\SeoPage;
 
 class AboutUsSection extends Component
 {
@@ -35,6 +36,10 @@ class AboutUsSection extends Component
     {
         return Feature::query()->latest('id')->first();
     }
+    public function getSeoDataProperty()
+    {
+        return SeoPage::where('name', 'about_us')->first();
+    }
 
     public function render()
     {
@@ -44,6 +49,7 @@ class AboutUsSection extends Component
             'mission' => $this->mission,
             'value' => $this->value,
             'feature' => $this->feature,
+            'seoData' => $this->seoData,
         ]);
     }
 }

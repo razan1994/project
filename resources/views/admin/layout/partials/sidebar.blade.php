@@ -351,6 +351,40 @@
                     </a>
                 </li>
 
+                {{-- Settings start --}}
+                <li @class([
+                    'nav-item',
+                    'menu-open' => request()->routeIs('dashboard.seo-pages.*'),
+                ])>
+                    <a href="#" @class([
+                        'nav-link',
+                        'active' => request()->routeIs('dashboard.seo-pages.*'),
+                    ])>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Settings
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+
+
+                        {{-- SEO Pages --}}
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.seo-pages.index') }}" @class([
+                                'nav-link',
+                                'active' => request()->routeIs('dashboard.seo-pages.*'),
+                            ])>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>SEO Pages</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Settings end --}}
+
+
                 {{-- ------------------ --}}
                 {{-- ===== SUPPORT TICKETS  ===== --}}
                 {{-- ------------------ --}}

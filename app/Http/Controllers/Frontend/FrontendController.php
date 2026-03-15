@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\PageDesign;
+use App\Models\ContactUs;
+use App\Models\ContactUsRequest;
+use App\Models\SeoPage;
 use App\Models\Service;
 use App\Models\SupportTicket;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
 class FrontendController extends Controller
@@ -14,7 +17,9 @@ class FrontendController extends Controller
     public function index(Route $route)
     {
         try {
-            return view('frontend.index');
+            $seoData = SeoPage::where('name', 'home')->first();
+
+            return view('frontend.index', compact('seoData'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();
@@ -43,7 +48,9 @@ class FrontendController extends Controller
     public function aboutUs(Route $route)
     {
         try {
-            return view('frontend.about-us');
+            $seoData = SeoPage::where('name', 'about_us')->first();
+
+            return view('frontend.about-us', compact('seoData'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();
@@ -72,7 +79,9 @@ class FrontendController extends Controller
     public function services(Route $route)
     {
         try {
-            return view('frontend.services');
+            $seoData = SeoPage::where('name', 'services')->first();
+
+            return view('frontend.services', compact('seoData'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();
@@ -148,17 +157,9 @@ class FrontendController extends Controller
     public function designBuildProject(Route $route)
     {
         try {
-            // Ensure at least one record can be displayed when admin has not configured this section yet.
-            if (!PageDesign::query()->exists()) {
-                PageDesign::query()->create([
-                    'title_ar' => 'تصاميم المشاريع',
-                    'title_en' => 'Design Build Project',
-                    'description_ar' => 'وصف المشروع',
-                    'description_en' => 'Project description',
-                ]);
-            }
 
-            return view('frontend.design-build-project');
+            $seoData = SeoPage::whereIn('name', ['design_build_projects', 'design_build_project'])->first();
+            return view('frontend.design-build-project', compact('seoData'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();
@@ -187,7 +188,10 @@ class FrontendController extends Controller
     public function contactUs(Route $route)
     {
         try {
-            return view('frontend.contact-us');
+            $seoData = SeoPage::where('name', 'contact_us')->first();
+            $contact = ContactUs::query()->first();
+
+            return view('frontend.contact-us', compact('seoData', 'contact'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();
@@ -211,6 +215,21 @@ class FrontendController extends Controller
             }
             return view('errors.support_tickets', compact('th', 'function_name', 'end_error_ticket'));
         }
+    }
+
+    public function submitContactUs(Request $request)
+    {
+        $validated = $request->validate([
+            'full_name' => ['required', 'string', 'min:2', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
+            'subject' => ['required', 'string', 'max:255'],
+            'message' => ['required', 'string', 'min:5'],
+        ]);
+
+        ContactUsRequest::query()->create($validated);
+
+        return back()->with('contact_success', 'Your message has been sent successfully.');
     }
 
     public function faqs(Route $route)
@@ -299,6 +318,4 @@ class FrontendController extends Controller
             return view('errors.support_tickets', compact('th', 'function_name', 'end_error_ticket'));
         }
     }
-
-
 }
