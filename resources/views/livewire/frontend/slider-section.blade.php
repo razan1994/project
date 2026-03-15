@@ -6,7 +6,7 @@
                 style="position:absolute;top:0;left:0;width:100vw;height:100vh;z-index:0;
         overflow:hidden;padding:0;margin:0;">
                 <video class="slider-video" autoplay muted loop playsinline preload="none"
-                    poster="{{ asset('assets/images/1280x800.png') }}"
+                    {{-- poster="{{ asset('assets/images/1280x800.png') }}" --}}
                     style="width:100vw;height:100vh;object-fit:cover;position:absolute;top:0;left:0;z-index:0;margin:0;padding:0;">
                     <source src="{{ asset('assets/images/home-video.webm') }}" type="video/webm">
                     Your browser does not support the video tag.

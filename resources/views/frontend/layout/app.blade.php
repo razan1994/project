@@ -17,7 +17,7 @@
 <body data-update-uri="/{{ LaravelLocalization::getCurrentLocale() }}/livewire/update">
 
     <!-- Fixed Social Media Bar -->
-    <div class="fixed-social-bar">
+    <div class="fixed-social-bar d-none d-md-flex">
         <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
         <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
