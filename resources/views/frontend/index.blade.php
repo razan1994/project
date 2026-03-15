@@ -27,13 +27,6 @@
     @endif
 @endsection
 
-{{-- @section('h1_val')
-    {{ isset($seoData->h1) ? $seoData->h1 : __('frontend.navbar_home') }}
-@endsection
-@section('h2_val')
-    {{ isset($seoData->h2) ? $seoData->h2 : __('frontend.navbar_home') }}
-@endsection --}}
-
 @push('styles')
     <!-- intl-tel-input CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.14.1/build/css/intlTelInput.css">

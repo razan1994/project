@@ -28,8 +28,8 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <h1 class="hidden-h1">@yield('h1_val')</h1>
-    <h2 class="hidden-h2">@yield('h2_val')</h2>
+    <h1 style="display: hidden; opacity: 0; position: absolute; top:-1000px">@yield('h1_val')</h1>
+    <h2 style="display: hidden; opacity: 0; position: absolute; top:-1000px">@yield('h2_val')</h2>
 
     <!-- ======================= header Start-->
     @include('frontend.layout.partials.header')
