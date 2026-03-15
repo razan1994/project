@@ -32,7 +32,7 @@
                                         {{ $heroSlider->btn }}
                                     </a>
                                 @endif
-                                <button style="border: 1px solid #fff !important;" class="dextheme-btn btn-outline-white hover-outline-orange">Contact Us</button>
+                                <a href="{{ route('contact-us') }}" style="border: 1px solid #fff !important;" class="dextheme-btn btn-outline-white hover-outline-orange">Contact Us</a>
                             </div>
                         </div>
                     </div>
