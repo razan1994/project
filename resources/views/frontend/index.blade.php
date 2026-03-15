@@ -52,7 +52,7 @@
 
 
     <!-- Section 1 -->
-    <div class="dextheme-column-description dextheme-section-padding bg-line-o1 bg-line:opaque-15 bg-secondary">
+    <div style="background-color: #f5f5f5 !important;" class="dextheme-column-description dextheme-section-padding bg-line-o1  bg-secondary">
         <div class="dextheme-container">
             <div class="dextheme-row g-4">
                 <div class="dextheme-col-lg-3 dextheme-col-md-6 dextheme-col-12 dextheme-animation"

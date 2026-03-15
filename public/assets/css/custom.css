@@ -36,14 +36,7 @@
 	object-fit: cover;
 	aspect-ratio: 16/10;
 }
-/* Override dextheme-main-title font size */
-.dextheme-main-title {
-	font-size: 1.7rem !important;
-}
-/* Override jumbotron h1 font size for all screens */
-.jumbotron h1, .jumbotron .h1 {
-	font-size: 4rem !important;
-}
+
 /* Gradient icon color for dextheme columns */
 .dextheme-column-description__icon i, .dextheme-column-experts__icon i {
 	background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%);
@@ -116,6 +109,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
+    font-weight: 600;
 }
 
 .dextheme-content-footer__middle ul li>a .icon {
@@ -127,16 +121,14 @@
     text-fill-color: transparent;
 }
 
-[style*="background:#ff9c00"],
-[style*="background: #ff9c00"],
+[style*="background:#233658 "],
+[style*="background: #233658 "],
 .bg-ff9c00,
 .bg-primary,
 .btn-primary,
 .dextheme-btn,
 .dextheme-content-footer__middle ul li>a .icon,
 .dextheme-sub-title::before,
-.project-card-alt .link:hover,
-.project-card-alt .link svg,
 .sidebar-one ul li:hover,
 .sidebar-one ul li:hover a,
 .our-team-card-alt .hover-area ul li>a,

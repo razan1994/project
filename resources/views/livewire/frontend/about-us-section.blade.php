@@ -16,7 +16,8 @@
                 <p class="dextheme-sub-title mb-2"
                     style="color: #b07f47; font-weight: 700; letter-spacing: 1px; text-align:left;">{{ __('About Us') }}
                 </p>
-                <h2 class="dextheme-main-title mb-3" style="font-size:1rem; color: #233658; text-align:left;">
+                <h2 class="dextheme-main-title mb-3" style="font-size:1rem; color: #233658; text-align:left;font-size:2rem;
+                    ">
                     {{ $about?->title ?? 'Dedicated to Building Excellence.' }}</h2>
                 <div class="mb-4"
                     style="width: 60px; height: 4px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%); border-radius: 2px;">

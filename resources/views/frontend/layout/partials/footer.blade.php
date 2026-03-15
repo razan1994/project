@@ -98,7 +98,7 @@
                          <a href="{{ route('contact-us') }}">Help</a>
                      </li>
                  </ul>
-                 <p>© Al-Jeel Constructon. All Right Reserved 2024.</p>
+                 <p>© Al-Jeel Construction. All Rights Reserved 2024. Powered by <a href="https://smartzone-jo.com" target="_blank">SmartZone Co.</a>.</p>
              </div>
          </div>
      </div>

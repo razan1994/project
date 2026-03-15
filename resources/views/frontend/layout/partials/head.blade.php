@@ -28,7 +28,8 @@
 <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.google.com https://maps.google.com;">
 
 
+
 @yield('canonical')
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+<link rel="shortcut icon" type="image/webp" href="{{ asset('assets/images/favicon.webp') }}">
