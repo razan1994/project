@@ -122,23 +122,6 @@ new class extends Component {
                     </div>
                 </div>
             </div>
-
-            {{-- Video --}}
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="video">Video
-                    </label>
-                    <x-filepond::upload wire:model="video" accepted-file-types="video/mp4,video/webm,video/ogg" />
-                    @error('video')
-                        <div class="text-danger" style="font-size: 12px">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                    <div wire:loading wire:target="video">
-                        Uploading video...
-                    </div>
-                </div>
-            </div>
         </div>
 
         {{-- submit button --}}
