@@ -35,7 +35,7 @@
                     <div class="dextheme-card__body p-2 d-flex flex-column align-items-center text-center justify-content-center h-100"
                         style="min-height:220px; width: 100%;">
                         <h4 class="dextheme-title-text mb-3 w-100" style="text-align:center;">
-                            {{ $values?->title ?? 'Our Values' }}</h4>
+                            {{ $values?->title ?? 'Our Value' }}</h4>
                         <p class="plain-text mb-4 w-100" style="text-align:center;">{!! $values?->description ?? 'Integrity, quality, and client satisfaction are at the core of everything we do.' !!}</p>
                     </div>
                 </div>
