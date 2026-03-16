@@ -9,72 +9,131 @@
         </div>
     </div>
 
-    <!-- Experience, Mission, Vision, Values, Feature Section (Unified Design) -->
-    <div class="dextheme-section-padding" style="background: linear-gradient(120deg, #f8f6f2 60%, #f3e7d9 100%);">
+    <div class="dextheme-section-2 bg-white">
+        <div class="dextheme-container">
+            <div class="dextheme-row g-4">
+                <div class="dextheme-col-lg-6 dextheme-col-md-12 d-none d-md-block">
+                    <div class="img-wrapper">
+                        <div class="top-child-img dextheme-animation" data-animate="animate__slideInDown">
+                            <img src="{{ asset('assets/images/about.webp') }}" alt="about us">
+                        </div>
+                        <img src="{{ $about?->about_us_image ? asset($about->about_us_image) : asset('images/500x700.png') }}"
+                            alt="about us">
+                        <div class="experience dextheme-animation" data-animate="animate__slideInLeft"
+                            data-delay-step="210ms">
+                            <div class="bg-primary experience-body">
+                                <h4 class="counter" data-count="40" data-suffix="">0</h4>
+                                <p>Years of Experience</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dextheme-col-lg-6 dextheme-col-md-12">
+                    <div class="block-heading mb-4">
+                        <p class="dextheme-sub-title mb-4">WHO WE ARE</p>
+                        <h2 class="dextheme-main-title mb-4">{{ $about?->title ?? 'Dedicated to Building Excellence.' }}
+                        </h2>
+                        <p class="plain-text">{!! $about?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mission, Vision, Values, Feature Section -->
+    <div class="dextheme-section-padding"
+        style="background: linear-gradient(145deg, #f8f6f2 0%, #f5ecdf 55%, #efe2d0 100%);">
         <div class="dextheme-container">
             <div class="block-heading mb-5">
-                <p class="dextheme-sub-title mb-2"
-                    style="color: #b07f47; font-weight: 700; letter-spacing: 1px; text-align:left;">{{ __('About Us') }}
-                </p>
-                <h2 class="dextheme-main-title mb-3" style="font-size:1rem; color: #233658; text-align:left;font-size:2rem;
-                    ">
-                    {{ $about?->title ?? 'Dedicated to Building Excellence.' }}</h2>
-                <div class="mb-4"
-                    style="width: 60px; height: 4px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%); border-radius: 2px;">
-                </div>
-                <p class="plain-text dextheme-w-75" style="font-size:1.1rem; color: #555; text-align:left;">
-                    {!! $about?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
+                <p class="dextheme-sub-title mb-3" style="letter-spacing: 1.4px;">Leading the Way</p>
+                <h2 class="dextheme-main-title mb-3" style="color: #233658;">What Sets Us Apart</h2>
+                <p class="plain-text dextheme-w-75" style="color: #5f646d;">
+                    The principles that guide how we think, build, and deliver value.
                 </p>
             </div>
 
+            <div class="dextheme-row g-4">
+                <div class="dextheme-col-lg-4 dextheme-col-md-6 dextheme-col-12">
+                    <div class="dextheme-animation" data-animate="animate__fadeInUp" data-delay-step="120ms"
+                        style="height: 100%; padding: 1px; border-radius: 18px; background: linear-gradient(135deg, #b07f47 0%, #8b6033 100%); box-shadow: 0 16px 32px rgba(35, 54, 88, 0.08);">
+                        <div
+                            style="height: 100%; border-radius: 17px; background: #fff; padding: 30px 28px; transition: transform .25s ease, box-shadow .25s ease;">
+                            <div class="d-flex align-items-center mb-3" style="gap: 12px;">
 
-            <div class="block-heading mb-5">
-
-                <h2 class="dextheme-main-title mb-3" style="font-size:1rem; color: #233658; text-align:left;">
-                    {{ $vision?->title ?? 'Our Vision' }}</h2>
-                <div class="mb-4"
-                    style="width: 60px; height: 4px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%); border-radius: 2px;">
+                                <h3 class="mb-0" style="font-size: 1.25rem; color: #233658;">
+                                    {{ $vision?->title ?? 'Our Vision' }}</h3>
+                            </div>
+                            <div
+                                style="width: 52px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%);">
+                            </div>
+                            <p class="plain-text mt-3 mb-0" style="color: #565d66; line-height: 1.9;">
+                                {!! $vision?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <p class="plain-text dextheme-w-75" style="font-size:1.1rem; color: #555; text-align:left;">
-                    {!! $vision?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
-                </p>
+
+                <div class="dextheme-col-lg-4 dextheme-col-md-6 dextheme-col-12">
+                    <div class="dextheme-animation" data-animate="animate__fadeInUp" data-delay-step="180ms"
+                        style="height: 100%; padding: 1px; border-radius: 18px; background: linear-gradient(135deg, #233658 0%, #314a77 100%); box-shadow: 0 16px 32px rgba(35, 54, 88, 0.08);">
+                        <div
+                            style="height: 100%; border-radius: 17px; background: #fff; padding: 30px 28px; transition: transform .25s ease, box-shadow .25s ease;">
+                            <div class="d-flex align-items-center mb-3" style="gap: 12px;">
+
+                                <h3 class="mb-0" style="font-size: 1.25rem; color: #233658;">
+                                    {{ $mission?->title ?? 'Our Mission' }}</h3>
+                            </div>
+                            <div
+                                style="width: 52px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #233658 0%, #314a77 100%);">
+                            </div>
+                            <p class="plain-text mt-3 mb-0" style="color: #565d66; line-height: 1.9;">
+                                {!! $mission?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dextheme-col-lg-4 dextheme-col-md-6 dextheme-col-12">
+                    <div class="dextheme-animation" data-animate="animate__fadeInUp" data-delay-step="240ms"
+                        style="height: 100%; padding: 1px; border-radius: 18px; background: linear-gradient(135deg, #b07f47 0%, #8b6033 100%); box-shadow: 0 16px 32px rgba(35, 54, 88, 0.08);">
+                        <div
+                            style="height: 100%; border-radius: 17px; background: #fff; padding: 30px 28px; transition: transform .25s ease, box-shadow .25s ease;">
+                            <div class="d-flex align-items-center mb-3" style="gap: 12px;">
+
+                                <h3 class="mb-0" style="font-size: 1.25rem; color: #233658;">
+                                    {{ $value?->title ?? 'Our Values' }}</h3>
+                            </div>
+                            <div
+                                style="width: 52px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%);">
+                            </div>
+                            <p class="plain-text mt-3 mb-0" style="color: #565d66; line-height: 1.9;">
+                                {!! $value?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-
-            <div class="block-heading mb-5">
-
-                <h2 class="dextheme-main-title mb-3" style="font-size:1rem; color: #233658; text-align:left;">
-                    {{ $mission?->title ?? 'Our Mission' }}</h2>
-                <div class="mb-4"
-                    style="width: 60px; height: 4px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%); border-radius: 2px;">
+            <div class="dextheme-row g-4 mt-2">
+                <div class="dextheme-col-12">
+                    <div class="dextheme-animation" data-animate="animate__fadeInUp" data-delay-step="300ms"
+                        style="height: 100%; padding: 1px; border-radius: 18px; background: linear-gradient(135deg, #233658 0%, #314a77 100%); box-shadow: 0 16px 32px rgba(35, 54, 88, 0.08);">
+                        <div
+                            style="height: 100%; border-radius: 17px; background: #fff; padding: 30px 28px; transition: transform .25s ease, box-shadow .25s ease;">
+                            <div class="d-flex align-items-center mb-3" style="gap: 12px;">
+                                <h3 class="mb-0" style="font-size: 1.25rem; color: #233658;">
+                                    {{ $feature?->title ?? 'Our Features' }}</h3>
+                            </div>
+                            <div
+                                style="width: 52px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #233658 0%, #314a77 100%);">
+                            </div>
+                            <p class="plain-text mt-3 mb-0" style="color: #565d66; line-height: 1.9;">
+                                {!! $feature?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <p class="plain-text dextheme-w-75" style="font-size:1.1rem; color: #555; text-align:left;">
-                    {!! $mission?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
-                </p>
-            </div>
-
-            <div class="block-heading mb-5">
-
-                <h2 class="dextheme-main-title mb-3" style="font-size:1rem; color: #233658; text-align:left;">
-                    {{ $value?->title ?? 'Our Values' }}</h2>
-                <div class="mb-4"
-                    style="width: 60px; height: 4px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%); border-radius: 2px;">
-                </div>
-                <p class="plain-text dextheme-w-75" style="font-size:1.1rem; color: #555; text-align:left;">
-                    {!! $value?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
-                </p>
-            </div>
-
-            <div class="block-heading mb-5">
-
-                <h2 class="dextheme-main-title mb-3" style="font-size:2rem; color: #233658; text-align:left;">
-                    {{ $feature?->title ?? 'Our Features' }}</h2>
-                <div class="mb-4"
-                    style="width: 60px; height: 4px; background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%); border-radius: 2px;">
-                </div>
-                <p class="plain-text dextheme-w-75" style="font-size:1.1rem; color: #555; text-align:left;">
-                    {!! $feature?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
-                </p>
             </div>
         </div>
     </div>

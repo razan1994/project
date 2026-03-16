@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function composeFrontendContactData(): void
     {
-        View::composer(['frontend.layout.partials.header', 'frontend.layout.partials.footer'], function ($view) {
+        View::composer(['frontend.layout.app', 'frontend.layout.partials.header', 'frontend.layout.partials.footer'], function ($view) {
             $view->with('contact', ContactUs::query()->first());
             $view->with('services', Service::query()->where('status', 1)->latest('id')->limit(5)->get());
         });

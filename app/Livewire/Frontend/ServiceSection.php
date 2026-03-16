@@ -12,7 +12,7 @@ class ServiceSection extends Component
     {
         return Service::query()
             ->where('status', 1)
-            ->orderByDesc('id')
+            ->orderBy('id', 'asc')
             ->get();
     }
 

@@ -9,7 +9,7 @@ use Livewire\Attributes\On;
 use Spatie\LivewireFilepond\WithFilePond;
 
 new class extends Component {
-    
+
     use WithFilePond;
     use UploadImageTrait;
 
@@ -20,8 +20,8 @@ new class extends Component {
     public function rules()
     {
         return [
-            'images' => 'nullable|array|min:0',
-            'images.*' => 'required|image',
+            'images' => 'nullable',
+            'images.*' => 'image',
             'video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg',
         ];
     }
@@ -54,19 +54,25 @@ new class extends Component {
     public function save()
     {
         $this->validate($this->rules());
+
+        $images = is_array($this->images)
+            ? array_values(array_filter($this->images))
+            : ($this->images ? [$this->images] : []);
+
         // =======================================
         // ---------- save images ------------
-        if ($this->images) {
-            foreach ($this->images as $image) {
+        if (!empty($images)) {
+            foreach ($images as $image) {
                 $path = $this->saveImage($image, "storage/service/{$this->service->id}/images");
                 ServiceMedia::create([
                     'service_id' => $this->service->id,
-                    'type' => 'image',
                     'path' => $path,
                     'mime_type' => $image->getMimeType(),
                     'size' => $image->getSize(),
                 ]);
             }
+
+            $this->dispatch('success', 'Images added successfully');
         }
 
         // Upload video using Storage
@@ -74,7 +80,6 @@ new class extends Component {
             $path = $this->video->store("service/{$this->service->id}/videos", 'public');
             ServiceMedia::create([
                 'service_id' => $this->service->id,
-                'type' => 'video',
                 'path' => 'storage/' . $path,
                 'mime_type' => $this->video->getMimeType(),
                 'size' => $this->video->getSize(),
@@ -100,8 +105,14 @@ new class extends Component {
                     <label for="images">Images
                         <span class="text-danger">*</span>
                     </label>
-                    <x-filepond::upload wire:model="images" multiple accepted-file-types="image/*" />
+                    <input type="file" id="images" class="form-control" wire:model="images" accept="image/*"
+                        multiple>
                     @error('images')
+                        <div class="text-danger" style="font-size: 12px">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    @error('images.*')
                         <div class="text-danger" style="font-size: 12px">
                             {{ $message }}
                         </div>
@@ -149,7 +160,7 @@ new class extends Component {
 
     <div class="row" wire:loading.remove wire:target="media">
         @forelse ($this->media as $mediaItem)
-            @if ($mediaItem->type == 'image')
+            @if (str_starts_with((string) $mediaItem->mime_type, 'image/'))
                 <div class="col-6 col-md-4 " wire:key="{{ $mediaItem->id }}">
                     <div class="card">
                         <div class="card-body"
@@ -165,7 +176,7 @@ new class extends Component {
                         </div>
                     </div>
                 </div>
-            @elseif ($mediaItem->type == 'video')
+            @elseif (str_starts_with((string) $mediaItem->mime_type, 'video/'))
                 <div class="col-6 col-md-4" wire:key="{{ $mediaItem->id }}">
                     <div class="card">
                         <div class="card-body"

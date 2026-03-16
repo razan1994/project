@@ -1,27 +1,55 @@
 <!-- Fixed Consultation Button and Modal Form (Template Design) -->
 <style>
-.fixed-consult-btn {
+.fixed-consult-wrap {
     position: fixed;
-    bottom: 32px;
     right: 32px;
+    bottom: 32px;
     z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.consult-btn-tag {
+    background: #fff;
+    color: #0e2238;
+    border: 1px solid rgba(14, 34, 56, 0.14);
+    border-radius: 999px;
+    padding: 9px 14px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    box-shadow: 0 6px 18px rgba(14, 34, 56, 0.14);
+    white-space: nowrap;
+}
+
+.fixed-consult-btn {
     background: linear-gradient(90deg, #0e2238 0%, #1e90ff 100%);
     color: #fff;
     border-radius: 50%;
     width: 64px;
     height: 64px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(30,144,255,0.18);
-    font-size: 2rem;
+    box-shadow: 0 4px 16px rgba(30, 144, 255, 0.2);
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
     border: 3px solid #fff;
+    font-size: 1.65rem;
 }
-.fixed-consult-btn:hover {
+
+.fixed-consult-wrap:hover .fixed-consult-btn {
     background: linear-gradient(90deg, #1e90ff 0%, #0e2238 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(30, 144, 255, 0.24);
 }
+
+.fixed-consult-wrap:hover .consult-btn-tag {
+    box-shadow: 0 10px 24px rgba(14, 34, 56, 0.2);
+}
+
 #consultModal {
     display: none;
     position: fixed;
@@ -128,6 +156,22 @@
     text-align: center;
 }
 @media (max-width: 767px) {
+    .fixed-consult-wrap {
+        right: 16px;
+        bottom: 22px;
+        gap: 8px;
+    }
+
+    .fixed-consult-btn {
+        width: 58px;
+        height: 58px;
+        font-size: 1.45rem;
+    }
+
+    .consult-btn-tag {
+        display: none;
+    }
+
     #consultModal {
         padding: 16px;
     }
@@ -151,8 +195,11 @@
 </style>
 
 <!-- Fixed Button -->
-<div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="Request Consultation">
-    <i class="icon icon-chat"></i>
+<div class="fixed-consult-wrap">
+    <span class="consult-btn-tag">Request a Consultation</span>
+    <div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="Request Consultation">
+        <i class="icon icon-chat"></i>
+    </div>
 </div>
 
 <!-- Modal Form -->
@@ -208,6 +255,10 @@
 
                 <div class="consult-form-field-full">
                     <label for="attachments">Attachments (optional)</label>
+                    <p style="margin: 4px 0 8px; color: #475569; font-size: 0.92rem;">
+                        If you wish to upload any attachments, such as a hand drawing, a survey map, a deed, or any
+                        document you think you need to upload.
+                    </p>
                     <input type="file" id="attachments" name="attachments" multiple
                         placeholder="If you wish to upload any attachments, such as a hand drawing, survey plan, ownership document, or any other relevant file.">
                 </div>

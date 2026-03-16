@@ -10,6 +10,7 @@ use App\Models\Blog;
 use App\Models\Service;
 use App\Models\SupportTicket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Route;
 
 class FrontendController extends Controller
@@ -220,7 +221,7 @@ class FrontendController extends Controller
 
     public function submitContactUs(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'full_name' => ['required', 'string', 'min:2', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
@@ -228,9 +229,21 @@ class FrontendController extends Controller
             'message' => ['required', 'string', 'min:5'],
         ]);
 
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput()
+                ->withFragment('contact-section')
+                ->with('contact_error', 'Please fix the highlighted fields and try again.');
+        }
+
+        $validated = $validator->validated();
+
         ContactUsRequest::query()->create($validated);
 
-        return back()->with('contact_success', 'Your message has been sent successfully.');
+        return back()
+            ->withFragment('contact-section')
+            ->with('contact_success', 'Your message has been sent successfully.');
     }
 
     public function blogs(Route $route)

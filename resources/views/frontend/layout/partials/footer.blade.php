@@ -60,19 +60,19 @@
                          <li class="nav-item">
                              <a class="nav-link" href="#">
                                  <i class="bg-primary svg-icon map-point-icon mt-1"></i>
-                                 {{ $contact?->address ?? '-' }}
+                                 {{ $contact?->address ?? 'Add Address' }}
                              </a>
                          </li>
                          <li class="nav-item">
                              <a class="nav-link" href="#">
                                  <i class="bg-primary svg-icon email-icon mt-1"></i>
-                                 {{ $contact?->email ?? '-' }}
+                                 {{ $contact?->email ?? 'Add Email Address' }}
                              </a>
                          </li>
                          <li class="nav-item">
                              <a class="nav-link" href="#">
                                  <i class="bg-primary svg-icon phone-icon mt-1"></i>
-                                 {{ $contact?->phone ?? '-' }}
+                                 {{ $contact?->phone ?? 'Add Phone Number' }}
                              </a>
                          </li>
                          <li class="nav-item">

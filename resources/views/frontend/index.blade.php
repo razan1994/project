@@ -55,8 +55,7 @@
                             <i aria-hidden="true" class="icon icon-crane2"></i>
                         </div>
                         <h4>We're Experts</h4>
-                        <p>Suspendisse accumsan quis nulla eget cursus. Nulla est mi, rhoncus eu nulla sed, placerat
-                            placerat neque.</p>
+                        <p>Our engineering team brings extensive experience in construction project execution, ensuring every stage is planned carefully and delivered with professional standards.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -66,9 +65,8 @@
                         <div class="dextheme-column-description__icon">
                             <i aria-hidden="true" class="icon icon-communication"></i>
                         </div>
-                        <h4>We're Friendly</h4>
-                        <p>Suspendisse accumsan quis nulla eget cursus. Nulla est mi, rhoncus eu nulla sed, placerat
-                            placerat neque.</p>
+                        <h4>We're Collaborative</h4>
+                        <p>We believe strong communication with clients and teams ensures clear understanding, smooth coordination, and successful completion of every project.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -78,9 +76,8 @@
                         <div class="dextheme-column-description__icon">
                             <i aria-hidden="true" class="icon icon-pencil_art"></i>
                         </div>
-                        <h4>We're Accurate</h4>
-                        <p>Suspendisse accumsan quis nulla eget cursus. Nulla est mi, rhoncus eu nulla sed, placerat
-                            placerat neque.</p>
+                        <h4>We're Precise</h4>
+                        <p>Every project is executed with attention to detail and strict adherence to engineering specifications to guarantee accurate results and reliable construction quality.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -90,9 +87,8 @@
                         <div class="dextheme-column-description__icon">
                             <i aria-hidden="true" class="icon icon-brickwall"></i>
                         </div>
-                        <h4>We're Trusted</h4>
-                        <p>Suspendisse accumsan quis nulla eget cursus. Nulla est mi, rhoncus eu nulla sed, placerat
-                            placerat neque.</p>
+                        <h4>We're Reliable</h4>
+                        <p>We are committed to delivering durable structures, completing projects on schedule, and building long-term trust with our clients and partners.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>

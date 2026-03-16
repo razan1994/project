@@ -42,5 +42,5 @@
     </div>
 
     @include('frontend.layout.partials.contact-section')
-    @include('frontend.layout.partials.fixed-consultation-button')
+    
 @endsection
