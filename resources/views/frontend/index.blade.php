@@ -27,6 +27,13 @@
     @endif
 @endsection
 
+@section('h1_val')
+    {{ isset($seoData->h1) ? $seoData->h1 : __('frontend.navbar_home') }}
+@endsection
+@section('h2_val')
+    {{ isset($seoData->h2) ? $seoData->h2 : __('frontend.navbar_home') }}
+@endsection
+
 @push('styles')
     <!-- intl-tel-input CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.14.1/build/css/intlTelInput.css">
@@ -45,7 +52,8 @@
 
 
     <!-- Section 1 -->
-    <div style="background-color: #f5f5f5 !important;" class="dextheme-column-description dextheme-section-padding bg-line-o1  bg-secondary">
+    <div style="background-color: #f5f5f5 !important;"
+        class="dextheme-column-description dextheme-section-padding bg-line-o1  bg-secondary">
         <div class="dextheme-container">
             <div class="dextheme-row g-4">
                 <div class="dextheme-col-lg-3 dextheme-col-md-6 dextheme-col-12 dextheme-animation"
@@ -55,7 +63,8 @@
                             <i aria-hidden="true" class="icon icon-crane2"></i>
                         </div>
                         <h4>We're Experts</h4>
-                        <p>Our engineering team brings extensive experience in construction project execution, ensuring every stage is planned carefully and delivered with professional standards.</p>
+                        <p>Our engineering team brings extensive experience in construction project execution, ensuring
+                            every stage is planned carefully and delivered with professional standards.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -66,7 +75,8 @@
                             <i aria-hidden="true" class="icon icon-communication"></i>
                         </div>
                         <h4>We're Collaborative</h4>
-                        <p>We believe strong communication with clients and teams ensures clear understanding, smooth coordination, and successful completion of every project.</p>
+                        <p>We believe strong communication with clients and teams ensures clear understanding, smooth
+                            coordination, and successful completion of every project.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -77,7 +87,8 @@
                             <i aria-hidden="true" class="icon icon-pencil_art"></i>
                         </div>
                         <h4>We're Precise</h4>
-                        <p>Every project is executed with attention to detail and strict adherence to engineering specifications to guarantee accurate results and reliable construction quality.</p>
+                        <p>Every project is executed with attention to detail and strict adherence to engineering
+                            specifications to guarantee accurate results and reliable construction quality.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -88,7 +99,8 @@
                             <i aria-hidden="true" class="icon icon-brickwall"></i>
                         </div>
                         <h4>We're Reliable</h4>
-                        <p>We are committed to delivering durable structures, completing projects on schedule, and building long-term trust with our clients and partners.</p>
+                        <p>We are committed to delivering durable structures, completing projects on schedule, and building
+                            long-term trust with our clients and partners.</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>

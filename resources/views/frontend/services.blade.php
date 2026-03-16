@@ -23,6 +23,14 @@
         hreflang="ar-jo" />
 @endsection
 
+
+@section('h1_val')
+    {{ isset($seoData->h1) ? $seoData->h1 : __('frontend.navbar_services') }}
+@endsection
+@section('h2_val')
+    {{ isset($seoData->h2) ? $seoData->h2 : __('frontend.navbar_services') }}
+@endsection
+
 @section('content')
     <livewire:frontend.services-page-section />
 @endsection

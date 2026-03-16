@@ -2,18 +2,33 @@
 
 {{-- SEO SECTION --}}
 @section('title')
-    {{ __('Blogs') }}
+    {{ isset($seoData->title) ? $seoData->title : __('frontend.navbar_blogs') }}
 @endsection
 @section('meta_title')
-    {{ __('Blogs') }}
+    {{ isset($seoData->title) ? $seoData->title : __('frontend.navbar_blogs') }}
 @endsection
 @section('meta_desc')
-    {{ __('Latest news and updates') }}
+    {{ isset($seoData->metaDesc) ? $seoData->metaDesc : __('frontend.navbar_blogs') }}
+@endsection
+@section('meta_keywords')
+    {{ isset($seoData->keywords) ? $seoData->keywords : __('frontend.navbar_blogs') }}
 @endsection
 {{-- SEO SECTION --}}
 
 @section('canonical')
-    <link rel="canonical" href="{{ config('app.url') . '/' . app()->getLocale() . '/blogs' }}" />
+    <link rel="canonical" href="{{ config('app.url') . '/' . app()->getLocale() . '/' . __('routes.blogs') }}" />
+    <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/' . __('routes.blogs') }}"
+        hreflang="en-jo" />
+    <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/' . __('routes.blogs') }}"
+        hreflang="ar-jo" />
+@endsection
+
+
+@section('h1_val')
+    {{ isset($seoData->h1) ? $seoData->h1 : __('frontend.navbar_blogs') }}
+@endsection
+@section('h2_val')
+    {{ isset($seoData->h2) ? $seoData->h2 : __('frontend.navbar_blogs') }}
 @endsection
 
 @section('content')
