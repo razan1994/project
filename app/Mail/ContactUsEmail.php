@@ -14,18 +14,18 @@ class ContactUsEmail extends Mailable
     public $fullName;
     public $email;
     public $phone;
-    public $emailSubject;
+    public $subject;
     public $message;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($fullName, $email, $phone, $emailSubject, $message)
+    public function __construct($fullName, $email, $phone, $subject, $message)
     {
         $this->fullName = $fullName;
         $this->email = $email;
         $this->phone = $phone;
-        $this->emailSubject = $emailSubject;
+        $this->subject = $subject;
         $this->message = $message;
     }
 
@@ -34,14 +34,14 @@ class ContactUsEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject('New Contact Us Message: ' . $this->emailSubject)
+        return $this->subject('New Contact Us Message: ' . $this->subject)
                     ->from(config('mail.from.address'), config('mail.from.name'))
                     ->view('emails.contact-us')
                     ->with([
                         'fullName' => $this->fullName,
                         'email' => $this->email,
                         'phone' => $this->phone,
-                        'emailSubject' => $this->emailSubject,
+                        'subject' => $this->subject,
                         'message' => $this->message,
                     ]);
     }
