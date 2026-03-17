@@ -29,8 +29,8 @@ Route::group(
              // ================== Test Email ==================
     Route::get('/send-test-email', function () {
         $emailContent = (object)[
-            'subject' => 'Hello from Protajer',
-            'desc_ar' => 'test message from Protajer '
+            'subject' => 'Hello from Aljeel',
+            'desc_ar' => 'test message from Aljeel '
         ];
         Mail::to('rznjamal@gmail.com')->send(new TestEmail($emailContent, null));
         return 'Successfully sent';
