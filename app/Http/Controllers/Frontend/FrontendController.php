@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactUsEmail;
 use App\Models\ContactUs;
 use App\Models\ContactUsRequest;
 use App\Models\SeoPage;
@@ -10,6 +11,7 @@ use App\Models\Blog;
 use App\Models\Service;
 use App\Models\SupportTicket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Route;
 
@@ -240,6 +242,14 @@ class FrontendController extends Controller
         $validated = $validator->validated();
 
         ContactUsRequest::query()->create($validated);
+
+        Mail::to(config('mail.from.address'))->send(new ContactUsEmail(
+            $validated['full_name'],
+            $validated['email'],
+            $validated['phone'],
+            $validated['subject'],
+            $validated['message']
+        ));
 
         return back()
             ->withFragment('contact-section')

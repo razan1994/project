@@ -271,7 +271,7 @@
 </div>
 
 <script>
-// Modal open/close logic
+
 const openBtn = document.getElementById('openConsultModal');
 const modal = document.getElementById('consultModal');
 const closeBtn = document.getElementById('closeConsultModal');
@@ -279,7 +279,6 @@ openBtn.onclick = () => modal.classList.add('active');
 closeBtn.onclick = () => modal.classList.remove('active');
 window.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
 
-// Dummy form handler (no backend)
 document.getElementById('consultForm').onsubmit = function(e) {
     e.preventDefault();
     document.getElementById('consultSuccess').style.display = 'block';
