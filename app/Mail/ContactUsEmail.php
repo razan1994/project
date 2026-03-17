@@ -14,7 +14,7 @@ class ContactUsEmail extends Mailable
     public $email;
     public $phone;
     public $subject;
-    public $message;
+    public $msg;
 
     /**
      * Create a new message instance.
@@ -25,7 +25,7 @@ class ContactUsEmail extends Mailable
         $this->email = $email;
         $this->phone = $phone;
         $this->subject = $subject;
-        $this->message = $message;
+        $this->msg = $message;
     }
 
     /**
@@ -41,7 +41,7 @@ class ContactUsEmail extends Mailable
                         'email' => $this->email,
                         'phone' => $this->phone,
                         'subject' => $this->subject,
-                        'message' => $this->message,
+                        'message' => $this->msg,
                     ]);
     }
 }
