@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\Frontend\FrontendController;
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 
 Route::group(
     [
@@ -23,6 +25,16 @@ Route::group(
             Route::get('/faqs', 'faqs')->name('faqs');
             Route::get('/terms-and-conditions', 'termsAndConditions')->name('terms-and-conditions');
             Route::get('/privacy-policy', 'privacyPolicy')->name('privacy-policy');
+
+             // ================== Test Email ==================
+    Route::get('/send-test-email', function () {
+        $emailContent = (object)[
+            'subject' => 'Hello from Protajer',
+            'desc_ar' => 'test message from Protajer '
+        ];
+        Mail::to('rznjamal@gmail.com')->send(new TestEmail($emailContent, null));
+        return 'Successfully sent';
+    });
         });
 
 

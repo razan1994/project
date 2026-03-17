@@ -23,12 +23,12 @@
         hreflang="ar-jo" />
 @endsection
 
-{{-- @section('h1_val')
+@section('h1_val')
     {{ isset($seoData->h1) ? $seoData->h1 : __('frontend.navbar_contact') }}
 @endsection
 @section('h2_val')
     {{ isset($seoData->h2) ? $seoData->h2 : __('frontend.navbar_contact') }}
-@endsection --}}
+@endsection
 
 @section('content')
     <!-- Heading -->
@@ -42,5 +42,5 @@
     </div>
 
     @include('frontend.layout.partials.contact-section')
-    
+
 @endsection
