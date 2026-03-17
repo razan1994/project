@@ -83,7 +83,7 @@
 
             <div class="field">
                 <div class="label">Message:</div>
-                <div class="value" style="white-space: pre-wrap;">{{ $message }}</div>
+                <div class="value" style="white-space: pre-wrap;">{{ $msg }}</div>
             </div>
         </div>
 

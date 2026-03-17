@@ -41,7 +41,7 @@ class ContactUsEmail extends Mailable
                         'email' => $this->email,
                         'phone' => $this->phone,
                         'subject' => $this->subject,
-                        'message' => $this->msg,
+                        'msg' => $this->msg,
                     ]);
     }
 }
