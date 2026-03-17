@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -11,7 +10,7 @@ class ContactUsEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $fullName;
+    public $full_name;
     public $email;
     public $phone;
     public $subject;
@@ -20,9 +19,9 @@ class ContactUsEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($fullName, $email, $phone, $subject, $message)
+    public function __construct($full_name, $email, $phone, $subject, $message)
     {
-        $this->fullName = $fullName;
+        $this->full_name = $full_name;
         $this->email = $email;
         $this->phone = $phone;
         $this->subject = $subject;
@@ -38,7 +37,7 @@ class ContactUsEmail extends Mailable
                     ->from(config('mail.from.address'), config('mail.from.name'))
                     ->view('emails.contact-us')
                     ->with([
-                        'fullName' => $this->fullName,
+                        'full_name' => $this->full_name,
                         'email' => $this->email,
                         'phone' => $this->phone,
                         'subject' => $this->subject,

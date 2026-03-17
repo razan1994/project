@@ -63,7 +63,7 @@
         <div class="content">
             <div class="field">
                 <div class="label">Full Name:</div>
-                <div class="value">{{ $fullName }}</div>
+                <div class="value">{{ $full_name }}</div>
             </div>
 
             <div class="field">
