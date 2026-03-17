@@ -55,7 +55,7 @@
                      </ul>
                  </div>
                  <div class="dextheme-col-lg-4 dextheme-col-md-6 dextheme-col-sm-12">
-                     <h4>Address of Kons</h4>
+                     <h4>Address</h4>
                      <ul class="address">
                          <li class="nav-item">
                              <a class="nav-link" href="#">
@@ -78,7 +78,7 @@
                          <li class="nav-item">
                              <a class="nav-link" href="#">
                                  <i class="bg-primary svg-icon time-icon mt-1"></i>
-                                 Mon - Sat : 09:00 am - 17:00 pm
+                                 Sun - Thur : 09:00 am - 17:00 pm
                              </a>
                          </li>
                      </ul>
