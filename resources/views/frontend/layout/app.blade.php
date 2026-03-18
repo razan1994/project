@@ -69,7 +69,7 @@
     @include('frontend.layout.partials.scripts')
     <!-- ======================= scripts end-->
     @include('frontend.layout.partials.fixed-consultation-button')
-
+    <!-- ======================= scripts end-->
     @stack('scripts')
 
 

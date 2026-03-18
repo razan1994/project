@@ -14876,7 +14876,7 @@ ul li {
 .floating-whatsapp {
     position: fixed;
     left: 18px;
-    bottom: 24px;
+    bottom: 32px;
     z-index: 9999;
     background: #fff;
     color: #25d366;
