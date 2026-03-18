@@ -194,11 +194,6 @@
         <livewire:frontend.service-section />
     </div>
 
-    <!-- Section 5 -->
-    <livewire:frontend.feature-section />
-
-
-
     <!-- Section 9 -->
     {{-- <div id="faq-section">
         <livewire:frontend.faq-section />
