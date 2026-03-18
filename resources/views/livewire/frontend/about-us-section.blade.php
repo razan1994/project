@@ -123,8 +123,8 @@
         <div class="dextheme-container">
             <div class="dextheme-row justify-content-center ">
                 <div class="block-heading text-center mb-5 pt-5">
-                    <p class="dextheme-sub-title text-black mb-4">Why Clients Choose Us</p>
-                    <h2 class="dextheme-main-title text-black mb-4">Built on Quality, Driven by Commitment</h2>
+                    <p class="dextheme-sub-title text-black mb-4">Where Quality Meets Innovation</p>
+                    <h2 class="dextheme-main-title text-black mb-4">What Sets Us Apart</h2>
                 </div>
             </div>
 
