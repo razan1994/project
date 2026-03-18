@@ -133,7 +133,7 @@
                     data-animate="animate__fadeInUp">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-                            <i class="icon icon-crane2"></i>
+
                         </div>
                         <h4 class="fw-bold mb-2" style="color:#233658;">Professional Expertise</h4>
                         <p class="mb-0" style="color:#929292;">
@@ -147,7 +147,7 @@
                     data-animate="animate__fadeInUp" data-delay-step="120ms">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-                            <i class="icon icon-communication"></i>
+
                         </div>
                         <h4 class="fw-bold mb-2" style="color:#233658;">Clear Communication</h4>
                         <p class="mb-0" style="color:#929292;">
@@ -161,7 +161,7 @@
                     data-animate="animate__fadeInUp" data-delay-step="180ms">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-                            <i class="icon icon-pencil_art"></i>
+
                         </div>
                         <h4 class="fw-bold mb-2" style="color:#233658;">Consistent Quality</h4>
                         <p class="mb-0" style="color:#929292;">
@@ -175,7 +175,7 @@
                     data-animate="animate__fadeInUp" data-delay-step="240ms">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-                            <i class="icon icon-brickwall"></i>
+                           
                         </div>
                         <h4 class="fw-bold mb-2" style="color:#233658;">Trusted Partnership</h4>
                         <p class="mb-0" style="color:#929292;">
