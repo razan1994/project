@@ -127,7 +127,6 @@
     --bs-border-width: 1px;
     --bs-border-style: solid;
     --bs-border-color: #dee2e6;
-    --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
     --bs-border-radius: 0.375rem;
     --bs-border-radius-sm: 0.25rem;
     --bs-border-radius-lg: 0.5rem;
@@ -4051,8 +4050,6 @@ fieldset:disabled .dextheme-btn {
         var(--bs-navbar-toggler-padding-x);
     font-size: var(--bs-navbar-toggler-font-size);
     line-height: 1;
-    color: #000;
-    background: linear-gradient(90deg, #b07f47 0%, #8b6033 100%);
     border-radius: var(--bs-navbar-toggler-border-radius);
     transition: var(--bs-navbar-toggler-transition);
 }
@@ -13388,15 +13385,15 @@ ul li {
 .navbar .navbar-nav > li > a {
     font-family: "Inter";
     font-size: 0.8rem;
-    font-weight: 500;
+    font-weight: bold;
     text-transform: uppercase;
     line-height: 1.1rem;
     letter-spacing: 0.15rem;
     border-radius: 0px 0px 0px 0px;
-    color: #fff !important;
+    color: #233658  !important;
 }
 .navbar .navbar-nav > li > a:hover {
-    color: #fff !important;
+    color: #233658  !important;
 }
 .navbar .navbar-nav .dropdown .dropdown-expand {
     display: flex;

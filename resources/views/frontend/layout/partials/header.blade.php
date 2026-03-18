@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav style="background-color: #000" class="navbar navbar-expand-lg custom-navbar">
+<nav class="navbar navbar-expand-lg custom-navbar">
     <div class="dextheme-container w-100">
         <div class="navbar-layout">
 
@@ -84,7 +84,7 @@
                     </li>
                     <li class="nav-item d-flex align-items-center">
                         <span
-                            style="margin-left: 8px; border-left: 1px solid #ccc; padding-left: 12px; font-family: 'Tajawal', sans-serif; color: #FFF;font-weight: bold;">عربي</span>
+                            style="margin-left: 8px; border-left: 1px solid #233658 ; padding-left: 12px; font-family: 'Tajawal', sans-serif; color: #233658 ;font-weight: bold;">عربي</span>
                     </li>
 
                 </ul>
