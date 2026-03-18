@@ -224,6 +224,11 @@ class FrontendController extends Controller
 
     public function submitContactUs(Request $request)
     {
+
+        if ($request->filled('website')) {
+            abort(403, 'Spam detected.');
+        }
+
         $validator = Validator::make($request->all(), [
             'full_name' => ['required', 'string', 'min:2', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
@@ -260,6 +265,10 @@ class FrontendController extends Controller
 
     public function submitConsultationRequest(Request $request)
     {
+
+        if ($request->filled('website')) {
+            abort(403, 'Spam detected.');
+        }
         $validated = $request->validate([
             'client_name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:255',

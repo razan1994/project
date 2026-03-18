@@ -70,6 +70,10 @@
 
                     <form action="{{ route('contact-us.submit') }}" method="POST">
                         @csrf
+                        
+                        <input type="text" name="website" value="" autocomplete="off" tabindex="-1"
+                            style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
+
                         <div class="dextheme-row g-4 mb-4">
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="full_name" value="{{ old('full_name') }}"
