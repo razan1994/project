@@ -79,12 +79,14 @@
                                                 <div class="dextheme-card__body p-2"
                                                     style="height: 220px; display: flex; align-items: center; justify-content: center;">
                                                     @if (str_starts_with((string) $mediaItem->mime_type, 'image/'))
-                                                        <img src="{{ asset($mediaItem->path) }}" alt="{{ $service->title }}"
+                                                        <img src="{{ asset($mediaItem->path) }}"
+                                                            alt="{{ $service->title }}"
                                                             class="service-gallery-clickable"
                                                             data-gallery-image="{{ asset($mediaItem->path) }}"
                                                             style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                                     @elseif (str_starts_with((string) $mediaItem->mime_type, 'video/'))
-                                                        <video controls style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                                        <video controls
+                                                            style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                                             <source src="{{ asset($mediaItem->path) }}"
                                                                 type="{{ $mediaItem->mime_type }}">
                                                         </video>
@@ -115,14 +117,18 @@
                             </div>
                         </div>
 
-                        <div class="contact-us-widget bg-light" data-bg="{{ asset('images/350x250.png') }}">
-                            <div class="contact-us-desc">
-                                <h5>{{ __('Ready to Build? Contact Us Today!') }}</h5>
-                                <p class="dextheme-title-text sm text-white py-4">{{ $contact?->phone ?? 'Add Phone' }}</p>
-                                <p class="plain-text text-white mb-3">{{ $contact?->email ?? 'Add Email' }}</p>
-                                <p class="plain-text text-white mb-3">{{ $contact?->address ?? 'Add Address' }}</p>
-                                <a href="{{ route('contact-us') }}"
-                                    class="dextheme-btn btn-primary hover-outline-secondary">{{ __('Contact Us Today') }}</a>
+                        <div class="contact-us-widget p-0 overflow-hidden" style="background: #f8f9fa !important;">
+                            <div class="contact-us-desc text-center py-5 px-3">
+                                <h5 class="dextheme-title-text xl mb-3" style="color:#fff; font-weight:700;">
+                                    {{ __('Start Your Design-Build Project') }}</h5>
+                                <p class="lead mb-4" style="color:#fff; font-size:1.1rem;">Let us bring your vision to
+                                    life with our expert team. Click below to begin your journey!</p>
+                                <a href="{{ route('design-build-project') }}"
+                                    class="dextheme-btn fw-bold shadow-lg px-4 py-3 mt-2"
+                                    style="background:#0e2238; color:#fff; font-size:1.1rem; border-radius: 0.5rem; letter-spacing:0.5px; transition: box-shadow 0.2s; border:none;">
+                                    <i class="fa-solid fa-building-columns me-2"></i>
+                                    {{ __('Start Now') }}
+                                </a>
                             </div>
                         </div>
                     </div>

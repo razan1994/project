@@ -207,7 +207,8 @@
     <div class="consult-modal-content dextheme-card">
         <span class="close" id="closeConsultModal">&times;</span>
         <h4>Request a Consultation</h4>
-        <form id="consultForm" enctype="multipart/form-data" autocomplete="off">
+        <form id="consultForm" method="POST" action="{{ route('consultation-request.submit') }}" enctype="multipart/form-data" autocomplete="off">
+            @csrf
             <div class="consult-form-grid">
                 <div>
                     <label for="client_name">Full Name *</label>
@@ -265,27 +266,19 @@
             </div>
 
             <button type="submit">Send Request</button>
+            @if(session('consultation_success'))
+                <div id="consultSuccess" style="color:#1e90ff; margin-top:14px; font-weight:600; text-align:center;">{{ session('consultation_success') }}</div>
+            @endif
         </form>
         <div id="consultSuccess" style="display:none;">Thank you! Your request has been sent.</div>
     </div>
 </div>
 
 <script>
-
 const openBtn = document.getElementById('openConsultModal');
 const modal = document.getElementById('consultModal');
 const closeBtn = document.getElementById('closeConsultModal');
 openBtn.onclick = () => modal.classList.add('active');
 closeBtn.onclick = () => modal.classList.remove('active');
 window.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
-
-document.getElementById('consultForm').onsubmit = function(e) {
-    e.preventDefault();
-    document.getElementById('consultSuccess').style.display = 'block';
-    setTimeout(() => {
-        document.getElementById('consultSuccess').style.display = 'none';
-        modal.classList.remove('active');
-        this.reset();
-    }, 2000);
-};
 </script>

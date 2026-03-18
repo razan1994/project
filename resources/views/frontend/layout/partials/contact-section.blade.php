@@ -71,28 +71,28 @@
                     <form action="{{ route('contact-us.submit') }}" method="POST">
                         @csrf
                         <div class="dextheme-row g-4 mb-4">
-                            <div class="dextheme-col-6">
+                            <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="full_name" value="{{ old('full_name') }}"
                                     class="form-control" placeholder="* Your Name">
                                 @error('full_name')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            <div class="dextheme-col-6">
+                            <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="email" name="email" value="{{ old('email') }}" class="form-control"
                                     placeholder="* Your Email">
                                 @error('email')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            <div class="dextheme-col-6">
+                            <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="phone" value="{{ old('phone') }}" class="form-control"
                                     placeholder="* Phone Number">
                                 @error('phone')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            <div class="dextheme-col-6">
+                            <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="subject" value="{{ old('subject') }}" class="form-control"
                                     placeholder="Subject">
                                 @error('subject')

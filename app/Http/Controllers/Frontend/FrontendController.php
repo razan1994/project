@@ -8,6 +8,7 @@ use App\Models\ContactUs;
 use App\Models\ContactUsRequest;
 use App\Models\SeoPage;
 use App\Models\Blog;
+use App\Models\ConsultationRequest;
 use App\Models\Service;
 use App\Models\SupportTicket;
 use Illuminate\Http\Request;
@@ -22,8 +23,8 @@ class FrontendController extends Controller
     {
         try {
             $seoData = SeoPage::where('name', 'home')->first();
-
-            return view('frontend.index', compact('seoData'));
+            $contact = \App\Models\ContactUs::query()->first();
+            return view('frontend.index', compact('seoData', 'contact'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();
@@ -255,6 +256,37 @@ class FrontendController extends Controller
             ->withFragment('contact-section')
             ->with('contact_success', 'Your message has been sent successfully.');
     }
+
+
+    public function submitConsultationRequest(Request $request)
+    {
+        $validated = $request->validate([
+            'client_name' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
+            'preferred_time' => 'nullable|string|max:255',
+            'building_type' => 'required|string|max:255',
+            'approved_design' => 'required|string|max:255',
+            'land_area' => 'nullable|string|max:255',
+            'construction_area' => 'nullable|string|max:255',
+            'attachments' => 'nullable|file|max:10240',
+        ]);
+
+
+        if ($request->hasFile('attachments')) {
+            $filePath = $request->file('attachments')->store('consultation_attachments', 'public');
+            $validated['attachments'] = $filePath;
+        } else {
+            $validated['attachments'] = null;
+        }
+
+        ConsultationRequest::create($validated);
+
+        Mail::to(config('mail.admin_address', config('mail.from.address')))
+            ->send(new \App\Mail\ConsultationRequestEmail($validated));
+
+        return back()->with('consultation_success', 'Your consultation request has been submitted successfully.');
+    }
+
 
     public function blogs(Route $route)
     {

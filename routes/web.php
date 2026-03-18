@@ -26,6 +26,9 @@ Route::group(
             Route::get('/terms-and-conditions', 'termsAndConditions')->name('terms-and-conditions');
             Route::get('/privacy-policy', 'privacyPolicy')->name('privacy-policy');
 
+                // Consultation Request
+                Route::post('/consultation-request', 'submitConsultationRequest')->name('consultation-request.submit');
+
              // ================== Test Email ==================
     Route::get('/send-test-email', function () {
         $emailContent = (object)[

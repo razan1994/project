@@ -97,7 +97,7 @@
 <!-- Mobile Drawer -->
 <div class="dextheme-menu-drawer" id="mobileDrawer">
     <div class="drawer-inner">
-        <ul class="list-unstyled ps-0">
+        <ul class="">
             <li class="mb-1">
                 <a href="{{ route('home') }}" class="nav-link p-3 pt-0">Home</a>
             </li>
@@ -122,4 +122,3 @@
     </div>
 </div>
 
-<div class="backdrop" id="drawerBackdrop"></div>

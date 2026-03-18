@@ -46,11 +46,10 @@
         style="background: linear-gradient(145deg, #f8f6f2 0%, #f5ecdf 55%, #efe2d0 100%);">
         <div class="dextheme-container">
             <div class="block-heading mb-5">
-                <p class="dextheme-sub-title mb-3" style="letter-spacing: 1.4px;">Leading the Way</p>
-                <h2 class="dextheme-main-title mb-3" style="color: #233658;">What Sets Us Apart</h2>
-                <p class="plain-text dextheme-w-75" style="color: #5f646d;">
-                    The principles that guide how we think, build, and deliver value.
-                </p>
+                <div class="block-heading text-center mb-5 pt-5">
+                    <p class="dextheme-sub-title text-white mb-4">Driven by Purpose</p>
+                    <h2 class="dextheme-main-title text-white mb-4">Our Mission, Vision & Core Values</h2>
+                </div>
             </div>
 
             <div class="dextheme-row g-4">
@@ -115,28 +114,79 @@
                 </div>
             </div>
 
-            <div class="dextheme-row g-4 mt-2">
-                <div class="dextheme-col-12">
-                    <div class="dextheme-animation" data-animate="animate__fadeInUp" data-delay-step="300ms"
-                        style="height: 100%; padding: 1px; border-radius: 18px; background: linear-gradient(135deg, #233658 0%, #314a77 100%); box-shadow: 0 16px 32px rgba(35, 54, 88, 0.08);">
-                        <div
-                            style="height: 100%; border-radius: 17px; background: #fff; padding: 30px 28px; transition: transform .25s ease, box-shadow .25s ease;">
-                            <div class="d-flex align-items-center mb-3" style="gap: 12px;">
-                                <h3 class="mb-0" style="font-size: 1.25rem; color: #233658;">
-                                    {{ $feature?->title ?? 'Our Features' }}</h3>
-                            </div>
-                            <div
-                                style="width: 52px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #233658 0%, #314a77 100%);">
-                            </div>
-                            <p class="plain-text mt-3 mb-0" style="color: #565d66; line-height: 1.9;">
-                                {!! $feature?->description ?? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' !!}
-                            </p>
+
+        </div>
+    </div>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose-us" class="pb-5" style="background: #fff;">
+        <div class="dextheme-container">
+            <div class="dextheme-row justify-content-center ">
+                <div class="block-heading text-center mb-5 pt-5">
+                    <p class="dextheme-sub-title text-black mb-4">Why Clients Choose Us</p>
+                    <h2 class="dextheme-main-title text-black mb-4">Built on Quality, Driven by Commitment</h2>
+                </div>
+            </div>
+
+            <div class="dextheme-row">
+                <div class="dextheme-col-lg-3 dextheme-col-md-6 dextheme-col-12 dextheme-animation"
+                    data-animate="animate__fadeInUp">
+                    <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
+                        <div class="dextheme-column-description__icon mb-3">
+                            <i class="icon icon-crane2"></i>
                         </div>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">Professional Expertise</h4>
+                        <p class="mb-0" style="color:#929292;">
+                            Our experienced team brings industry knowledge, technical skill, and attention to detail to
+                            every stage of the project.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="dextheme-col-lg-3 dextheme-col-md-6 dextheme-col-12 dextheme-animation"
+                    data-animate="animate__fadeInUp" data-delay-step="120ms">
+                    <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
+                        <div class="dextheme-column-description__icon mb-3">
+                            <i class="icon icon-communication"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">Clear Communication</h4>
+                        <p class="mb-0" style="color:#929292;">
+                            We believe successful results start with transparency, responsiveness, and strong
+                            collaboration
+                            with every client.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="dextheme-col-lg-3 dextheme-col-md-6 dextheme-col-12 dextheme-animation"
+                    data-animate="animate__fadeInUp" data-delay-step="180ms">
+                    <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
+                        <div class="dextheme-column-description__icon mb-3">
+                            <i class="icon icon-pencil_art"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">Consistent Quality</h4>
+                        <p class="mb-0" style="color:#929292;">
+                            We are committed to delivering dependable results that meet high standards of performance,
+                            durability, and value.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="dextheme-col-lg-3 dextheme-col-md-6 dextheme-col-12 dextheme-animation"
+                    data-animate="animate__fadeInUp" data-delay-step="240ms">
+                    <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
+                        <div class="dextheme-column-description__icon mb-3">
+                            <i class="icon icon-brickwall"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">Trusted Partnership</h4>
+                        <p class="mb-0" style="color:#929292;">
+                            We build lasting relationships through honesty, accountability, and a genuine commitment to
+                            our
+                            clients’ success.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    @include('frontend.layout.partials.contact-section')
+    </section>
 </div>
