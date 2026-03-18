@@ -14951,7 +14951,7 @@ ul li {
 @media (max-width: 600px) {
     .floating-whatsapp {
         left: 8px;
-        bottom: 12px;
+        bottom: 28px;
         min-width: 90px;
         height: 36px;
         font-size: 1rem;

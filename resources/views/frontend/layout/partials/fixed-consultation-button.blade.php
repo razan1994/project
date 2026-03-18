@@ -157,10 +157,12 @@
 }
 @media (max-width: 767px) {
     .fixed-consult-wrap {
-        right: 16px;
-        bottom: 22px;
-        gap: 8px;
-    }
+        left: 8px;
+        bottom: 12px;
+        min-width: 90px;
+        height: 36px;
+        font-size: 1rem;
+        padding: 0 8px;
 
     .fixed-consult-btn {
         width: 58px;

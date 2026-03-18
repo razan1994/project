@@ -72,8 +72,6 @@
     <!-- ======================= scripts end-->
     @stack('scripts')
 
-
-
 </body>
 
 </html>
