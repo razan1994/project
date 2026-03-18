@@ -226,7 +226,9 @@ class FrontendController extends Controller
     {
 
         if ($request->filled('website')) {
-            abort(403, 'Spam detected.');
+            return redirect()->back()
+                ->withInput([])
+                ->with('error', 'Spam detected.');
         }
 
         $validator = Validator::make($request->all(), [
@@ -267,7 +269,9 @@ class FrontendController extends Controller
     {
 
         if ($request->filled('website')) {
-            abort(403, 'Spam detected.');
+            return redirect()->back()
+                ->withInput([])
+                ->with('error', 'Spam detected.');
         }
         $validated = $request->validate([
             'client_name' => 'required|string|max:255',
