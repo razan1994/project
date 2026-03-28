@@ -48,9 +48,9 @@
         <!-- Heading -->
         <div class="dextheme-heading" data-bg="{{ asset('assets/images/breadcamp.webp') }}">
             <div class="dextheme-heading__inner">
-                <h2>Services</h2>
+                <h2>{{ __('frontend.servicedetails_services') }}</h2>
                 <div class="dextheme-heading__inner__breadcrumb">
-                    <p><a href="{{ route('home') }}">{{ __('Home') }}</a> - {{ $service->title }}</p>
+                    <p><a href="{{ route('home') }}">{{ __('frontend.servicedetails_home') }}</a> - {{ $service->title }}</p>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
 
                         @if ($galleryMedia->isNotEmpty())
                             <div class="mt-4">
-                                <h4 class="dextheme-title-text sm mb-3">{{ __('Gallery') }}</h4>
+                                <h4 class="dextheme-title-text sm mb-3">{{ __('frontend.servicedetails_gallery') }}</h4>
                                 <div class="dextheme-row g-3">
                                     @foreach ($galleryMedia as $mediaItem)
                                         <div class="dextheme-col-lg-4 dextheme-col-md-6 dextheme-col-12">
@@ -102,7 +102,7 @@
 
                     <div class="sidebar-one dextheme-col-lg-4 dextheme-col-md-12">
                         <div class="title-tag bg-secondary mb-3">
-                            <h4 class="dextheme-title-text sm text-white">{{ __('Our Services') }}</h4>
+                            <h4 class="dextheme-title-text sm text-white">{{ __('frontend.servicedetails_our_services') }}</h4>
                         </div>
                         <div class="dextheme-card border-secondary mb-3">
                             <div class="dextheme-card__body px-4">
@@ -120,14 +120,13 @@
                         <div class="contact-us-widget p-0 overflow-hidden" style="background: #f8f9fa !important;">
                             <div class="contact-us-desc text-center py-5 px-3">
                                 <h5 class="dextheme-title-text xl mb-3" style="color:#fff; font-weight:700;">
-                                    {{ __('Start Your Design-Build Project') }}</h5>
-                                <p class="lead mb-4" style="color:#fff; font-size:1.1rem;">Let us bring your vision to
-                                    life with our expert team. Click below to begin your journey!</p>
+                                    {{ __('frontend.servicedetails_start_project_title') }}</h5>
+                                <p class="lead mb-4" style="color:#fff; font-size:1.1rem;">{{ __('frontend.servicedetails_start_project_desc') }}</p>
                                 <a href="{{ route('design-build-project') }}"
                                     class="dextheme-btn fw-bold shadow-lg px-4 py-3 mt-2"
                                     style="background:#0e2238; color:#fff; font-size:1.1rem; border-radius: 0.5rem; letter-spacing:0.5px; transition: box-shadow 0.2s; border:none;">
                                     <i class="fa-solid fa-building-columns me-2"></i>
-                                    {{ __('Start Now') }}
+                                    {{ __('frontend.servicedetails_start_now') }}
                                 </a>
                             </div>
                         </div>

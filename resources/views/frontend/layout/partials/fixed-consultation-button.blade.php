@@ -3,13 +3,20 @@
     .fixed-consult-wrap {
         position: fixed;
         right: 32px;
+        left: auto;
         bottom: 32px;
         z-index: 9999;
         display: flex;
         align-items: center;
         gap: 10px;
     }
-
+    html[dir="rtl"] .fixed-consult-wrap,
+    body[dir="rtl"] .fixed-consult-wrap,
+    .rtl .fixed-consult-wrap {
+        right: auto;
+        left: 32px;
+        flex-direction: row-reverse;
+    }
     .consult-btn-tag {
         background: #fff;
         color: #0e2238;
@@ -182,8 +189,16 @@
     @media (max-width: 767px) {
         .fixed-consult-wrap {
             right: 16px;
+            left: auto;
             bottom: 22px;
             gap: 8px;
+        }
+        html[dir="rtl"] .fixed-consult-wrap,
+        body[dir="rtl"] .fixed-consult-wrap,
+        .rtl .fixed-consult-wrap {
+            right: auto;
+            left: 16px;
+            flex-direction: row-reverse;
         }
 
         .fixed-consult-btn {
@@ -220,17 +235,24 @@
 
 <!-- Fixed Button -->
 <div class="fixed-consult-wrap">
-    <span class="consult-btn-tag">Request a Consultation</span>
-    <div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="Request Consultation">
-        <i class="icon icon-chat"></i>
-    </div>
+    @if(app()->getLocale() == 'ar')
+        <div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="{{ __('frontend.consult_btn_title') }}">
+            <i class="icon icon-chat"></i>
+        </div>
+        <span class="consult-btn-tag">{{ __('frontend.consult_btn_tag') }}</span>
+    @else
+        <span class="consult-btn-tag">{{ __('frontend.consult_btn_tag') }}</span>
+        <div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="{{ __('frontend.consult_btn_title') }}">
+            <i class="icon icon-chat"></i>
+        </div>
+    @endif
 </div>
 
 <!-- Modal Form -->
 <div id="consultModal">
     <div class="consult-modal-content dextheme-card">
         <span class="close" id="closeConsultModal">&times;</span>
-        <h4>Request a Consultation</h4>
+        <h4>{{ __('frontend.consult_btn_tag') }}</h4>
         <form id="consultForm" method="POST" action="{{ route('consultation-request.submit') }}"
             enctype="multipart/form-data" autocomplete="off">
             @csrf
@@ -238,67 +260,66 @@
                 <input type="text" name="website" value="" autocomplete="off" tabindex="-1"
                     style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
                 <div>
-                    <label for="client_name">Full Name *</label>
+                    <label for="client_name">{{ __('frontend.consult_label_name') }}</label>
                     <input type="text" id="client_name" name="client_name" required>
                 </div>
 
                 <div>
-                    <label for="contact_number">Contact Number *</label>
+                    <label for="contact_number">{{ __('frontend.consult_label_contact') }}</label>
                     <input type="text" id="contact_number" name="contact_number" required>
                 </div>
 
                 <div>
-                    <label for="preferred_time">Preferred Time for Communication</label>
+                    <label for="preferred_time">{{ __('frontend.consult_label_time') }}</label>
                     <input type="text" id="preferred_time" name="preferred_time">
                 </div>
 
                 <div>
-                    <label for="building_type">Type of Building Required *</label>
+                    <label for="building_type">{{ __('frontend.consult_label_building') }}</label>
                     <select id="building_type" name="building_type" required>
-                        <option value="">Select...</option>
-                        <option value="Villa">Villa</option>
-                        <option value="Factory">Factory</option>
-                        <option value="Commercial Project">Commercial Project</option>
+                        <option value="">{{ __('frontend.consult_option_select') }}</option>
+                        <option value="Villa">{{ __('frontend.consult_option_villa') }}</option>
+                        <option value="Factory">{{ __('frontend.consult_option_factory') }}</option>
+                        <option value="Commercial Project">{{ __('frontend.consult_option_commercial') }}</option>
                     </select>
                 </div>
 
                 <div>
-                    <label for="approved_design">Do you have an approved design? *</label>
+                    <label for="approved_design">{{ __('frontend.consult_label_design') }}</label>
                     <select id="approved_design" name="approved_design" required>
-                        <option value="">Select...</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option value="">{{ __('frontend.consult_option_select') }}</option>
+                        <option value="Yes">{{ __('frontend.consult_option_yes') }}</option>
+                        <option value="No">{{ __('frontend.consult_option_no') }}</option>
                     </select>
                 </div>
 
                 <div>
-                    <label for="land_area">Land Area</label>
+                    <label for="land_area">{{ __('frontend.consult_label_land') }}</label>
                     <input type="text" id="land_area" name="land_area">
                 </div>
 
                 <div class="consult-form-field-full">
-                    <label for="construction_area">Expected Construction Area</label>
+                    <label for="construction_area">{{ __('frontend.consult_label_construction') }}</label>
                     <input type="text" id="construction_area" name="construction_area">
                 </div>
 
                 <div class="consult-form-field-full">
-                    <label for="attachments">Attachments (optional)</label>
+                    <label for="attachments">{{ __('frontend.consult_label_attachments') }}</label>
                     <p style="margin: 4px 0 8px; color: #475569; font-size: 0.92rem;">
-                        If you wish to upload any attachments, such as a hand drawing, a survey map, a deed, or any
-                        document you think you need to upload.
+                        {{ __('frontend.consult_attachments_note') }}
                     </p>
                     <input type="file" id="attachments" name="attachments" multiple
                         placeholder="If you wish to upload any attachments, such as a hand drawing, survey plan, ownership document, or any other relevant file.">
                 </div>
             </div>
 
-            <button type="submit">Send Request</button>
+            <button type="submit">{{ __('frontend.consult_btn_send') }}</button>
             @if (session('consultation_success'))
                 <div id="consultSuccess" style="color:#1e90ff; margin-top:14px; font-weight:600; text-align:center;">
                     {{ session('consultation_success') }}</div>
             @endif
         </form>
-        <div id="consultSuccess" style="display:none;">Thank you! Your request has been sent.</div>
+        <div id="consultSuccess" style="display:none;">{{ __('frontend.consult_btn_success') }}</div>
     </div>
 </div>
 

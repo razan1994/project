@@ -7707,7 +7707,7 @@ fieldset:disabled .dextheme-btn {
     width: 25% !important;
 }
 .w-50 {
-    width: 50% !important;
+    width: 60% !important;
 }
 .w-75 {
     width: 75% !important;
@@ -13390,10 +13390,10 @@ ul li {
     line-height: 1.1rem;
     letter-spacing: 0.15rem;
     border-radius: 0px 0px 0px 0px;
-    color: #233658  !important;
+    color: #233658 !important;
 }
 .navbar .navbar-nav > li > a:hover {
-    color: #233658  !important;
+    color: #233658 !important;
 }
 .navbar .navbar-nav .dropdown .dropdown-expand {
     display: flex;
@@ -13825,7 +13825,7 @@ ul li {
 @media (min-width: 992px) {
     .jumbotron h1,
     .jumbotron .h1 {
-        font-size: 6.5rem;
+        font-size: 4.5rem;
         font-weight: 800;
         line-height: 7rem;
     }
@@ -15128,3 +15128,26 @@ ul li {
         min-width: 0;
     }
 }
+
+@media (max-width: 767.98px) {
+    .slider-video {
+        transform-origin: center bottom;
+        transform: scale(1.2) translateY(-45px);
+    }
+}
+@media (min-width: 576px) and (max-width: 992px) {
+    .dextheme-w-65 {
+        padding-bottom: 158px;
+    }
+}
+
+.dash {
+    margin-left: 8px;
+    border-left: 1px solid #233658;
+    padding-left: 12px;
+    font-family: "Tajawal", sans-serif;
+    color: #233658;
+    font-weight: bold;
+}
+
+

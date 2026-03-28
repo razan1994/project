@@ -35,6 +35,16 @@
                     </a>
                 </li>
 
+                    {{-- Gallery --}}
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard.gallery.index') }}" @class(['nav-link', 'active' => request()->routeIs('dashboard.gallery.*')])>
+                            <i class="nav-icon fas fa-images"></i>
+                            <p>
+                                Gallery
+                            </p>
+                        </a>
+                    </li>
+
                 {{-- About US --}}
 
                 <li @class([

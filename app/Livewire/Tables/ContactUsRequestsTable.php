@@ -69,7 +69,8 @@ final class ContactUsRequestsTable extends PowerGridComponent
                 ->searchable(),
             Column::make('message', 'message')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->bodyAttribute('style="max-width: 30px; white-space: normal; word-break: break-word;"'),
 
 
             Column::action('Action'),

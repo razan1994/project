@@ -62,9 +62,8 @@
                         <div class="dextheme-column-description__icon">
                             <i aria-hidden="true" class="icon icon-crane2"></i>
                         </div>
-                        <h4>We're Experts</h4>
-                        <p>Our engineering team brings extensive experience in construction project execution, ensuring
-                            every stage is planned carefully and delivered with professional standards.</p>
+                        <h4>{{ __('frontend.section1_experts_title') }}</h4>
+                        <p>{{ __('frontend.section1_experts_desc') }}</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -74,9 +73,8 @@
                         <div class="dextheme-column-description__icon">
                             <i aria-hidden="true" class="icon icon-communication"></i>
                         </div>
-                        <h4>We're Collaborative</h4>
-                        <p>We believe strong communication with clients and teams ensures clear understanding, smooth
-                            coordination, and successful completion of every project.</p>
+                        <h4>{{ __('frontend.section1_collaborative_title') }}</h4>
+                        <p>{{ __('frontend.section1_collaborative_desc') }}</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -86,9 +84,8 @@
                         <div class="dextheme-column-description__icon">
                             <i aria-hidden="true" class="icon icon-pencil_art"></i>
                         </div>
-                        <h4>We're Precise</h4>
-                        <p>Every project is executed with attention to detail and strict adherence to engineering
-                            specifications to guarantee accurate results and reliable construction quality.</p>
+                        <h4>{{ __('frontend.section1_precise_title') }}</h4>
+                        <p>{{ __('frontend.section1_precise_desc') }}</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -98,9 +95,8 @@
                         <div class="dextheme-column-description__icon">
                             <i aria-hidden="true" class="icon icon-brickwall"></i>
                         </div>
-                        <h4>We're Reliable</h4>
-                        <p>We are committed to delivering durable structures, completing projects on schedule, and building
-                            long-term trust with our clients and partners.</p>
+                        <h4>{{ __('frontend.section1_reliable_title') }}</h4>
+                        <p>{{ __('frontend.section1_reliable_desc') }}</p>
                     </div>
                     <div class="dextheme-column-description__divider"></div>
                 </div>
@@ -114,31 +110,25 @@
 
 
     <!-- Why Choose Us Section -->
-    <section id="why-choose-us" style="background: #fff;">
+    <section id="why-choose-us" class="pb-5" style="background: #fff;">
         <div class="dextheme-container">
-            <div class="dextheme-row justify-content-center mb-5">
+            <div class="dextheme-row justify-content-center ">
                 <div class="block-heading text-center mb-5 pt-5">
-                    <p class="dextheme-sub-title text-black mb-4">Where Quality Meets Innovation</p>
-                    <h2 class="dextheme-main-title text-black mb-4">What Sets Us Apart</h2>
-                    <p class="text-black"
-                        style="text-align: justify; text-align-last: center; max-width: 900px; margin: 0 auto;">
-                        {!! $feature?->description ??
-                            'Our work is built on a strong foundation of quality, reliability, and long-term commitment. We focus on delivering practical solutions, maintaining clear communication, and ensuring every project reflects the standards our clients expect and trust.' !!}
-                    </p>
+                    <p class="dextheme-sub-title text-black mb-4">{{ __('frontend.why_choose_subtitle') }}</p>
+                    <h2 class="dextheme-main-title text-black mb-4">{{ __('frontend.why_choose_title') }}</h2>
                 </div>
             </div>
 
-            <div class="dextheme-row g-4">
+            <div class="dextheme-row">
                 <div class="dextheme-col-lg-3 dextheme-col-md-6 dextheme-col-12 dextheme-animation"
                     data-animate="animate__fadeInUp">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-
+                            <i class="icon icon-crane2"></i>
                         </div>
-                        <h4 class="fw-bold mb-2" style="color:#233658;">Professional Expertise</h4>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">{{ __('frontend.why_choose_expertise_title') }}</h4>
                         <p class="mb-0" style="color:#929292;">
-                            Our experienced team brings industry knowledge, technical skill, and attention to detail to
-                            every stage of the project.
+                            {{ __('frontend.why_choose_expertise_desc') }}
                         </p>
                     </div>
                 </div>
@@ -147,12 +137,11 @@
                     data-animate="animate__fadeInUp" data-delay-step="120ms">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-
+                            <i class="icon icon-communication"></i>
                         </div>
-                        <h4 class="fw-bold mb-2" style="color:#233658;">Clear Communication</h4>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">{{ __('frontend.why_choose_communication_title') }}</h4>
                         <p class="mb-0" style="color:#929292;">
-                            We believe successful results start with transparency, responsiveness, and strong collaboration
-                            with every client.
+                            {{ __('frontend.why_choose_communication_desc') }}
                         </p>
                     </div>
                 </div>
@@ -161,12 +150,11 @@
                     data-animate="animate__fadeInUp" data-delay-step="180ms">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-
+                            <i class="icon icon-pencil_art"></i>
                         </div>
-                        <h4 class="fw-bold mb-2" style="color:#233658;">Consistent Quality</h4>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">{{ __('frontend.why_choose_quality_title') }}</h4>
                         <p class="mb-0" style="color:#929292;">
-                            We are committed to delivering dependable results that meet high standards of performance,
-                            durability, and value.
+                            {{ __('frontend.why_choose_quality_desc') }}
                         </p>
                     </div>
                 </div>
@@ -175,12 +163,11 @@
                     data-animate="animate__fadeInUp" data-delay-step="240ms">
                     <div class="why-choose-card gradient-border p-4 h-100 text-center bg-white shadow-sm rounded">
                         <div class="dextheme-column-description__icon mb-3">
-                           
+                            <i class="icon icon-brickwall"></i>
                         </div>
-                        <h4 class="fw-bold mb-2" style="color:#233658;">Trusted Partnership</h4>
+                        <h4 class="fw-bold mb-2" style="color:#233658;">{{ __('frontend.why_choose_partnership_title') }}</h4>
                         <p class="mb-0" style="color:#929292;">
-                            We build lasting relationships through honesty, accountability, and a genuine commitment to our
-                            clients’ success.
+                            {{ __('frontend.why_choose_partnership_desc') }}
                         </p>
                     </div>
                 </div>
@@ -199,9 +186,9 @@
         <livewire:frontend.faq-section />
     </div> --}}
 
-
     <!-- Section 10 -->
     @include('frontend.layout.partials.contact-section')
+
     <!-- Section 11 -->
     <div id="latest-news-section">
         <livewire:frontend.latest-news-section />

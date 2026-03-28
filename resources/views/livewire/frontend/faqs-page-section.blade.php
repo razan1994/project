@@ -2,9 +2,9 @@
     <!-- Heading -->
     <div class="dextheme-heading" data-bg="{{ asset('assets/images/breadcamp.webp') }}">
         <div class="dextheme-heading__inner">
-            <h2>{{ __('FAQs') }}</h2>
+            <h2>{{ __('frontend.faqs_title') }}</h2>
             <div class="dextheme-heading__inner__breadcrumb">
-                <p><a href="{{ route('home') }}">{{ __('Home') }}</a> - {{ __('FAQs') }}</p>
+                <p><a href="{{ route('home') }}">{{ __('frontend.navbar_home') }}</a> - {{ __('frontend.faqs_title') }}</p>
             </div>
         </div>
     </div>
@@ -13,9 +13,9 @@
     <div class="dextheme-section-padding bg-white">
         <div class="dextheme-container">
             <div class="faqs-heading mb-5">
-                <p class="dextheme-sub-title mb-4">{{ __('Building Answers') }}</p>
-                <h2 class="dextheme-main-title mb-4">{{ __('Your Construction FAQ Resource') }}</h2>
-                <p class="dextheme-text-grey">{{ __('Find answers to the most common questions from our clients.') }}</p>
+                <p class="dextheme-sub-title mb-4">{{ __('frontend.faqs_subtitle') }}</p>
+                <h2 class="dextheme-main-title mb-4">{{ __('frontend.faqs_main_title') }}</h2>
+                <p class="dextheme-text-grey">{{ __('frontend.faqs_desc') }}</p>
             </div>
 
             <div class="faqs-block">
@@ -44,12 +44,12 @@
                                     <div class="accordion-item border-bottom">
                                         <h2 class="accordion-header" id="faqLeftHeadingDefault">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqLeftCollapseDefault" aria-expanded="true" aria-controls="faqLeftCollapseDefault">
-                                                <span class="fw-bold">{{ __('No FAQs found yet') }}</span>
+                                                <span class="fw-bold">{{ __('frontend.faqs_none_found') }}</span>
                                             </button>
                                         </h2>
                                         <div id="faqLeftCollapseDefault" class="accordion-collapse collapse show" aria-labelledby="faqLeftHeadingDefault" data-bs-parent="#accordionExample">
                                             <div class="accordion-body ms-4 dextheme-text-grey mb-4 mt-2">
-                                                {{ __('Please add FAQ entries from dashboard.') }}
+                                                {{ __('frontend.faqs_none_dashboard') }}
                                             </div>
                                         </div>
                                     </div>

@@ -34,9 +34,9 @@
     <!-- Heading -->
     <div class="dextheme-heading" data-bg="{{ asset('assets/images/breadcamp.webp') }}">
         <div class="dextheme-heading__inner">
-            <h2>{{ __('Contact') }}</h2>
+            <h2>{{ __('frontend.navbar_contact') }}</h2>
             <div class="dextheme-heading__inner__breadcrumb">
-                <p><a href="{{ route('home') }}">{{ __('Home') }}</a> - {{ __('Contact') }}</p>
+                <p><a href="{{ route('home') }}">{{ __('frontend.navbar_home') }}</a> - {{ __('frontend.navbar_contact') }}</p>
             </div>
         </div>
     </div>

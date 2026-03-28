@@ -3,10 +3,9 @@
         <div class="dextheme-row g-4">
             <div class="dextheme-col-lg-6 dextheme-col-12">
                 <div class="block-heading mb-4 contact-us-info">
-                    <p class="dextheme-sub-title mb-4">Contact Us</p>
-                    <h2 class="dextheme-main-title mb-4"> We are happy to hear from you and answer your questions.</h2>
-                    <p class="plain-text">Have questions or need assistance? Our team is here to help you anytime. Reach
-                        out to us through any of the options below and we’ll respond as quickly as possible.</p>
+                    <p class="dextheme-sub-title mb-4">{{ __('frontend.contact_subtitle') }}</p>
+                    <h2 class="dextheme-main-title mb-4">{{ __('frontend.contact_title') }}</h2>
+                    <p class="plain-text">{{ __('frontend.contact_desc') }}</p>
                 </div>
                 <div class="contact-us-card-list">
                     <div class="dextheme-card mb-4">
@@ -17,9 +16,9 @@
                                 </div>
                                 <div>
                                     <h5>
-                                        {{ $contact?->address ?? 'Add Address' }}
+                                        {{ $contact?->address ?? __('frontend.contact_placeholder_address') }}
                                     </h5>
-                                    <p>Call support center 24/7</p>
+                                    <p>{{ __('frontend.contact_support_247') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -32,9 +31,9 @@
                                 </div>
                                 <div>
                                     <h5>
-                                        {{ $contact?->phone ?? 'Add Phone Number' }}
+                                        {{ $contact?->phone ?? __('frontend.contact_placeholder_phone') }}
                                     </h5>
-                                    <p>Call support center 24/7</p>
+                                    <p>{{ __('frontend.contact_support_247') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -47,18 +46,30 @@
                                 </div>
                                 <div>
                                     <h5>
-                                        {{ $contact?->email ?? 'Add Email Address' }}
+                                        {{ $contact?->email ?? __('frontend.contact_placeholder_email') }}
                                     </h5>
-                                    <p>Call support center 24/7</p>
+                                    <p>{{ __('frontend.contact_support_247') }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Map Section -->
+            <div class="contact-map mb-4" style="width:100%;height:350px;">
+                <iframe
+                    width="100%"
+                    height="350"
+                    frameborder="0"
+                    style="border:0"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps?q=26.41342292206899,50.096749528835524&hl=ar;z=16&output=embed"
+                    allowfullscreen>
+                </iframe>
+            </div>
             <div class="dextheme-col-lg-6 dextheme-col-12">
                 <div class="contact-form">
-                    <h3>Send Message</h3>
+                    <h3>{{ __('frontend.contact_send_message') }}</h3>
 
                     @if (session('contact_success') || session('contact_error'))
                         <div id="contact-form-toast"
@@ -70,48 +81,48 @@
 
                     <form action="{{ route('contact-us.submit') }}" method="POST">
                         @csrf
-                        
+
                         <input type="text" name="website" value="" autocomplete="off" tabindex="-1"
                             style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
 
                         <div class="dextheme-row g-4 mb-4">
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="full_name" value="{{ old('full_name') }}"
-                                    class="form-control" placeholder="* Your Name">
+                                    class="form-control" placeholder="{{ __('frontend.contact_form_name') }}">
                                 @error('full_name')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="email" name="email" value="{{ old('email') }}" class="form-control"
-                                    placeholder="* Your Email">
+                                    placeholder="{{ __('frontend.contact_form_email') }}">
                                 @error('email')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="phone" value="{{ old('phone') }}" class="form-control"
-                                    placeholder="* Phone Number">
+                                    placeholder="{{ __('frontend.contact_form_phone') }}">
                                 @error('phone')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="subject" value="{{ old('subject') }}" class="form-control"
-                                    placeholder="Subject">
+                                    placeholder="{{ __('frontend.contact_form_subject') }}">
                                 @error('subject')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12">
-                                <textarea name="message" class="form-control" rows="8" placeholder="Write Message...">{{ old('message') }}</textarea>
+                                <textarea name="message" class="form-control" rows="8" placeholder="{{ __('frontend.contact_form_message') }}">{{ old('message') }}</textarea>
                                 @error('message')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
                         <button type="submit" class="dextheme-btn btn-primary hover-bg-white">
-                            Send Message
+                            {{ __('frontend.contact_send_message') }}
                             <i aria-hidden="true" class="icon icon-right-arrow"></i>
                         </button>
                     </form>

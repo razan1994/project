@@ -23,7 +23,7 @@ class FrontendController extends Controller
     {
         try {
             $seoData = SeoPage::where('name', 'home')->first();
-            $contact = \App\Models\ContactUs::query()->first();
+            $contact = ContactUs::query()->first();
             return view('frontend.index', compact('seoData', 'contact'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
@@ -437,6 +437,41 @@ class FrontendController extends Controller
     {
         try {
             return view('frontend.privacy-policy');
+        } catch (\Throwable $th) {
+            $function_name =  $route->getActionName();
+            $check_old_errors = new SupportTicket();
+            $check_old_errors = $check_old_errors->select('*')->where([
+                'error_location' => $th->getFile(),
+                'error_description' => $th->getMessage(),
+                'function_name' => $function_name,
+                'error_line' => $th->getLine(),
+            ])->get();
+
+            if ($check_old_errors->count() == 0) {
+                $new_error_ticket = SupportTicket::create([
+                    'error_location' => $th->getFile(),
+                    'error_description' => $th->getMessage(),
+                    'function_name' => $function_name,
+                    'error_line' =>  $th->getLine(),
+                ]);
+                $end_error_ticket = $new_error_ticket;
+            } else {
+                $end_error_ticket = $check_old_errors->first();
+            }
+            return view('errors.support_tickets', compact('th', 'function_name', 'end_error_ticket'));
+        }
+    }
+
+    public function gallery(Route $route)
+    {
+        try {
+            $seoData = SeoPage::where('name', 'gallery')->first();
+
+            // Get the main gallery with images
+            $gallery = \App\Models\Gallery::with('images')->first();
+            $images = $gallery ? $gallery->images()->latest()->get() : collect();
+
+            return view('frontend.gallery', compact('seoData', 'images'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();

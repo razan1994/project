@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\Dashboard\AboutController;
@@ -204,7 +205,7 @@ Route::name('dashboard.')
             });
 
 
-             // SEO Pages Routes :
+        // SEO Pages Routes :
         // ------------------------------------------
         Route::controller(SeoPagesController::class)
             ->prefix('seo-pages')
@@ -212,6 +213,17 @@ Route::name('dashboard.')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/edit/{id}', 'edit')->name('edit');
+            });
+
+        // Gallery Routes :
+        // ------------------------------------------
+        Route::controller(App\Http\Controllers\Dashboard\GalleryController::class)
+            ->name('gallery.')
+            ->prefix('gallery')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/upload', 'uploadImages')->name('upload');
+                Route::delete('/delete-image/{imageId}', 'deleteImage')->name('delete-image');
             });
 
 

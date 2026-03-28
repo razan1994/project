@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" @if(app()->getLocale() == 'ar') dir="rtl" class="rtl" @endif>
 
 <head>
     <!-- ======================= head Start-->
@@ -14,7 +14,7 @@
 
 </head>
 
-<body data-update-uri="/{{ LaravelLocalization::getCurrentLocale() }}/livewire/update">
+<body data-update-uri="/{{ LaravelLocalization::getCurrentLocale() }}/livewire/update" @if(app()->getLocale() == 'ar') dir="rtl" class="rtl" @endif>
 
     <!-- Fixed Social Media Bar -->
     @if (!empty($contact?->facebook) || !empty($contact?->youtube) || !empty($contact?->instagram) || !empty($contact?->linkedin))
@@ -36,8 +36,8 @@
     <!-- Floating WhatsApp Icon -->
     @if (!empty($contact?->phone))
         <a href="https://wa.me/{{ preg_replace('/\D+/', '', (string) $contact->phone) }}" class="floating-whatsapp" target="_blank" rel="noopener noreferrer"
-            title="Contact us on WhatsApp">
-            <span class="whatsapp-text">Contact us</span>
+            title="{{ __('frontend.whatsapp_title') }}">
+            <span class="whatsapp-text">{{ __('frontend.whatsapp_text') }}</span>
             <i class="fab fa-whatsapp"></i>
         </a>
     @endif
