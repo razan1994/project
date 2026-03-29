@@ -13400,7 +13400,7 @@ ul li {
     display: inline-block;
     margin-right: 0.255em;
     vertical-align: 0.255em;
-    content: "";
+    content: "+";
     color: #233658 !important;
     font-size: 11px;
 }
