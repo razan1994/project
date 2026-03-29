@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
+use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
+
 
 class AppServiceProvider extends ServiceProvider
 {
+    use LoadsTranslatedCachedRoutes;
     /**
      * Register any application services.
      */
@@ -28,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         $this->composeFrontendContactData();
+       RouteServiceProvider::loadCachedRoutesUsing(fn () => $this->loadCachedRoutes());
     }
 
     /**
