@@ -76,9 +76,9 @@
                     </li>
                     <li class="nav-item d-flex align-items-center">
                         @if(app()->getLocale() == 'ar')
-                            <a href="{{ LaravelLocalization::getLocalizedURL('en') }}" class="dash" style="text-decoration:none">English</a>
+                            <a  href="{{ '/en' }}" class="dash" style="text-decoration:none">English</a>
                         @else
-                            <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}" class="dash" style="text-decoration:none;font-family: 'Tajawal', sans-serif;">عربي</a>
+                            <a href="{{ '/ar' }}" class="dash" style="text-decoration:none;font-family: 'Tajawal', sans-serif;">عربي</a>
                         @endif
                     </li>
 
@@ -118,9 +118,9 @@
                 <ul class="navbar-nav" style="flex-direction: row;">
                     <li class="nav-item d-flex align-items-center">
                         @if(app()->getLocale() == 'ar')
-                            <a href="{{ LaravelLocalization::getLocalizedURL('en') }}" class="dash" style="text-decoration:none; border-radius: 20px; background: #f1f5f9; padding: 6px 18px; font-weight: 600; color: #233658;">English</a>
+                            <a  href="{{ '/en' }}" class="dash" style="text-decoration:none; border-radius: 20px; background: #f1f5f9; padding: 6px 18px; font-weight: 600; color: #233658;">English</a>
                         @else
-                            <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}" class="dash" style="text-decoration:none; border-radius: 20px; background: #f1f5f9; padding: 6px 18px; font-weight: 600; color: #233658; font-family: 'Tajawal', sans-serif;">عربي</a>
+                            <a  href="{{ '/ar' }}" class="dash" style="text-decoration:none; border-radius: 20px; background: #f1f5f9; padding: 6px 18px; font-weight: 600; color: #233658; font-family: 'Tajawal', sans-serif;">عربي</a>
                         @endif
                     </li>
                 </ul>
