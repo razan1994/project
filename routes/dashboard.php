@@ -37,10 +37,6 @@ Route::middleware('guest')->group(function () {
     Route::get('login', function () {
         return view('auth.login');
     })->name('login');
-
-    Route::get('register', function () {
-        return redirect()->route('login');
-    })->name('register');
 });
 
 Route::get('/', [DashboardController::class, 'index'])
