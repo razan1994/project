@@ -43,4 +43,12 @@
 
     @include('frontend.layout.partials.contact-section')
 
+        <!-- Map Section -->
+    <div class="contact-map mb-4" style="width:100%;height:350px;">
+        <iframe width="100%" height="350" frameborder="0" style="border:0"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=26.41342292206899,50.096749528835524&hl=ar;z=16&output=embed"
+            allowfullscreen>
+        </iframe>
+    </div>
 @endsection
