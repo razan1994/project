@@ -1,5 +1,6 @@
 <div>
-    <div class="dextheme-heading" data-bg="{{ asset('images/1280x300.png') }}">
+       <div class="dextheme-heading" data-bg="{{ asset('assets/images/breadcamp.webp') }}">
+
         <div class="dextheme-heading__inner">
             <h2>{{ $privacy?->title ?? __('frontend.privacy_title') }}</h2>
             <div class="dextheme-heading__inner__breadcrumb">

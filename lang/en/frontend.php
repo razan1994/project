@@ -207,4 +207,6 @@ return [
 
     // DDA Button
     'dda_button_text' => 'Start Your Design-Build Project',
+
+    'design-build-project'=> 'design build project',
 ];

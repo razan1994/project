@@ -336,8 +336,8 @@ class FrontendController extends Controller
                 ->where('status', 1)
                 ->orderByDesc('id')
                 ->paginate(9);
-
-            return view('frontend.blogs', compact('blogs'));
+            $contact = \App\Models\ContactUs::query()->first();
+            return view('frontend.blogs', compact('blogs', 'contact'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();
@@ -406,7 +406,8 @@ class FrontendController extends Controller
     public function faqs(Route $route)
     {
         try {
-            return view('frontend.faqs');
+            $contact = ContactUs::query()->first();
+            return view('frontend.faqs', compact('contact'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();

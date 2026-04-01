@@ -82,12 +82,12 @@
                                     <div class="accordion-item border-bottom">
                                         <h2 class="accordion-header" id="faqRightHeadingDefault">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqRightCollapseDefault" aria-expanded="true" aria-controls="faqRightCollapseDefault">
-                                                <span class="fw-bold">{{ __('No FAQs found yet') }}</span>
+                                                <span class="fw-bold">{{ __('frontend.faqs_none_found') }}</span>
                                             </button>
                                         </h2>
                                         <div id="faqRightCollapseDefault" class="accordion-collapse collapse show" aria-labelledby="faqRightHeadingDefault" data-bs-parent="#accordionExample1">
                                             <div class="accordion-body ms-4 dextheme-text-grey mb-4 mt-2">
-                                                {{ __('Please add FAQ entries from dashboard.') }}
+                                                {{ __('frontend.faqs_none_dashboard') }}
                                             </div>
                                         </div>
                                     </div>

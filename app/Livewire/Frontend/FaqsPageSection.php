@@ -3,6 +3,7 @@
 namespace App\Livewire\Frontend;
 
 use App\Models\Faq;
+use App\Models\ContactUs;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 
@@ -25,9 +26,11 @@ class FaqsPageSection extends Component
 
     public function render()
     {
+        $contact = ContactUs::query()->first();
         return view('livewire.frontend.faqs-page-section', [
             'leftFaqs' => $this->leftFaqs,
             'rightFaqs' => $this->rightFaqs,
+            'contact' => $contact,
         ]);
     }
 }
