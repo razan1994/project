@@ -23,7 +23,7 @@
                     <p class="plain-text">{!! $about?->description ?? __('frontend.about_default_desc') !!}</p>
                 </div>
 
-                <a href="/about-us" class="dextheme-btn btn-secondary hover-outline-orange" style="display: inline-block; text-decoration: none;">
+                <a href="{{ route('about-us') }}" class="dextheme-btn btn-secondary hover-outline-orange" style="display: inline-block; text-decoration: none;">
                     <i aria-hidden="true" class="icon icon-right-arrow"></i>
                     {{ __('frontend.about_learn_more') }}
                 </a>

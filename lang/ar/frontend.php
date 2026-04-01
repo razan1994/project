@@ -176,11 +176,11 @@ return [
     'whatsapp_title' => 'تواصل معنا عبر واتساب',
 
     // Fixed Consultation Button - Modal Fields
-    'consult_label_name' => 'الاسم الكامل *',
-    'consult_label_contact' => 'رقم التواصل *',
+    'consult_label_name' => 'الاسم الكامل ',
+    'consult_label_contact' => 'رقم التواصل ',
     'consult_label_time' => 'الوقت المفضل للتواصل',
-    'consult_label_building' => 'نوع البناء المطلوب *',
-    'consult_label_design' => 'هل لديك مخطط معتمد؟ *',
+    'consult_label_building' => 'نوع البناء المطلوب ',
+    'consult_label_design' => 'هل لديك مخطط معتمد؟ ',
     'consult_label_land' => 'مساحة الأرض',
     'consult_label_construction' => 'المساحة المتوقعة للبناء',
     'consult_label_attachments' => 'مرفقات (اختياري)',

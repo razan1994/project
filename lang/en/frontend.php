@@ -175,11 +175,11 @@ return [
     'whatsapp_title' => 'Contact us on WhatsApp',
 
     // Fixed Consultation Button - Modal Fields
-    'consult_label_name' => 'Full Name *',
-    'consult_label_contact' => 'Contact Number *',
+    'consult_label_name' => 'Full Name',
+    'consult_label_contact' => 'Contact Number',
     'consult_label_time' => 'Preferred Time for Communication',
-    'consult_label_building' => 'Type of Building Required *',
-    'consult_label_design' => 'Do you have an approved design? *',
+    'consult_label_building' => 'Type of Building Required',
+    'consult_label_design' => 'Do you have an approved design?',
     'consult_label_land' => 'Land Area',
     'consult_label_construction' => 'Expected Construction Area',
     'consult_label_attachments' => 'Attachments (optional)',

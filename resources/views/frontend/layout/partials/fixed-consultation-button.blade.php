@@ -143,6 +143,7 @@
         border-radius: 6px;
     }
 
+
     .consult-modal-content .close {
         position: absolute;
         top: 12px;
@@ -154,6 +155,16 @@
         opacity: 0.7;
         transition: opacity 0.2s;
     }
+
+    html[dir="rtl"] .consult-modal-content .close,
+    body[dir="rtl"] .consult-modal-content .close,
+    .rtl .consult-modal-content .close {
+        right: auto;
+        left: 16px;
+    }
+
+
+
 
     .consult-modal-content .close:hover {
         opacity: 1;

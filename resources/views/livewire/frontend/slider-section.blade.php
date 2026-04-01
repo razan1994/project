@@ -39,12 +39,12 @@
                                 {!! $heroSlider?->description ?? '' !!}
                             </p>
                             <div class="cta-btn">
-                                @if ($heroSlider?->btn && $heroSlider?->url)
-                                    <a href="{{ $heroSlider->url }}"
+
+                                    <a href="{{ route('services') }}"
                                         class="dextheme-btn btn-primary hover-bg-white border-opaque me-3">
                                         {{ $heroSlider->btn }}
                                     </a>
-                                @endif
+                        
                                 <a href="{{ route('contact-us') }}" style="border: 1px solid #fff !important;"
                                     class="dextheme-btn btn-outline-white hover-outline-orange">{{ __('frontend.slider_contact_us') }}</a>
                             </div>

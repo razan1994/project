@@ -13339,19 +13339,19 @@ ul li {
 }
 .dextheme-btn.hover-outline-orange:hover {
     transform: scale(0.9);
-    background-color: rgba(0, 0, 0, 0) !important;
+    background-color: #233658 !important;
     border: 1px solid #233658;
     color: #233658;
 }
 .dextheme-btn.hover-bg-white:hover {
     transform: scale(0.9);
-    background-color: #fff !important;
+    background-color: #233658 !important;
     border: 1px solid #233658;
     color: #233658;
 }
 .dextheme-btn.hover-bg-secondary:hover {
     transform: scale(0.9);
-    background-color: #fff !important;
+    background-color: #233658 !important;
     border: 1px solid #141414;
     color: #141414;
 }
