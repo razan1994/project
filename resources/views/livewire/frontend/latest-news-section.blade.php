@@ -24,7 +24,7 @@
                             </div>
                             <h5 class="dextheme-card__title">{{ $blog->title }}</h5>
                             <p class="dextheme-card__text">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($blog->description ?? ''), 180) }}
+                                {{ \Illuminate\Support\Str::limit(strip_tags($blog->description ?? ''), 150) }}
                             </p>
                             <a href="{{ route('blogs.details', $blog->slug) }}" class="dextheme-btn btn-primary hover-bg-white">
                                 {{ __('frontend.news_view_more') }}

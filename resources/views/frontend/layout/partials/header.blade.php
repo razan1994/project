@@ -126,24 +126,6 @@
                 </ul>
             </div>
             <div style="border-radius: 14px; box-shadow: 0 2px 10px rgba(30,144,255,0.07); padding: 18px 14px 10px 14px; margin-bottom: 18px;">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                    <span style=" border-radius: 50%; padding: 8px; display: flex; align-items: center; justify-content: center;">
-                        <i class="bg-primary svg-icon map-point-icon" style="font-size: 1.2rem;"></i>
-                    </span>
-                    <a href="https://www.google.com/maps?q=26.41349018383555,50.096695884657905" target="_blank" rel="noopener noreferrer" style="color: #fff; font-weight: 600; text-decoration: none; font-size: 0.75rem;">
-                        {{ $contact?->address ?? __('frontend.footer_add_address') }}
-                    </a>
-                </div>
-                @if (!empty($contact?->email))
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                    <span style=" border-radius: 50%; padding: 8px; display: flex; align-items: center; justify-content: center;co">
-                        <i class="bg-primary svg-icon email-icon" style="font-size: 1.2rem;"></i>
-                    </span>
-                    <a href="mailto:{{ $contact->email }}" style="color: #fff; font-weight: 600; text-decoration: none; font-size: 0.75rem;">
-                        {{ $contact->email }}
-                    </a>
-                </div>
-                @endif
                 <div style="display: flex; align-items: center; gap: 18px; margin-top: 10px; justify-content: flex-start;">
                     @if (!empty($contact?->facebook))
                         <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer" title="Facebook" style="color:#4267B2;font-size:1.4rem; border-radius: 50%; padding: 7px 10px;"><i class="fab fa-facebook-f"></i></a>
