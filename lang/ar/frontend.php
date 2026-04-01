@@ -1,3 +1,6 @@
+
+
+
 <?php
 
 return [
@@ -187,4 +190,19 @@ return [
     'consult_option_commercial' => 'مشروع تجاري',
     'consult_option_yes' => 'نعم',
     'consult_option_no' => 'لا',
+
+    // Blogs Page
+    'blogs_title' => 'المدونات',
+    'blogs_breadcrumb_home' => 'الرئيسية',
+    'blogs_breadcrumb_blogs' => 'المدونات',
+    'blogs_latest_news' => 'آخر الأخبار',
+    'blogs_main_heading' => 'نواكب أحدث المستجدات.',
+    'blogs_view_more' => 'عرض المزيد',
+    'blogs_no_posts' => 'لا توجد منشورات مدونة.',
+
+    // Blog Details Page
+    'blog_details_breadcrumb_home' => 'الرئيسية',
+    'blog_details_more_articles' => 'مقالات أخرى',
+    'blog_details_no_other_articles' => 'لا توجد مقالات أخرى بعد.',
+
 ];

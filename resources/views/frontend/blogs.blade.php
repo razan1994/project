@@ -35,9 +35,9 @@
     <!-- Heading -->
     <div class="dextheme-heading" data-bg="{{ asset('assets/images/breadcamp.webp') }}">
         <div class="dextheme-heading__inner">
-            <h2>{{ __('Blogs') }}</h2>
+            <h2>{{ __('frontend.blogs_title') }}</h2>
             <div class="dextheme-heading__inner__breadcrumb">
-                <p><a href="{{ route('home') }}">{{ __('Home') }}</a> - {{ __('Blogs') }}</p>
+                <p><a href="{{ route('home') }}">{{ __('frontend.blogs_breadcrumb_home') }}</a> - {{ __('frontend.blogs_breadcrumb_blogs') }}</p>
             </div>
         </div>
     </div>
@@ -46,8 +46,8 @@
     <div class="dextheme-section-11 dextheme-section-padding bg-light">
         <div class="dextheme-container">
             <div class="block-heading text-center mb-4">
-                <p class="dextheme-sub-title mb-4">Latest News</p>
-                <h2 class="dextheme-main-title dextheme-w-60 mx-auto mb-4">Breaking Ground with the Latest Updates.</h2>
+                <p class="dextheme-sub-title mb-4">{{ __('frontend.blogs_latest_news') }}</p>
+                <h2 class="dextheme-main-title dextheme-w-60 mx-auto mb-4">{{ __('frontend.blogs_main_heading') }}</h2>
             </div>
 
             <div class="dextheme-row g-4 mt-4">
@@ -73,7 +73,7 @@
                                 </p>
                                 <a href="{{ route('blogs.details', $blog->slug) }}"
                                     class="dextheme-btn btn-primary hover-bg-white">
-                                    View More
+                                    {{ __('frontend.blogs_view_more') }}
                                     <i aria-hidden="true" class="icon icon-right-arrow"></i>
                                 </a>
                             </div>
@@ -81,7 +81,7 @@
                     </div>
                 @empty
                     <div class="dextheme-col-12 text-center py-5">
-                        <p class="plain-text">No blog posts found.</p>
+                        <p class="plain-text">{{ __('frontend.blogs_no_posts') }}</p>
                     </div>
                 @endforelse
             </div>

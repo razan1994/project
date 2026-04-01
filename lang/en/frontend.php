@@ -1,3 +1,5 @@
+
+
 <?php
 
 return [
@@ -187,4 +189,18 @@ return [
     'consult_option_commercial' => 'Commercial Project',
     'consult_option_yes' => 'Yes',
     'consult_option_no' => 'No',
+
+    // Blogs Page
+    'blogs_title' => 'Blogs',
+    'blogs_breadcrumb_home' => 'Home',
+    'blogs_breadcrumb_blogs' => 'Blogs',
+    'blogs_latest_news' => 'Latest News',
+    'blogs_main_heading' => 'Breaking Ground with the Latest Updates.',
+    'blogs_view_more' => 'View More',
+    'blogs_no_posts' => 'No blog posts found.',
+
+    // Blog Details Page
+    'blog_details_breadcrumb_home' => 'Home',
+    'blog_details_more_articles' => 'More Articles',
+    'blog_details_no_other_articles' => 'No other articles yet.',
 ];

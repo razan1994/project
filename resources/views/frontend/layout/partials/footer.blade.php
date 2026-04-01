@@ -71,7 +71,29 @@
                          <li class="nav-item">
                              <a class="nav-link" href="#">
                                  <i class="bg-primary svg-icon phone-icon mt-1"></i>
-                                 {{ $contact?->phone ?? __('frontend.footer_add_phone') }}
+                                 @php
+                                     function formatPhoneNumber($number) {
+                                         // Remove all non-digit except +
+                                         $number = preg_replace('/[^\d+]/', '', $number);
+                                         // Ensure + is at the start
+                                         if (strpos($number, '+') !== 0) {
+                                             $number = '+' . ltrim($number, '+');
+                                         }
+                                         // Format: +CCC XX XXX XXXX (for 12 digits after +)
+                                         if (preg_match('/^\+(\d{3})(\d{2})(\d{3})(\d{4})$/', $number, $m)) {
+                                             return "+$m[1] $m[2] $m[3] $m[4]";
+                                         }
+                                         // Fallback: just add a space after country code if possible
+                                         if (preg_match('/^\+(\d{3})(.+)$/', $number, $m)) {
+                                             return "+$m[1] " . trim(chunk_split($m[2], 3, ' '));
+                                         }
+                                         return $number;
+                                     }
+                                     $footerPhone = $contact?->phone ?? __('frontend.footer_add_phone');
+                                 @endphp
+                                 <span style="direction: ltr; unicode-bidi: embed; letter-spacing: 1px;">
+                                     {{ formatPhoneNumber($footerPhone) }}
+                                 </span>
                              </a>
                          </li>
                          <li class="nav-item">

@@ -28,7 +28,7 @@
             <h2>{{ $blog->title }}</h2>
             <div class="dextheme-heading__inner__breadcrumb">
                 <p>
-                    <a href="{{ route('home') }}">{{ __('Home') }}</a>
+                    <a href="{{ route('home') }}">{{ __('frontend.blog_details_breadcrumb_home') }}</a>
                     - {{ $blog->title }}
                 </p>
             </div>
@@ -63,7 +63,7 @@
 
                 <div class="dextheme-col-lg-4 dextheme-col-12">
                     <div class="dextheme-card border-0 shadow-sm p-4 mb-4">
-                        <h5 class="mb-3">More Articles</h5>
+                        <h5 class="mb-3">{{ __('frontend.blog_details_more_articles') }}</h5>
                         @php
                             $related = \App\Models\Blog::where('id', '!=', $blog->id)->latest()->take(5)->get();
                         @endphp
@@ -77,7 +77,7 @@
                                 <small class="text-muted">{{ $item->created_at?->format('M d, Y') }}</small>
                             </div>
                         @empty
-                            <p class="text-muted">No other articles yet.</p>
+                            <p class="text-muted">{{ __('frontend.blog_details_no_other_articles') }}</p>
                         @endforelse
                     </div>
                 </div>

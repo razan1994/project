@@ -1,5 +1,32 @@
 <!-- Fixed Consultation Button and Modal Form (Template Design) -->
 <style>
+        .consult-error-message {
+        color: #e3342f;
+        font-size: 0.97em;
+        margin-top: 2px;
+        margin-bottom: 8px;
+        font-weight: 600;
+        display: block;
+        letter-spacing: 0.1px;
+        /* Optional: add icon */
+        padding-left: 20px;
+        position: relative;
+    }
+    .consult-error-message::before {
+        content: "!";
+        color: #fff;
+        background: #e3342f;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85em;
+        position: absolute;
+        left: 0;
+        top: 2px;
+    }
     .fixed-consult-wrap {
         position: fixed;
         right: 32px;
@@ -68,7 +95,8 @@
         background: rgba(14, 34, 56, 0.45);
         align-items: center;
         justify-content: center;
-        overflow-y: auto;
+        overflow-y: auto; /* to prevent double scrollbars */
+        overflow-x: hidden;
     }
 
     #consultModal.active {
@@ -81,12 +109,31 @@
         padding: 36px 28px 28px 28px;
         width: min(720px, 100%);
         max-width: 720px;
+        max-width: 100vw;
         max-height: calc(100vh - 48px);
         box-shadow: 0 8px 32px rgba(30, 144, 255, 0.13);
         position: relative;
         font-family: inherit;
         margin: auto;
         overflow-y: auto;
+        overflow-x: hidden;
+        box-sizing: border-box;
+        /* Show scrollbar when needed */
+        scrollbar-width: auto;
+        scrollbar-color: #b0b0b0 #f8fafc;
+    }
+
+    /* For Chrome, Safari and Opera */
+    .consult-modal-content::-webkit-scrollbar {
+        width: 10px;
+    }
+    .consult-modal-content::-webkit-scrollbar-thumb {
+        background: #b0b0b0;
+        border-radius: 6px;
+    }
+    .consult-modal-content::-webkit-scrollbar-track {
+        background: #f8fafc;
+        border-radius: 6px;
     }
 
     .consult-modal-content .close {
