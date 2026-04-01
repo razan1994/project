@@ -44,7 +44,25 @@
                                 </div>
                                 <div>
                                     <h5>
-                                        {{ $contact?->phone ?? __('frontend.contact_placeholder_phone') }}
+                                        @php
+                                            function formatPhoneNumberContact($number) {
+                                                $number = preg_replace('/[^\d+]/', '', $number);
+                                                if (strpos($number, '+') !== 0) {
+                                                    $number = '+' . ltrim($number, '+');
+                                                }
+                                                if (preg_match('/^\+(\d{3})(\d{2})(\d{3})(\d{4})$/', $number, $m)) {
+                                                    return "+$m[1] $m[2] $m[3] $m[4]";
+                                                }
+                                                if (preg_match('/^\+(\d{3})(.+)$/', $number, $m)) {
+                                                    return "+$m[1] " . trim(chunk_split($m[2], 3, ' '));
+                                                }
+                                                return $number;
+                                            }
+                                            $contactPhone = $contact?->phone ?? __('frontend.contact_placeholder_phone');
+                                        @endphp
+                                        <span style="direction: ltr; unicode-bidi: embed; letter-spacing: 1px;">
+                                            {{ formatPhoneNumberContact($contactPhone) }}
+                                        </span>
                                     </h5>
                                     <p>{{ __('frontend.contact_support_247') }}</p>
                                 </div>

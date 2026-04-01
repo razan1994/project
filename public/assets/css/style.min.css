@@ -14738,7 +14738,7 @@ ul li {
     padding-top: 20px;
 }
 .sidebar-one ul li a {
-    font-size: 0.8rem;
+    /* font-size: 0.8rem; */
     font-weight: 500;
     line-height: 1.4rem;
     text-decoration: none;

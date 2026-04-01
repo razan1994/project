@@ -181,10 +181,8 @@
         <livewire:frontend.service-section />
     </div>
 
-    <!-- Section 9 -->
-    {{-- <div id="faq-section">
-        <livewire:frontend.faq-section />
-    </div> --}}
+
+
 
     <!-- Section 10 -->
     @include('frontend.layout.partials.contact-section')

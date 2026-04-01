@@ -20,7 +20,7 @@ new class extends Component {
     {
         return [
             'images' => 'nullable',
-            'images.*' => 'image|max:10240', // 10MB max per image
+            'images.*' => 'image|max:10240', 
             'caption' => 'nullable|string|max:255',
         ];
     }

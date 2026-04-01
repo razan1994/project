@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Log;
 
 class FrontendController extends Controller
 {
@@ -237,7 +238,7 @@ class FrontendController extends Controller
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'subject' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string', 'min:5'],
+            'message' => ['required', 'string'],
         ]);
 
         if ($validator->fails()) {
@@ -253,7 +254,7 @@ class FrontendController extends Controller
         try {
             ContactUsRequest::query()->create($validated);
         } catch (\Throwable $e) {
-            \Log::error('ContactUsRequest DB error: ' . $e->getMessage(), [
+            Log::error('ContactUsRequest DB error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
                 'data' => $validated
             ]);
@@ -271,7 +272,7 @@ class FrontendController extends Controller
                 $validated['message']
             ));
         } catch (\Throwable $e) {
-            \Log::error('ContactUsRequest mail error: ' . $e->getMessage(), [
+            Log::error('ContactUsRequest mail error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
                 'data' => $validated
             ]);

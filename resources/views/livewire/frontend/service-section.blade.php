@@ -48,8 +48,10 @@
                         </div>
                         <div class="dextheme-card__body p-3 mt-3">
                             <div class="p-3">
-                                <h6 class="dextheme-title-uppercase mb-3">{{ __('frontend.services_default_category') }}</h6>
-                                <h4 class="dextheme-title-text sm mb-4">{{ __('frontend.services_default_title') }}</h4>
+                                <h6 class="dextheme-title-uppercase mb-3">{{ __('frontend.services_default_category') }}
+                                </h6>
+                                <h4 class="dextheme-title-text sm mb-4">{{ __('frontend.services_default_title') }}
+                                </h4>
                                 <p class="plain-text mb-4">{{ __('frontend.services_default_desc') }}</p>
                                 <div style="flex:1 1 auto;"></div>
                                 <a href="#" class="link mt-2" style="display:block;margin-top:auto;">
@@ -66,6 +68,13 @@
                     </div>
                 </div>
             @endforelse
+            <!-- DDA Button Section (related to services) -->
+            <div class="text-center">
+                <a href="{{ route('design-build-project') }}" class="btn btn-primary btn-lg px-5 py-3" style="">
+                    <i class="fas fa-drafting-compass me-2"></i>
+                    {{ __('frontend.dda_button_text') }}
+                </a>
+            </div>
         </div>
     </div>
 </div>

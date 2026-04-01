@@ -1,5 +1,6 @@
 
 
+
 <?php
 
 return [
@@ -203,4 +204,7 @@ return [
     'blog_details_breadcrumb_home' => 'Home',
     'blog_details_more_articles' => 'More Articles',
     'blog_details_no_other_articles' => 'No other articles yet.',
+
+    // DDA Button
+    'dda_button_text' => 'Start Your Design-Build Project',
 ];

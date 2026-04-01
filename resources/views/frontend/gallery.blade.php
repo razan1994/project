@@ -187,6 +187,10 @@
         });
 
         function openLightbox(src, index) {
+            // Gather all image sources
+            const imageElements = Array.from(document.querySelectorAll('.gallery-item img'));
+            const imageSources = imageElements.map(img => img.src);
+
             // Create lightbox overlay
             const overlay = document.createElement('div');
             overlay.style.cssText = `
@@ -230,6 +234,61 @@
                 this.style.color = 'white';
             };
 
+            // Create navigation arrows
+            const prevBtn = document.createElement('button');
+            const nextBtn = document.createElement('button');
+            prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            prevBtn.setAttribute('aria-label', 'Previous');
+            nextBtn.setAttribute('aria-label', 'Next');
+            // RTL/LTR support
+            const isRTL = document.documentElement.dir === 'rtl' || document.body.dir === 'rtl';
+            prevBtn.style.cssText = `
+                position: absolute;
+                top: 50%;
+                ${isRTL ? 'right' : 'left'}: 30px;
+                transform: translateY(-50%);
+                background: rgba(0,0,0,0.5);
+                border: none;
+                color: white;
+                font-size: 2.5rem;
+                cursor: pointer;
+                z-index: 10000;
+                border-radius: 50%;
+                width: 55px;
+                height: 55px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s;
+            `;
+            nextBtn.style.cssText = `
+                position: absolute;
+                top: 50%;
+                ${isRTL ? 'left' : 'right'}: 30px;
+                transform: translateY(-50%);
+                background: rgba(0,0,0,0.5);
+                border: none;
+                color: white;
+                font-size: 2.5rem;
+                cursor: pointer;
+                z-index: 10000;
+                border-radius: 50%;
+                width: 55px;
+                height: 55px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s;
+            `;
+            prevBtn.onmouseover = nextBtn.onmouseover = function() {
+                this.style.background = 'rgba(255,255,255,0.2)';
+            };
+            prevBtn.onmouseout = nextBtn.onmouseout = function() {
+                this.style.background = 'rgba(0,0,0,0.5)';
+            };
+
+            // Create image element
             const img = document.createElement('img');
             img.src = src;
             img.style.cssText = `
@@ -237,23 +296,50 @@
                 max-height: 90%;
                 object-fit: contain;
                 cursor: default;
+                transition: opacity 0.2s;
             `;
 
-            // Prevent closing when clicking on image
-            img.addEventListener('click', function(e) {
-                e.stopPropagation();
+            // Prevent closing when clicking on image or arrows
+            img.addEventListener('click', function(e) { e.stopPropagation(); });
+            prevBtn.addEventListener('click', function(e) { e.stopPropagation(); });
+            nextBtn.addEventListener('click', function(e) { e.stopPropagation(); });
+
+            // Navigation logic
+            function showImage(newIndex) {
+                if (newIndex < 0) newIndex = imageSources.length - 1;
+                if (newIndex >= imageSources.length) newIndex = 0;
+                img.style.opacity = '0.5';
+                setTimeout(() => {
+                    img.src = imageSources[newIndex];
+                    img.style.opacity = '1';
+                }, 120);
+                currentIndex = newIndex;
+            }
+            let currentIndex = index;
+            prevBtn.addEventListener('click', function() {
+                showImage(currentIndex - 1);
+            });
+            nextBtn.addEventListener('click', function() {
+                showImage(currentIndex + 1);
             });
 
-            overlay.appendChild(closeBtn);
-            overlay.appendChild(img);
-            document.body.appendChild(overlay);
-            document.body.style.overflow = 'hidden';
+            // Keyboard navigation
+            const keyHandler = function(e) {
+                if (e.key === 'ArrowLeft') {
+                    if (isRTL) showImage(currentIndex + 1); else showImage(currentIndex - 1);
+                } else if (e.key === 'ArrowRight') {
+                    if (isRTL) showImage(currentIndex - 1); else showImage(currentIndex + 1);
+                } else if (e.key === 'Escape') {
+                    closeOverlay();
+                }
+            };
 
             // Close function
             const closeOverlay = function() {
                 if (document.body.contains(overlay)) {
                     document.body.removeChild(overlay);
                     document.body.style.overflow = 'auto';
+                    document.removeEventListener('keydown', keyHandler);
                 }
             };
 
@@ -261,17 +347,17 @@
                 e.stopPropagation();
                 closeOverlay();
             });
-
             overlay.addEventListener('click', closeOverlay);
 
-            // Close on ESC key
-            const escHandler = function(e) {
-                if (e.key === 'Escape') {
-                    closeOverlay();
-                    document.removeEventListener('keydown', escHandler);
-                }
-            };
-            document.addEventListener('keydown', escHandler);
+            // Append elements
+            overlay.appendChild(closeBtn);
+            overlay.appendChild(prevBtn);
+            overlay.appendChild(nextBtn);
+            overlay.appendChild(img);
+            document.body.appendChild(overlay);
+            document.body.style.overflow = 'hidden';
+
+            document.addEventListener('keydown', keyHandler);
         }
     });
 </script>

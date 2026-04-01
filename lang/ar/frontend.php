@@ -1,6 +1,7 @@
 
 
 
+
 <?php
 
 return [
@@ -204,5 +205,8 @@ return [
     'blog_details_breadcrumb_home' => 'الرئيسية',
     'blog_details_more_articles' => 'مقالات أخرى',
     'blog_details_no_other_articles' => 'لا توجد مقالات أخرى بعد.',
+
+        // DDA Button
+    'dda_button_text' => 'ابدأ مشروع التصميم والبناء',
 
 ];
