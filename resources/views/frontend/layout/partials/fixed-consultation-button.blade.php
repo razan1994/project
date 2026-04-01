@@ -333,7 +333,7 @@
 
                 <!-- Name -->
                 <div>
-                    <label for="client_name">{{ __('frontend.consult_label_name') }}</label>
+                    <label for="client_name">{{ __('frontend.consult_label_name') }}<span style="color: #e3342f">*</span></label>
                     <input type="text" id="client_name" name="client_name" value="{{ old('client_name') }}" >
                     @error('client_name')
                         <span style="color:red;">{{ $message }}</span>
@@ -342,7 +342,7 @@
 
                 <!-- Contact -->
                 <div>
-                    <label for="contact_number">{{ __('frontend.consult_label_contact') }}</label>
+                    <label for="contact_number">{{ __('frontend.consult_label_contact') }}<span style="color: #e3342f">*</span></label>
                     <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}"
                         >
                     @error('contact_number')
@@ -352,7 +352,7 @@
 
                 <!-- Preferred Time -->
                 <div>
-                    <label for="preferred_time">{{ __('frontend.consult_label_time') }}</label>
+                    <label for="preferred_time">{{ __('frontend.consult_label_time') }}<span style="color: #e3342f">*</span></label>
                     <input type="text" id="preferred_time" name="preferred_time"
                         value="{{ old('preferred_time') }}">
                     @error('preferred_time')
@@ -362,7 +362,7 @@
 
                 <!-- Building Type -->
                 <div>
-                    <label for="building_type">{{ __('frontend.consult_label_building') }}</label>
+                    <label for="building_type">{{ __('frontend.consult_label_building') }}<span style="color: #e3342f">*</span></label>
                     <select id="building_type" name="building_type" >
                         <option value="">{{ __('frontend.consult_option_select') }}</option>
                         <option value="Villa" {{ old('building_type') == 'Villa' ? 'selected' : '' }}>
@@ -383,7 +383,7 @@
 
                 <!-- Approved Design -->
                 <div>
-                    <label for="approved_design">{{ __('frontend.consult_label_design') }}</label>
+                    <label for="approved_design">{{ __('frontend.consult_label_design') }}<span style="color: #e3342f">*</span></label>
                     <select id="approved_design" name="approved_design" >
                         <option value="">{{ __('frontend.consult_option_select') }}</option>
                         <option value="Yes" {{ old('approved_design') == 'Yes' ? 'selected' : '' }}>
@@ -400,7 +400,7 @@
 
                 <!-- Land Area -->
                 <div>
-                    <label for="land_area">{{ __('frontend.consult_label_land') }}</label>
+                    <label for="land_area">{{ __('frontend.consult_label_land') }}<span style="color: #e3342f">*</span></label>
                     <input type="text" id="land_area" name="land_area" value="{{ old('land_area') }}">
                     @error('land_area')
                         <span style="color:red;">{{ $message }}</span>
@@ -409,7 +409,7 @@
 
                 <!-- Construction Area -->
                 <div class="consult-form-field-full">
-                    <label for="construction_area">{{ __('frontend.consult_label_construction') }}</label>
+                    <label for="construction_area">{{ __('frontend.consult_label_construction') }}<span style="color: #e3342f">*</span></label>
                     <input type="text" id="construction_area" name="construction_area"
                         value="{{ old('construction_area') }}">
                     @error('construction_area')
