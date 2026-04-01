@@ -1,6 +1,6 @@
 <!-- Fixed Consultation Button and Modal Form (Template Design) -->
 <style>
-        .consult-error-message {
+    .consult-error-message {
         color: #e3342f;
         font-size: 0.97em;
         margin-top: 2px;
@@ -12,6 +12,7 @@
         padding-left: 20px;
         position: relative;
     }
+
     .consult-error-message::before {
         content: "!";
         color: #fff;
@@ -27,6 +28,7 @@
         left: 0;
         top: 2px;
     }
+
     .fixed-consult-wrap {
         position: fixed;
         right: 32px;
@@ -37,6 +39,7 @@
         align-items: center;
         gap: 10px;
     }
+
     html[dir="rtl"] .fixed-consult-wrap,
     body[dir="rtl"] .fixed-consult-wrap,
     .rtl .fixed-consult-wrap {
@@ -44,6 +47,7 @@
         left: 32px;
         flex-direction: row-reverse;
     }
+
     .consult-btn-tag {
         background: #fff;
         color: #0e2238;
@@ -95,7 +99,8 @@
         background: rgba(14, 34, 56, 0.45);
         align-items: center;
         justify-content: center;
-        overflow-y: auto; /* to prevent double scrollbars */
+        overflow-y: auto;
+        /* to prevent double scrollbars */
         overflow-x: hidden;
     }
 
@@ -127,10 +132,12 @@
     .consult-modal-content::-webkit-scrollbar {
         width: 10px;
     }
+
     .consult-modal-content::-webkit-scrollbar-thumb {
         background: #b0b0b0;
         border-radius: 6px;
     }
+
     .consult-modal-content::-webkit-scrollbar-track {
         background: #f8fafc;
         border-radius: 6px;
@@ -240,6 +247,7 @@
             bottom: 22px;
             gap: 8px;
         }
+
         html[dir="rtl"] .fixed-consult-wrap,
         body[dir="rtl"] .fixed-consult-wrap,
         .rtl .fixed-consult-wrap {
@@ -282,7 +290,7 @@
 
 <!-- Fixed Button -->
 <div class="fixed-consult-wrap">
-    @if(app()->getLocale() == 'ar')
+    @if (app()->getLocale() == 'ar')
         <div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="{{ __('frontend.consult_btn_title') }}">
             <i class="icon icon-chat"></i>
         </div>
@@ -300,71 +308,129 @@
     <div class="consult-modal-content dextheme-card">
         <span class="close" id="closeConsultModal">&times;</span>
         <h4>{{ __('frontend.consult_btn_tag') }}</h4>
+
+
         <form id="consultForm" method="POST" action="{{ route('consultation-request.submit') }}"
             enctype="multipart/form-data" autocomplete="off">
             @csrf
+
             <div class="consult-form-grid">
+
+                <!-- Honeypot -->
                 <input type="text" name="website" value="" autocomplete="off" tabindex="-1"
                     style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
+
+                <!-- Name -->
                 <div>
                     <label for="client_name">{{ __('frontend.consult_label_name') }}</label>
-                    <input type="text" id="client_name" name="client_name" required>
+                    <input type="text" id="client_name" name="client_name" value="{{ old('client_name') }}" >
+                    @error('client_name')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Contact -->
                 <div>
                     <label for="contact_number">{{ __('frontend.consult_label_contact') }}</label>
-                    <input type="text" id="contact_number" name="contact_number" required>
+                    <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}"
+                        >
+                    @error('contact_number')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Preferred Time -->
                 <div>
                     <label for="preferred_time">{{ __('frontend.consult_label_time') }}</label>
-                    <input type="text" id="preferred_time" name="preferred_time">
+                    <input type="text" id="preferred_time" name="preferred_time"
+                        value="{{ old('preferred_time') }}">
+                    @error('preferred_time')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Building Type -->
                 <div>
                     <label for="building_type">{{ __('frontend.consult_label_building') }}</label>
-                    <select id="building_type" name="building_type" required>
+                    <select id="building_type" name="building_type" >
                         <option value="">{{ __('frontend.consult_option_select') }}</option>
-                        <option value="Villa">{{ __('frontend.consult_option_villa') }}</option>
-                        <option value="Factory">{{ __('frontend.consult_option_factory') }}</option>
-                        <option value="Commercial Project">{{ __('frontend.consult_option_commercial') }}</option>
+                        <option value="Villa" {{ old('building_type') == 'Villa' ? 'selected' : '' }}>
+                            {{ __('frontend.consult_option_villa') }}
+                        </option>
+                        <option value="Factory" {{ old('building_type') == 'Factory' ? 'selected' : '' }}>
+                            {{ __('frontend.consult_option_factory') }}
+                        </option>
+                        <option value="Commercial Project"
+                            {{ old('building_type') == 'Commercial Project' ? 'selected' : '' }}>
+                            {{ __('frontend.consult_option_commercial') }}
+                        </option>
                     </select>
+                    @error('building_type')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Approved Design -->
                 <div>
                     <label for="approved_design">{{ __('frontend.consult_label_design') }}</label>
-                    <select id="approved_design" name="approved_design" required>
+                    <select id="approved_design" name="approved_design" >
                         <option value="">{{ __('frontend.consult_option_select') }}</option>
-                        <option value="Yes">{{ __('frontend.consult_option_yes') }}</option>
-                        <option value="No">{{ __('frontend.consult_option_no') }}</option>
+                        <option value="Yes" {{ old('approved_design') == 'Yes' ? 'selected' : '' }}>
+                            {{ __('frontend.consult_option_yes') }}
+                        </option>
+                        <option value="No" {{ old('approved_design') == 'No' ? 'selected' : '' }}>
+                            {{ __('frontend.consult_option_no') }}
+                        </option>
                     </select>
+                    @error('approved_design')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Land Area -->
                 <div>
                     <label for="land_area">{{ __('frontend.consult_label_land') }}</label>
-                    <input type="text" id="land_area" name="land_area">
+                    <input type="text" id="land_area" name="land_area" value="{{ old('land_area') }}">
+                    @error('land_area')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Construction Area -->
                 <div class="consult-form-field-full">
                     <label for="construction_area">{{ __('frontend.consult_label_construction') }}</label>
-                    <input type="text" id="construction_area" name="construction_area">
+                    <input type="text" id="construction_area" name="construction_area"
+                        value="{{ old('construction_area') }}">
+                    @error('construction_area')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
 
+                <!-- Attachments -->
                 <div class="consult-form-field-full">
                     <label for="attachments">{{ __('frontend.consult_label_attachments') }}</label>
+
                     <p style="margin: 4px 0 8px; color: #475569; font-size: 0.92rem;">
                         {{ __('frontend.consult_attachments_note') }}
                     </p>
-                    <input type="file" id="attachments" name="attachments" multiple
-                        placeholder="If you wish to upload any attachments, such as a hand drawing, survey plan, ownership document, or any other relevant file.">
+
+                    <input type="file" id="attachments" name="attachments[]" multiple>
+
+                    @error('attachments.*')
+                        <span style="color:red;">{{ $message }}</span>
+                    @enderror
                 </div>
+
             </div>
 
             <button type="submit">{{ __('frontend.consult_btn_send') }}</button>
+
             @if (session('consultation_success'))
-                <div id="consultSuccess" style="color:#1e90ff; margin-top:14px; font-weight:600; text-align:center;">
-                    {{ session('consultation_success') }}</div>
+                <div style="color:#1e90ff; margin-top:14px; font-weight:600; text-align:center;">
+                    {{ session('consultation_success') }}
+                </div>
             @endif
+
         </form>
         <div id="consultSuccess" style="display:none;">{{ __('frontend.consult_btn_success') }}</div>
     </div>
@@ -374,9 +440,16 @@
     const openBtn = document.getElementById('openConsultModal');
     const modal = document.getElementById('consultModal');
     const closeBtn = document.getElementById('closeConsultModal');
-    openBtn.onclick = () => modal.classList.add('active');
-    closeBtn.onclick = () => modal.classList.remove('active');
+    if (openBtn) openBtn.onclick = () => modal.classList.add('active');
+    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('active');
     window.onclick = (e) => {
         if (e.target === modal) modal.classList.remove('active');
     };
+
+    // Auto-open modal only if consultation_error session flag is set
+    @if (session('consultation_error'))
+        window.addEventListener('DOMContentLoaded', function() {
+            modal.classList.add('active');
+        });
+    @endif
 </script>

@@ -130,7 +130,7 @@
                     <span style=" border-radius: 50%; padding: 8px; display: flex; align-items: center; justify-content: center;">
                         <i class="bg-primary svg-icon map-point-icon" style="font-size: 1.2rem;"></i>
                     </span>
-                    <a href="https://www.google.com/maps?q=26.41349018383555,50.096695884657905" target="_blank" rel="noopener noreferrer" style="color: #fff; font-weight: 600; text-decoration: none; font-size: 1.05rem;">
+                    <a href="https://www.google.com/maps?q=26.41349018383555,50.096695884657905" target="_blank" rel="noopener noreferrer" style="color: #fff; font-weight: 600; text-decoration: none; font-size: 0.75rem;">
                         {{ $contact?->address ?? __('frontend.footer_add_address') }}
                     </a>
                 </div>
@@ -139,7 +139,7 @@
                     <span style=" border-radius: 50%; padding: 8px; display: flex; align-items: center; justify-content: center;co">
                         <i class="bg-primary svg-icon email-icon" style="font-size: 1.2rem;"></i>
                     </span>
-                    <a href="mailto:{{ $contact->email }}" style="color: #fff; font-weight: 600; text-decoration: none; font-size: 1.05rem;">
+                    <a href="mailto:{{ $contact->email }}" style="color: #fff; font-weight: 600; text-decoration: none; font-size: 0.75rem;">
                         {{ $contact->email }}
                     </a>
                 </div>

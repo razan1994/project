@@ -1,3 +1,16 @@
+<style>
+    .contact-error-message {
+        color: #e3342f;
+        font-size: 0.97em;
+        margin-top: 2px;
+        margin-bottom: 8px;
+        font-weight: 600;
+        display: block;
+        letter-spacing: 0.1px;
+        padding-left: 20px;
+        position: relative;
+    }
+</style>
 <div id="contact-section" class="contact-form-bg dextheme-section-10 dextheme-section-padding bg-white">
     <div class="dextheme-container">
         <div class="dextheme-row g-4">
@@ -79,34 +92,34 @@
                                 <input type="text" name="full_name" value="{{ old('full_name') }}"
                                     class="form-control" placeholder="{{ __('frontend.contact_form_name') }}">
                                 @error('full_name')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <span class="contact-error-message">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="email" name="email" value="{{ old('email') }}" class="form-control"
                                     placeholder="{{ __('frontend.contact_form_email') }}">
                                 @error('email')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <span class="contact-error-message">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="phone" value="{{ old('phone') }}" class="form-control"
                                     placeholder="{{ __('frontend.contact_form_phone') }}">
                                 @error('phone')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <span class="contact-error-message">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12 dextheme-col-md-6">
                                 <input type="text" name="subject" value="{{ old('subject') }}" class="form-control"
                                     placeholder="{{ __('frontend.contact_form_subject') }}">
                                 @error('subject')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <span class="contact-error-message">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="dextheme-col-12">
                                 <textarea name="message" class="form-control" rows="8" placeholder="{{ __('frontend.contact_form_message') }}">{{ old('message') }}</textarea>
                                 @error('message')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <span class="contact-error-message">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>

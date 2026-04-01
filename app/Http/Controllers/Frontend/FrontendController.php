@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ConsultationRequestEmail;
 use App\Mail\ContactUsEmail;
 use App\Models\ContactUs;
 use App\Models\ContactUsRequest;
@@ -249,15 +250,35 @@ class FrontendController extends Controller
 
         $validated = $validator->validated();
 
-        ContactUsRequest::query()->create($validated);
+        try {
+            ContactUsRequest::query()->create($validated);
+        } catch (\Throwable $e) {
+            \Log::error('ContactUsRequest DB error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'data' => $validated
+            ]);
+            return back()
+                ->withFragment('contact-section')
+                ->with('contact_error', 'Database error: ' . $e->getMessage());
+        }
 
-        Mail::to(config('mail.from.address'))->send(new ContactUsEmail(
-            $validated['full_name'],
-            $validated['email'],
-            $validated['phone'],
-            $validated['subject'],
-            $validated['message']
-        ));
+        try {
+            Mail::to(config('mail.from.address'))->send(new ContactUsEmail(
+                $validated['full_name'],
+                $validated['email'],
+                $validated['phone'],
+                $validated['subject'],
+                $validated['message']
+            ));
+        } catch (\Throwable $e) {
+            \Log::error('ContactUsRequest mail error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'data' => $validated
+            ]);
+            return back()
+                ->withFragment('contact-section')
+                ->with('contact_error', 'Mail error: ' . $e->getMessage());
+        }
 
         return back()
             ->withFragment('contact-section')
@@ -273,16 +294,22 @@ class FrontendController extends Controller
                 ->withInput([])
                 ->with('error', 'Spam detected.');
         }
-        $validated = $request->validate([
-            'client_name' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:255',
-            'preferred_time' => 'nullable|string|max:255',
-            'building_type' => 'required|string|max:255',
-            'approved_design' => 'required|string|max:255',
-            'land_area' => 'nullable|string|max:255',
-            'construction_area' => 'nullable|string|max:255',
-            'attachments' => 'nullable|file|max:10240',
-        ]);
+        try {
+            $validated = $request->validate([
+                'client_name' => 'required|string|max:255',
+                'contact_number' => 'required|string|max:255',
+                'preferred_time' => 'nullable|string|max:255',
+                'building_type' => 'required|string|max:255',
+                'approved_design' => 'required|string|max:255',
+                'land_area' => 'required|string|max:255',
+                'construction_area' => 'required|string|max:255',
+                'attachments' => 'nullable|file|max:10240',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->validator)
+                ->withInput()
+                ->with('consultation_error', true);
+        }
 
 
         if ($request->hasFile('attachments')) {
@@ -295,7 +322,7 @@ class FrontendController extends Controller
         ConsultationRequest::create($validated);
 
         Mail::to(config('mail.admin_address', config('mail.from.address')))
-            ->send(new \App\Mail\ConsultationRequestEmail($validated));
+            ->send(new ConsultationRequestEmail($validated));
 
         return back()->with('consultation_success', 'Your consultation request has been submitted successfully.');
     }
