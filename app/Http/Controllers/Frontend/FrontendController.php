@@ -289,33 +289,33 @@ class FrontendController extends Controller
 
     public function submitConsultationRequest(Request $request)
     {
-
+        // Honeypot
         if ($request->filled('website')) {
-            return redirect()->back()
-                ->withInput([])
-                ->with('error', 'Spam detected.');
-        }
-        try {
-            $validated = $request->validate([
-                'client_name' => 'required|string|max:255',
-                'contact_number' => 'required|string|max:255',
-                'preferred_time' => 'nullable|string|max:255',
-                'building_type' => 'required|string|max:255',
-                'approved_design' => 'required|string|max:255',
-                'land_area' => 'required|string|max:255',
-                'construction_area' => 'required|string|max:255',
-                'attachments' => 'nullable|file|max:10240',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return back()->withErrors($e->validator)
-                ->withInput()
-                ->with('consultation_error', true);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Spam detected.'
+            ], 422);
         }
 
+        $validated = $request->validate([
+            'client_name' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
+            'preferred_time' => 'required|string|max:255',
+            'building_type' => 'required|string|max:255',
+            'approved_design' => 'required|string|max:255',
+            'land_area' => 'required|string|max:255',
+            'construction_area' => 'required|string|max:255',
+            'attachments.*' => 'nullable|file|max:10240',
+        ]);
 
         if ($request->hasFile('attachments')) {
-            $filePath = $request->file('attachments')->store('consultation_attachments', 'public');
-            $validated['attachments'] = $filePath;
+            $paths = [];
+
+            foreach ($request->file('attachments') as $file) {
+                $paths[] = $file->store('consultation_attachments', 'public');
+            }
+
+            $validated['attachments'] = json_encode($paths);
         } else {
             $validated['attachments'] = null;
         }
@@ -325,9 +325,11 @@ class FrontendController extends Controller
         Mail::to(config('mail.admin_address', config('mail.from.address')))
             ->send(new ConsultationRequestEmail($validated));
 
-        return back()->with('consultation_success', 'Your consultation request has been submitted successfully.');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Submitted successfully'
+        ]);
     }
-
 
     public function blogs(Route $route)
     {

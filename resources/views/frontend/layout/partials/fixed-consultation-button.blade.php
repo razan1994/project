@@ -1,14 +1,11 @@
-<!-- Fixed Consultation Button and Modal Form (Template Design) -->
 <style>
     .consult-error-message {
         color: #e3342f;
-        font-size: 0.97em;
-        margin-top: 2px;
-        margin-bottom: 8px;
+        font-size: 0.95em;
+        margin-top: -8px;
+        margin-bottom: 10px;
         font-weight: 600;
-        display: block;
-        letter-spacing: 0.1px;
-        /* Optional: add icon */
+        display: none;
         padding-left: 20px;
         position: relative;
     }
@@ -23,10 +20,39 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.85em;
+        font-size: 0.8em;
         position: absolute;
         left: 0;
         top: 2px;
+    }
+
+    .consult-success-message {
+        display: none;
+        color: #0f766e;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-top: 16px;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .consult-general-error {
+        display: none;
+        color: #b91c1c;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-bottom: 14px;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .input-error {
+        border: 1.5px solid #e3342f !important;
+        background: #fff5f5 !important;
     }
 
     .fixed-consult-wrap {
@@ -57,7 +83,6 @@
         font-size: 0.86rem;
         font-weight: 700;
         line-height: 1;
-        letter-spacing: 0.2px;
         box-shadow: 0 6px 18px rgba(14, 34, 56, 0.14);
         white-space: nowrap;
     }
@@ -100,7 +125,6 @@
         align-items: center;
         justify-content: center;
         overflow-y: auto;
-        /* to prevent double scrollbars */
         overflow-x: hidden;
     }
 
@@ -114,35 +138,14 @@
         padding: 36px 28px 28px 28px;
         width: min(720px, 100%);
         max-width: 720px;
-        max-width: 100vw;
         max-height: calc(100vh - 48px);
         box-shadow: 0 8px 32px rgba(30, 144, 255, 0.13);
         position: relative;
-        font-family: inherit;
         margin: auto;
         overflow-y: auto;
         overflow-x: hidden;
         box-sizing: border-box;
-        /* Show scrollbar when needed */
-        scrollbar-width: auto;
-        scrollbar-color: #b0b0b0 #f8fafc;
     }
-
-    /* For Chrome, Safari and Opera */
-    .consult-modal-content::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    .consult-modal-content::-webkit-scrollbar-thumb {
-        background: #b0b0b0;
-        border-radius: 6px;
-    }
-
-    .consult-modal-content::-webkit-scrollbar-track {
-        background: #f8fafc;
-        border-radius: 6px;
-    }
-
 
     .consult-modal-content .close {
         position: absolute;
@@ -163,9 +166,6 @@
         left: 16px;
     }
 
-
-
-
     .consult-modal-content .close:hover {
         opacity: 1;
     }
@@ -175,7 +175,6 @@
         font-weight: 700;
         margin-bottom: 18px;
         font-size: 1.35rem;
-        letter-spacing: 0.5px;
     }
 
     .consult-modal-content label {
@@ -183,6 +182,7 @@
         margin-top: 12px;
         color: #0e2238;
         font-size: 1rem;
+        display: block;
     }
 
     .consult-form-grid {
@@ -207,7 +207,8 @@
         background: #f8fafc;
         font-size: 1rem;
         color: #0e2238;
-        transition: border 0.2s;
+        transition: border 0.2s, background 0.2s;
+        box-sizing: border-box;
     }
 
     .consult-modal-content input:focus,
@@ -228,12 +229,12 @@
         margin-top: 8px;
         font-size: 1.08rem;
         box-shadow: 0 2px 8px rgba(30, 144, 255, 0.10);
-        letter-spacing: 0.5px;
-        transition: background 0.2s;
+        transition: opacity 0.2s;
     }
 
-    .consult-modal-content button[type="submit"]:hover {
-        background: linear-gradient(90deg, #1e90ff 0%, #0e2238 100%);
+    .consult-modal-content button[type="submit"]:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
     }
 
     .consult-modal-content input[type="file"] {
@@ -242,13 +243,6 @@
         padding: 14px 10px;
         color: #0e2238;
         font-size: 0.98rem;
-    }
-
-    .consult-modal-content #consultSuccess {
-        color: #1e90ff;
-        margin-top: 14px;
-        font-weight: 600;
-        text-align: center;
     }
 
     @media (max-width: 767px) {
@@ -299,7 +293,6 @@
     }
 </style>
 
-<!-- Fixed Button -->
 <div class="fixed-consult-wrap">
     @if (app()->getLocale() == 'ar')
         <div class="fixed-consult-btn shadow-lg" id="openConsultModal" title="{{ __('frontend.consult_btn_title') }}">
@@ -314,110 +307,88 @@
     @endif
 </div>
 
-<!-- Modal Form -->
 <div id="consultModal">
     <div class="consult-modal-content dextheme-card">
         <span class="close" id="closeConsultModal">&times;</span>
         <h4>{{ __('frontend.consult_btn_tag') }}</h4>
 
+        <div id="consultGeneralError" class="consult-general-error"></div>
 
         <form id="consultForm" method="POST" action="{{ route('consultation-request.submit') }}"
             enctype="multipart/form-data" autocomplete="off">
             @csrf
+            <div id="consultSuccessMessage" class="consult-success-message"></div>
 
             <div class="consult-form-grid">
 
-                <!-- Honeypot -->
                 <input type="text" name="website" value="" autocomplete="off" tabindex="-1"
                     style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
 
-                <!-- Name -->
                 <div>
-                    <label for="client_name">{{ __('frontend.consult_label_name') }}<span style="color: #e3342f">*</span></label>
-                    <input type="text" id="client_name" name="client_name" value="{{ old('client_name') }}" >
-                    @error('client_name')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <label for="client_name">
+                        {{ __('frontend.consult_label_name') }} <span style="color: #e3342f">*</span>
+                    </label>
+                    <input type="text" id="client_name" name="client_name">
+                    <span class="consult-error-message" id="error-client_name"></span>
                 </div>
 
-                <!-- Contact -->
                 <div>
-                    <label for="contact_number">{{ __('frontend.consult_label_contact') }}<span style="color: #e3342f">*</span></label>
-                    <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}"
-                        >
-                    @error('contact_number')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <label for="contact_number">
+                        {{ __('frontend.consult_label_contact') }} <span style="color: #e3342f">*</span>
+                    </label>
+                    <input type="text" id="contact_number" name="contact_number">
+                    <span class="consult-error-message" id="error-contact_number"></span>
                 </div>
 
-                <!-- Preferred Time -->
                 <div>
-                    <label for="preferred_time">{{ __('frontend.consult_label_time') }}<span style="color: #e3342f">*</span></label>
-                    <input type="text" id="preferred_time" name="preferred_time"
-                        value="{{ old('preferred_time') }}">
-                    @error('preferred_time')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <label for="preferred_time">
+                        {{ __('frontend.consult_label_time') }} <span style="color: #e3342f">*</span>
+                    </label>
+                    <input type="text" id="preferred_time" name="preferred_time">
+                    <span class="consult-error-message" id="error-preferred_time"></span>
                 </div>
 
-                <!-- Building Type -->
                 <div>
-                    <label for="building_type">{{ __('frontend.consult_label_building') }}<span style="color: #e3342f">*</span></label>
-                    <select id="building_type" name="building_type" >
+                    <label for="building_type">
+                        {{ __('frontend.consult_label_building') }} <span style="color: #e3342f">*</span>
+                    </label>
+                    <select id="building_type" name="building_type">
                         <option value="">{{ __('frontend.consult_option_select') }}</option>
-                        <option value="Villa" {{ old('building_type') == 'Villa' ? 'selected' : '' }}>
-                            {{ __('frontend.consult_option_villa') }}
-                        </option>
-                        <option value="Factory" {{ old('building_type') == 'Factory' ? 'selected' : '' }}>
-                            {{ __('frontend.consult_option_factory') }}
-                        </option>
-                        <option value="Commercial Project"
-                            {{ old('building_type') == 'Commercial Project' ? 'selected' : '' }}>
-                            {{ __('frontend.consult_option_commercial') }}
-                        </option>
+                        <option value="Villa">{{ __('frontend.consult_option_villa') }}</option>
+                        <option value="Factory">{{ __('frontend.consult_option_factory') }}</option>
+                        <option value="Commercial Project">{{ __('frontend.consult_option_commercial') }}</option>
                     </select>
-                    @error('building_type')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <span class="consult-error-message" id="error-building_type"></span>
                 </div>
 
-                <!-- Approved Design -->
                 <div>
-                    <label for="approved_design">{{ __('frontend.consult_label_design') }}<span style="color: #e3342f">*</span></label>
-                    <select id="approved_design" name="approved_design" >
+                    <label for="approved_design">
+                        {{ __('frontend.consult_label_design') }} <span style="color: #e3342f">*</span>
+                    </label>
+                    <select id="approved_design" name="approved_design">
                         <option value="">{{ __('frontend.consult_option_select') }}</option>
-                        <option value="Yes" {{ old('approved_design') == 'Yes' ? 'selected' : '' }}>
-                            {{ __('frontend.consult_option_yes') }}
-                        </option>
-                        <option value="No" {{ old('approved_design') == 'No' ? 'selected' : '' }}>
-                            {{ __('frontend.consult_option_no') }}
-                        </option>
+                        <option value="Yes">{{ __('frontend.consult_option_yes') }}</option>
+                        <option value="No">{{ __('frontend.consult_option_no') }}</option>
                     </select>
-                    @error('approved_design')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <span class="consult-error-message" id="error-approved_design"></span>
                 </div>
 
-                <!-- Land Area -->
                 <div>
-                    <label for="land_area">{{ __('frontend.consult_label_land') }}<span style="color: #e3342f">*</span></label>
-                    <input type="text" id="land_area" name="land_area" value="{{ old('land_area') }}">
-                    @error('land_area')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <label for="land_area">
+                        {{ __('frontend.consult_label_land') }} <span style="color: #e3342f">*</span>
+                    </label>
+                    <input type="text" id="land_area" name="land_area">
+                    <span class="consult-error-message" id="error-land_area"></span>
                 </div>
 
-                <!-- Construction Area -->
                 <div class="consult-form-field-full">
-                    <label for="construction_area">{{ __('frontend.consult_label_construction') }}<span style="color: #e3342f">*</span></label>
-                    <input type="text" id="construction_area" name="construction_area"
-                        value="{{ old('construction_area') }}">
-                    @error('construction_area')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <label for="construction_area">
+                        {{ __('frontend.consult_label_construction') }} <span style="color: #e3342f">*</span>
+                    </label>
+                    <input type="text" id="construction_area" name="construction_area">
+                    <span class="consult-error-message" id="error-construction_area"></span>
                 </div>
 
-                <!-- Attachments -->
                 <div class="consult-form-field-full">
                     <label for="attachments">{{ __('frontend.consult_label_attachments') }}</label>
 
@@ -426,24 +397,17 @@
                     </p>
 
                     <input type="file" id="attachments" name="attachments[]" multiple>
-
-                    @error('attachments.*')
-                        <span style="color:red;">{{ $message }}</span>
-                    @enderror
+                    <span class="consult-error-message" id="error-attachments"></span>
                 </div>
 
             </div>
 
-            <button type="submit">{{ __('frontend.consult_btn_send') }}</button>
+            <button type="submit" id="consultSubmitBtn">
+                {{ __('frontend.consult_btn_send') }}
+            </button>
 
-            @if (session('consultation_success'))
-                <div style="color:#1e90ff; margin-top:14px; font-weight:600; text-align:center;">
-                    {{ session('consultation_success') }}
-                </div>
-            @endif
 
         </form>
-        <div id="consultSuccess" style="display:none;">{{ __('frontend.consult_btn_success') }}</div>
     </div>
 </div>
 
@@ -451,16 +415,169 @@
     const openBtn = document.getElementById('openConsultModal');
     const modal = document.getElementById('consultModal');
     const closeBtn = document.getElementById('closeConsultModal');
-    if (openBtn) openBtn.onclick = () => modal.classList.add('active');
-    if (closeBtn) closeBtn.onclick = () => modal.classList.remove('active');
-    window.onclick = (e) => {
-        if (e.target === modal) modal.classList.remove('active');
-    };
+    const consultForm = document.getElementById('consultForm');
+    const consultSubmitBtn = document.getElementById('consultSubmitBtn');
+    const successBox = document.getElementById('consultSuccessMessage');
+    const generalErrorBox = document.getElementById('consultGeneralError');
 
-    // Auto-open modal only if consultation_error session flag is set
-    @if (session('consultation_error'))
-        window.addEventListener('DOMContentLoaded', function() {
+    if (openBtn) {
+        openBtn.addEventListener('click', function() {
             modal.classList.add('active');
         });
-    @endif
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+    }
+
+    window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+        }
+    });
+
+    function clearValidationErrors() {
+        document.querySelectorAll('.consult-error-message').forEach(function(el) {
+            el.textContent = '';
+            el.style.display = 'none';
+        });
+
+        document.querySelectorAll('#consultForm input, #consultForm select, #consultForm textarea').forEach(function(
+        el) {
+            el.classList.remove('input-error');
+        });
+
+        generalErrorBox.textContent = '';
+        generalErrorBox.style.display = 'none';
+    }
+
+    function clearSuccessMessage() {
+        successBox.textContent = '';
+        successBox.style.display = 'none';
+    }
+
+    function showFieldError(fieldName, message) {
+        let errorElement = document.getElementById('error-' + fieldName);
+        let inputElement = document.getElementById(fieldName);
+
+        if (fieldName.startsWith('attachments')) {
+            errorElement = document.getElementById('error-attachments');
+            inputElement = document.getElementById('attachments');
+        }
+
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        if (inputElement) {
+            inputElement.classList.add('input-error');
+        }
+    }
+
+    if (consultForm) {
+        consultForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            clearValidationErrors();
+            clearSuccessMessage();
+
+            consultSubmitBtn.disabled = true;
+
+            const formData = new FormData(consultForm);
+
+            try {
+                const response = await fetch(consultForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successBox.textContent = data.message || 'Submitted successfully';
+                    successBox.style.display = 'block';
+
+                    consultForm.reset();
+                    modal.classList.add('active');
+                    consultSubmitBtn.disabled = false;
+                    return;
+                }
+
+                if (response.status === 422) {
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(function(field) {
+                            if (Array.isArray(data.errors[field]) && data.errors[field].length >
+                                0) {
+                                showFieldError(field, data.errors[field][0]);
+                            }
+                        });
+                    } else if (data.message) {
+                        generalErrorBox.textContent = data.message;
+                        generalErrorBox.style.display = 'block';
+                    }
+
+                    modal.classList.add('active');
+                    consultSubmitBtn.disabled = false;
+                    return;
+                }
+
+                generalErrorBox.textContent = data.message || 'Something went wrong. Please try again.';
+                generalErrorBox.style.display = 'block';
+                modal.classList.add('active');
+                consultSubmitBtn.disabled = false;
+
+            } catch (error) {
+                generalErrorBox.textContent = 'Something went wrong. Please try again.';
+                generalErrorBox.style.display = 'block';
+                modal.classList.add('active');
+                consultSubmitBtn.disabled = false;
+            }
+        });
+
+        document.querySelectorAll('#consultForm input, #consultForm select, #consultForm textarea').forEach(function(
+            field) {
+            field.addEventListener('input', function() {
+                field.classList.remove('input-error');
+
+                const errorElement = document.getElementById('error-' + field.name);
+                if (errorElement) {
+                    errorElement.textContent = '';
+                    errorElement.style.display = 'none';
+                }
+
+                if (field.name === 'attachments[]') {
+                    const attachError = document.getElementById('error-attachments');
+                    if (attachError) {
+                        attachError.textContent = '';
+                        attachError.style.display = 'none';
+                    }
+                }
+            });
+
+            field.addEventListener('change', function() {
+                field.classList.remove('input-error');
+
+                const errorElement = document.getElementById('error-' + field.name);
+                if (errorElement) {
+                    errorElement.textContent = '';
+                    errorElement.style.display = 'none';
+                }
+
+                if (field.name === 'attachments[]') {
+                    const attachError = document.getElementById('error-attachments');
+                    if (attachError) {
+                        attachError.textContent = '';
+                        attachError.style.display = 'none';
+                    }
+                }
+            });
+        });
+    }
 </script>
