@@ -82,9 +82,9 @@
                 @endforelse
             </div>
 
-            <div class="text-center mt-5">
-                <a href="{{ route('design-build-project') }}" class="btn btn-primary btn-lg px-5 py-3" style="">
-                    <i class="fas fa-drafting-compass me-2"></i>
+            <div class="d-flex justify-content-center mt-5">
+                <a href="{{ route('design-build-project') }}" class="btn btn-primary btn-lg px-5 py-3 d-flex align-items-center" style="gap: 0.5rem;">
+                    <i class="fas fa-drafting-compass"></i>
                     {{ __('frontend.dda_button_text') }}
                 </a>
             </div>
