@@ -12,7 +12,6 @@
     <div class="dextheme-section-padding bg-white">
         <div class="dextheme-container">
             <div class="block-heading mb-4">
-                <p class="dextheme-sub-title mb-4">{{ __('frontend.privacy_legal') }}</p>
                 <h2 class="dextheme-main-title mb-4">{{ $privacy?->title ?? __('frontend.privacy_title') }}</h2>
             </div>
 

@@ -50,7 +50,7 @@
                     <div class="dextheme-flex gap-3 align-items-center mb-3 meta-news">
                         <div class="meta-date">
                             <i aria-hidden="true" class="icon icon-calendar3"></i>
-                            <span>{{ $blog->created_at?->format('F d, Y') }}</span>
+                           <span>{{ $blog->created_at?->locale(app()->getLocale())->translatedFormat('F d, Y') }}</span>
                         </div>
                     </div>
 

@@ -87,8 +87,8 @@ class FrontendController extends Controller
     {
         try {
             $seoData = SeoPage::where('name', 'services')->first();
-
-            return view('frontend.services', compact('seoData'));
+            $contact = ContactUs::query()->first();
+            return view('frontend.services', compact('seoData', 'contact'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();

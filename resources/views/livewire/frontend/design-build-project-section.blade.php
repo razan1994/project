@@ -29,7 +29,7 @@
                         ? asset('assets/images/design-build-project-ar.webm')
                         : asset('assets/images/design-build-project.webm');
                 @endphp
-                <video src="{{ $videoSrc }}" controls style="width:100%; height:100%; border-radius: 8px; background: #000;">
+                <video src="{{ $videoSrc }}" controls autoplay muted loop style="width:100%; height:100%; border-radius: 8px; background: #000;">
                     {{ __('frontend.designbuild_video_not_supported') }}
                 </video>
             </div>
