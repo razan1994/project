@@ -15,6 +15,7 @@ class ConsultationSection extends Component
     public string $approved_design = '';
     public string $land_area = '';
     public string $construction_area = '';
+    public $attachments = [];
 
     protected array $rules = [
         'client_name' => ['required', 'string', 'min:2', 'max:255'],

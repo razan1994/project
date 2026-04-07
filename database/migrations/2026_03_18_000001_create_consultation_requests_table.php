@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('approved_design');
             $table->string('land_area')->nullable();
             $table->string('construction_area')->nullable();
-            $table->string('attachments')->nullable();
+            $table->json('attachments')->nullable();
             $table->timestamps();
         });
     }

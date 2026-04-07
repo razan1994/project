@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\FeatureController;
 use App\Http\Controllers\Dashboard\MissionController;
 use App\Http\Controllers\Dashboard\PageDesignController;
 use App\Http\Controllers\Dashboard\PrivacyPolicyController;
+use App\Http\Controllers\Dashboard\ProjectsController;
 use App\Http\Controllers\Dashboard\SeoPagesController;
 use App\Http\Controllers\Dashboard\ServiceController;
 use App\Http\Controllers\Dashboard\SlidersController;
@@ -122,6 +123,8 @@ Route::name('dashboard.')
                 Route::get('/edit', 'edit')->name('edit');
                 Route::patch('/', 'update')->name('update');
                 Route::get('/contact-requests', 'contactUsRequests')->name('contact-us-requests');
+                Route::get('/consultation-requests', 'consultationRequests')->name('consultation-requests');
+                Route::get('/consultation-request/{id}', 'consultationRequestShow')->name('consultation-request-show');
             });
 
         // Services Routes :
@@ -134,6 +137,18 @@ Route::name('dashboard.')
                 Route::get('/edit/{id}', 'edit')->name('edit');
                 Route::get('/create', 'create')->name('create');
                 Route::get('/service/{id}/gallery', 'gallery')->name('gallery');
+            });
+
+        // Projects Routes :
+        // ------------------------------------------
+        Route::controller(ProjectsController::class)
+            ->name('projects.')
+            ->prefix('projects')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::get('/create', 'create')->name('create');
+                Route::get('/project/{id}/gallery', 'gallery')->name('gallery');
             });
 
         // Sliders Routes :

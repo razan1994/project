@@ -44,7 +44,7 @@
                         <a class="nav-link" href="{{ route('design-build-project') }}">{{ __('frontend.navbar_design_build') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('gallery') }}">{{ __('frontend.navbar_gallery') }}</a>
+                        <a class="nav-link" href="{{ route('projects') }}">{{ __('frontend.navbar_all_projects') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('contact-us') }}">{{ __('frontend.navbar_contact') }}</a>

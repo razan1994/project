@@ -10,6 +10,7 @@ use App\Models\ContactUsRequest;
 use App\Models\SeoPage;
 use App\Models\Blog;
 use App\Models\ConsultationRequest;
+use App\Models\Project;
 use App\Models\Service;
 use App\Models\SupportTicket;
 use Illuminate\Http\Request;
@@ -503,6 +504,84 @@ class FrontendController extends Controller
             $images = $gallery ? $gallery->images()->latest()->get() : collect();
 
             return view('frontend.gallery', compact('seoData', 'images'));
+        } catch (\Throwable $th) {
+            $function_name =  $route->getActionName();
+            $check_old_errors = new SupportTicket();
+            $check_old_errors = $check_old_errors->select('*')->where([
+                'error_location' => $th->getFile(),
+                'error_description' => $th->getMessage(),
+                'function_name' => $function_name,
+                'error_line' => $th->getLine(),
+            ])->get();
+
+            if ($check_old_errors->count() == 0) {
+                $new_error_ticket = SupportTicket::create([
+                    'error_location' => $th->getFile(),
+                    'error_description' => $th->getMessage(),
+                    'function_name' => $function_name,
+                    'error_line' =>  $th->getLine(),
+                ]);
+                $end_error_ticket = $new_error_ticket;
+            } else {
+                $end_error_ticket = $check_old_errors->first();
+            }
+            return view('errors.support_tickets', compact('th', 'function_name', 'end_error_ticket'));
+        }
+    }
+
+    public function projects(Route $route)
+    {
+        try {
+            $seoData = SeoPage::where('name', 'projects')->first();
+            $contact = ContactUs::query()->first();
+            return view('frontend.projects', compact('seoData', 'contact'));
+        } catch (\Throwable $th) {
+            $function_name =  $route->getActionName();
+            $check_old_errors = new SupportTicket();
+            $check_old_errors = $check_old_errors->select('*')->where([
+                'error_location' => $th->getFile(),
+                'error_description' => $th->getMessage(),
+                'function_name' => $function_name,
+                'error_line' => $th->getLine(),
+            ])->get();
+
+            if ($check_old_errors->count() == 0) {
+                $new_error_ticket = SupportTicket::create([
+                    'error_location' => $th->getFile(),
+                    'error_description' => $th->getMessage(),
+                    'function_name' => $function_name,
+                    'error_line' =>  $th->getLine(),
+                ]);
+                $end_error_ticket = $new_error_ticket;
+            } else {
+                $end_error_ticket = $check_old_errors->first();
+            }
+            return view('errors.support_tickets', compact('th', 'function_name', 'end_error_ticket'));
+        }
+    }
+
+    public function projectDetails(Route $route, string $slug)
+    {
+        try {
+            $project = Project::query()
+                ->where('status', 1)
+                ->where(function ($query) use ($slug) {
+                    $query->where('alias_name_en', $slug)
+                        ->orWhere('alias_name_ar', $slug);
+                })
+                ->first();
+
+            if (!$project && is_numeric($slug)) {
+                $project = Project::query()
+                    ->where('status', 1)
+                    ->find((int) $slug);
+            }
+
+            if (!$project) {
+                abort(404);
+            }
+
+            return view('frontend.project-details', compact('project'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();
             $check_old_errors = new SupportTicket();

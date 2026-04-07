@@ -81,6 +81,16 @@ return [
     'services_default_title' => 'خدمة البناء',
     'services_default_desc' => 'نقدم حلولاً إنشائية متكاملة بأعلى معايير الجودة والاحترافية.',
 
+    // Projects Section
+    'projects_subtitle' => 'مشاريعنا',
+    'projects_title' => 'عرض خبراتنا',
+    'projects_desc' => 'استكشف محفظتنا المتنوعة من المشاريع الإنشائية، مما يبرز التزامنا بالجودة والابتكار ورضا العملاء.',
+    'projects_read_more' => 'اقرأ المزيد',
+    'projects_default_category' => 'فئة المشروع',
+    'projects_default_title' => 'مشروع البناء',
+    'projects_default_desc' => 'نقدم مشاريع إنشائية متكاملة بأعلى معايير الجودة والاحترافية.',
+
+
     // Contact Section
     'contact_subtitle' => 'اتصل بنا',
     'contact_title' => 'نحن سعداء بالاستماع إليك والإجابة على أسئلتك.',
@@ -133,6 +143,20 @@ return [
     'servicedetails_start_project_title' => 'ابدأ مشروع التصميم والبناء',
     'servicedetails_start_project_desc' => 'دعنا نحول رؤيتك إلى واقع مع فريقنا المحترف. انقر أدناه لبدء رحلتك!',
     'servicedetails_start_now' => 'ابدأ الآن',
+
+    // Projects Page
+    'projects_home' => 'الرئيسية',
+    'projects_title' => 'المشاريع',
+    'projects_default_desc' => 'نقدم مشاريع إنشائية متكاملة بأعلى معايير الجودة والاحترافية.',
+
+    // Project Details Page
+    'projectdetails_home' => 'الرئيسية',
+    'projectdetails_projects' => 'المشاريع',
+    'projectdetails_gallery' => 'معرض الصور',
+    'projectdetails_our_projects' => 'مشاريعنا',
+    'projectdetails_start_project_title' => 'ابدأ مشروع التصميم والبناء',
+    'projectdetails_start_project_desc' => 'دعنا نحول رؤيتك إلى واقع مع فريقنا المحترف. انقر أدناه لبدء رحلتك!',
+    'projectdetails_start_now' => 'ابدأ الآن',
 
     // Design Build Project Page
     'designbuild_home' => 'الرئيسية',
@@ -206,9 +230,9 @@ return [
     'blog_details_more_articles' => 'مقالات أخرى',
     'blog_details_no_other_articles' => 'لا توجد مقالات أخرى بعد.',
 
-        // DDA Button
+    // DDA Button
     'dda_button_text' => 'ابدأ مشروع التصميم والبناء',
 
-    'design-build-project'=> 'مشاريع التصميم والبناء',
+    'design-build-project' => 'مشاريع التصميم والبناء',
 
 ];

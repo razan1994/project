@@ -4,6 +4,7 @@ return [
     'home' => '',
     'about_us' => 'من-نحن',
     'services' => 'الخدمات',
+    'projects' => 'المشاريع',
     'design_build_project' => 'مشاريع-التصميم-والبناء',
     'contact_us' => 'اتصل-بنا',
     'blogs' => 'المدونات',

@@ -9,6 +9,8 @@ return [
     'navbar_about_us' => 'About us',
     'navbar_services' => 'Services',
     'navbar_all_services' => 'All Services',
+    'navbar_projects' => 'Projects',
+    'navbar_all_projects' => 'All Projects',
     'navbar_design_build' => 'Design Build Projects',
     'navbar_gallery' => 'Gallery',
     'navbar_contact' => 'Contact',
@@ -80,6 +82,15 @@ return [
     'services_default_title' => 'Building Service',
     'services_default_desc' => 'Suspendisse accumsan quis nulla eget cursus. Nulla est mi, rhoncus eu nulla sed, placerat neque.',
 
+    // Projects Section
+    'projects_subtitle' => 'Our Projects',
+    'projects_title' => 'Showcasing Our Expertise',
+    'projects_desc' => 'Explore our diverse portfolio of construction projects, demonstrating our commitment to quality, innovation, and client satisfaction.',
+    'projects_read_more' => 'Read More',
+    'projects_default_category' => 'Project Category',
+    'projects_default_title' => 'Building Project',
+    'projects_default_desc' => 'Suspendisse accumsan quis nulla eget cursus. Nulla est mi, rhoncus eu nulla sed, placerat neque.',
+
     // Contact Section
     'contact_subtitle' => 'Contact Us',
     'contact_title' => 'We are happy to hear from you and answer your questions.',
@@ -132,6 +143,20 @@ return [
     'servicedetails_start_project_title' => 'Start Your Design-Build Project',
     'servicedetails_start_project_desc' => 'Let us bring your vision to life with our expert team. Click below to begin your journey!',
     'servicedetails_start_now' => 'Start Now',
+
+    // Projects Page
+    'projects_home' => 'Home',
+    'projects_title' => 'Projects',
+    'projects_default_desc' => 'Interdum et malesuada fames ac ante ipsum primis in faucibus.',
+
+    // Project Details Page
+    'projectdetails_home' => 'Home',
+    'projectdetails_projects' => 'Projects',
+    'projectdetails_gallery' => 'Gallery',
+    'projectdetails_our_projects' => 'Our Projects',
+    'projectdetails_start_project_title' => 'Start Your Design-Build Project',
+    'projectdetails_start_project_desc' => 'Let us bring your vision to life with our expert team. Click below to begin your journey!',
+    'projectdetails_start_now' => 'Start Now',
 
     // Design Build Project Page
     'designbuild_home' => 'Home',

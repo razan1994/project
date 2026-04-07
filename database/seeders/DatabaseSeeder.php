@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             // VisionSeeder::class,
             // ValuesSeeder::class,
             // FeatureSeeder::class,
-            SeoPagesSeeder::class,
+            // SeoPagesSeeder::class,
 
         ]);
     }

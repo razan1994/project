@@ -35,15 +35,18 @@
                     </a>
                 </li>
 
-                    {{-- Gallery --}}
-                    <li class="nav-item">
-                        <a href="{{ route('dashboard.gallery.index') }}" @class(['nav-link', 'active' => request()->routeIs('dashboard.gallery.*')])>
-                            <i class="nav-icon fas fa-images"></i>
-                            <p>
-                                Gallery
-                            </p>
-                        </a>
-                    </li>
+                {{-- Gallery --}}
+                <li class="nav-item">
+                    <a href="{{ route('dashboard.projects.index') }}" @class([
+                        'nav-link',
+                        'active' => request()->routeIs('dashboard.projects.*'),
+                    ])>
+                        <i class="nav-icon fas fa-images"></i>
+                        <p>
+                            Projects
+                        </p>
+                    </a>
+                </li>
 
                 {{-- About US --}}
 
@@ -198,6 +201,21 @@
 
                                 <p>
                                     Contact us requests
+                                </p>
+                            </a>
+                        </li>
+
+                        {{-- ===== Consultation Requests ===== --}}
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.contactUs.consultation-requests') }}"
+                                @class([
+                                    'nav-link',
+                                    'active' => request()->routeIs('dashboard.contactUs.consultation-requests'),
+                                ])>
+                                <i class="far fa-circle nav-icon"></i>
+
+                                <p>
+                                    Consultation Requests
                                 </p>
                             </a>
                         </li>

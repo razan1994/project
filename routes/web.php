@@ -17,6 +17,8 @@ Route::group(
             Route::get(__('routes.about_us'), 'aboutUs')->name('about-us');
             Route::get(__('routes.services'), 'services')->name('services');
             Route::get(__('routes.services') . '/{slug}', 'serviceDetails')->name('services.details');
+            Route::get(__('routes.projects'), 'projects')->name('projects');
+            Route::get(__('routes.projects') . '/{slug}', 'projectDetails')->name('projects.details');
             Route::get(__('routes.design_build_project'), 'designBuildProject')->name('design-build-project');
             Route::get(__('routes.contact_us'), 'contactUs')->name('contact-us');
             Route::post(__('routes.contact_us'), 'submitContactUs')->name('contact-us.submit');

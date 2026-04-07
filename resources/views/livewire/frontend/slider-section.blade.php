@@ -42,9 +42,9 @@
 
                                     <a href="{{ route('services') }}"
                                         class="dextheme-btn btn-primary hover-bg-white border-opaque me-3">
-                                        {{ $heroSlider->btn }}
+                                        {{ $heroSlider?->btn ?? '-' }}
                                     </a>
-                        
+
                                 <a href="{{ route('contact-us') }}" style="border: 1px solid #fff !important;"
                                     class="dextheme-btn btn-outline-white hover-outline-orange">{{ __('frontend.slider_contact_us') }}</a>
                             </div>
