@@ -147,13 +147,13 @@ return [
     'servicedetails_start_now' => 'ابدأ الآن',
 
     // Projects Page
-    'projects_home' => 'الرئيسية',
-    'projects_title' => 'المشاريع',
-    'projects_default_desc' => 'نقدم مشاريع إنشائية متكاملة بأعلى معايير الجودة والاحترافية.',
+    'projectspage_home' => 'الرئيسية',
+    'projectspage_title' => 'مشاريعنا',
+    'projectspage_default_desc' => 'نقدم مشاريع إنشائية متكاملة بأعلى معايير الجودة والاحترافية.',
 
     // Project Details Page
     'projectdetails_home' => 'الرئيسية',
-    'projectdetails_projects' => 'المشاريع',
+    'projectdetails_projects' => 'مشاريعنا',
     'projectdetails_gallery' => 'معرض الصور',
     'projectdetails_our_projects' => 'مشاريعنا',
     'projectdetails_start_project_title' => 'ابدأ مشروع التصميم والبناء',
