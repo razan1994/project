@@ -10,6 +10,8 @@ return [
     'navbar_about_us' => 'من نحن',
     'navbar_services' => 'الخدمات',
     'navbar_all_services' => 'جميع الخدمات',
+    'navbar_projects' => 'المشاريع',
+    'navbar_all_projects' => 'جميع المشاريع',
     'navbar_design_build' => 'مشاريع التصميم والبناء',
     'navbar_gallery' => 'المعرض',
     'navbar_contact' => 'اتصل بنا',

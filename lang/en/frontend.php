@@ -145,9 +145,9 @@ return [
     'servicedetails_start_now' => 'Start Now',
 
     // Projects Page
-    'projects_home' => 'Home',
-    'projects_title' => 'Projects',
-    'projects_default_desc' => 'Interdum et malesuada fames ac ante ipsum primis in faucibus.',
+    'projectspage_home' => 'Home',
+    'projectspage_title' => 'Projects',
+    'projectspage_default_desc' => 'Interdum et malesuada fames ac ante ipsum primis in faucibus.',
 
     // Project Details Page
     'projectdetails_home' => 'Home',
