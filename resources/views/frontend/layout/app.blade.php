@@ -9,7 +9,7 @@
     <!-- ======================= styles Start-->
     @include('frontend.layout.partials.styles')
     <style>
-        
+     
     </style>
     <!-- ======================= styles End-->
 
