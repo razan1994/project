@@ -10,7 +10,7 @@ return [
     'navbar_services' => 'Services',
     'navbar_all_services' => 'All Services',
     'navbar_projects' => 'Projects',
-    'navbar_all_projects' => 'All Projects',
+    'navbar_all_projects' => 'Projects',
     'navbar_design_build' => 'Design Build Projects',
     'navbar_gallery' => 'Gallery',
     'navbar_contact' => 'Contact',
