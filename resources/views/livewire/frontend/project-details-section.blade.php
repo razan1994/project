@@ -136,8 +136,8 @@
         </div>
     </div>
 
-    <div id="projectGalleryLightbox" class="project-gallery-lightbox" aria-hidden="true">
-        <span id="projectGalleryLightboxClose" class="project-gallery-lightbox-close">&times;</span>
+    <div id="projectGalleryLightbox" class="service-gallery-lightbox" aria-hidden="true">
+        <span id="projectGalleryLightboxClose" class="service-gallery-lightbox-close">&times;</span>
         <img id="projectGalleryLightboxImage" src="" alt="Preview image">
     </div>
 </div>
