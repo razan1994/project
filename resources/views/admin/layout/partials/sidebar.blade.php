@@ -210,7 +210,8 @@
                             <a href="{{ route('dashboard.contactUs.consultation-requests') }}"
                                 @class([
                                     'nav-link',
-                                    'active' => request()->routeIs('dashboard.contactUs.consultation-requests'),
+                                    'active' => request()->routeIs('dashboard.contactUs.consultation-requests')
+                                    || request()->routeIs('dashboard.contactUs.consultation-request-show'),
                                 ])>
                                 <i class="far fa-circle nav-icon"></i>
 

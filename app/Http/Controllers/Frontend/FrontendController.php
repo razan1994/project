@@ -313,7 +313,9 @@ class FrontendController extends Controller
             $paths = [];
 
             foreach ($request->file('attachments') as $file) {
-                $paths[] = $file->store('consultation_attachments', 'public');
+                $originalExtension = $file->getClientOriginalExtension();
+                $fileName = uniqid() . '_' . time() . '.' . $originalExtension;
+                $paths[] = $file->storeAs('consultation_attachments', $fileName, 'public');
             }
 
             $validated['attachments'] = json_encode($paths);

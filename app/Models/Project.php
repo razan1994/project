@@ -101,4 +101,9 @@ class Project extends Model
     {
         return $this->hasMany(ProjectImage::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

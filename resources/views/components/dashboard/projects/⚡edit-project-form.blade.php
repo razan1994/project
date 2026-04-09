@@ -1,7 +1,8 @@
 <?php
 
 use Livewire\Component;
-
+use Livewire\Attributes\Computed;
+use App\Models\Category;
 use App\Models\Project;
 use App\Traits\GenerateSlugsTrait;
 use App\Traits\UploadImageTrait;
@@ -39,6 +40,9 @@ new class extends Component {
 
     #[Validate('nullable|sometimes|image')]
     public $image;
+
+    #[Validate('required|exists:categories,id')]
+    public $category_id = '';
 
     // SEO
     #[Validate('nullable|string')]
@@ -99,6 +103,7 @@ new class extends Component {
         $this->sub_desc_ar = $project->sub_desc_ar;
         $this->sub_desc_en = $project->sub_desc_en;
         $this->status = $project->status;
+        $this->category_id = $project->category_id ?? '';
         $this->meta_desc_ar = $project->meta_desc_ar;
         $this->meta_desc_en = $project->meta_desc_en;
         $this->seo_title_ar = $project->seo_title_ar;
@@ -119,6 +124,12 @@ new class extends Component {
         $this->h2_val_en = $project->h2_val_en;
     }
 
+    #[Computed]
+    public function categories()
+    {
+        return Category::where('status', 1)->get();
+    }
+
     public function save()
     {
         $this->validate();
@@ -132,6 +143,7 @@ new class extends Component {
             'sub_desc_ar' => $this->sub_desc_ar ?? null,
             'sub_desc_en' => $this->sub_desc_en ?? null,
             'status' => $this->status,
+            'category_id' => $this->category_id,
             'alias_name_en' => $this->generateUniqueSlug($this->project, $this->title_en, 'alias_name_en'),
             'alias_name_ar' => $this->generateUniqueSlug($this->project, $this->title_ar, 'alias_name_ar'),
 
@@ -304,6 +316,29 @@ new class extends Component {
                             </div>
                         </div>
 
+                        {{-- Category --}}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="category_id">Category
+                                    <span class="text-danger">
+                                        *
+                                    </span>
+                                </label>
+                                <select @class(['form-control', 'is-invalid' => $errors->has('category_id')]) id="category_id" wire:model='category_id'>
+                                    <option value="" disabled>Select a category</option>
+                                    @forelse ($this->categories as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->title_en }}</option>
+                                    @empty
+                                        <option value="" disabled>No categories found</option>
+                                    @endforelse
+                                </select>
+                                @error('category_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
 
 
                         {{-- Image --}}

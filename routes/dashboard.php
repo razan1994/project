@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Dashboard\AboutController;
 use App\Http\Controllers\Dashboard\BlogController;
+use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\ContactUsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\FaqController;
@@ -137,6 +138,18 @@ Route::name('dashboard.')
                 Route::get('/edit/{id}', 'edit')->name('edit');
                 Route::get('/create', 'create')->name('create');
                 Route::get('/service/{id}/gallery', 'gallery')->name('gallery');
+            });
+
+        // Categories Routes :
+        // ------------------------------------------
+
+        Route::controller(CategoriesController::class)
+            ->name('categories.')
+            ->prefix('categories')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::get('/create', 'create')->name('create');
             });
 
         // Projects Routes :

@@ -4,6 +4,7 @@ namespace App\Livewire\Tables;
 
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -15,11 +16,14 @@ use PowerComponents\LivewirePowerGrid\Facades\Filter;
 
 final class ProjectsTable extends PowerGridComponent
 {
-     public string $tableName = 'projects-table-hrpps2-table';
+    public string $tableName = 'projects-table-hrpps2-table';
 
+    public string $sortField = 'order';
+
+    public string $sortDirection = 'asc';
     public function setUp(): array
     {
-       return [
+        return [
             PowerGrid::header()
                 ->showSearchInput(),
             PowerGrid::footer()
@@ -44,6 +48,7 @@ final class ProjectsTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('order')
             ->add('title_ar', function ($value) {
                 return "<p>" . $value->title_ar . "</p>";
             })
@@ -84,6 +89,8 @@ final class ProjectsTable extends PowerGridComponent
             Column::make('Title (En)', 'title_en')
                 ->sortable()
                 ->searchable(),
+            Column::make('Order', 'order'),
+
             Column::make('Image', 'image'),
 
             Column::make('Type', 'type')
@@ -110,6 +117,68 @@ final class ProjectsTable extends PowerGridComponent
                 'created_at',
             ),
         ];
+    }
+
+    #[\Livewire\Attributes\On('moveUp')]
+    public function moveUp($rowId): void
+    {
+        $project = Project::find($rowId);
+        if ($project->order <= 1) {
+            return;
+        }
+
+        $projectAbove = Project::where('order', $project->order - 1)
+            ->first();
+
+        if ($projectAbove) {
+            DB::transaction(function () use ($project, $projectAbove) {
+                $originalOrder = $project->order;
+                $targetOrder = $projectAbove->order;
+
+                $project->order = 0;
+                $project->save();
+
+                $projectAbove->order = $originalOrder;
+                $projectAbove->save();
+
+                $project->order = $targetOrder;
+                $project->save();
+            });
+        }
+
+        $this->js('toastr.success("Project moved up successfully")');
+    }
+
+    #[\Livewire\Attributes\On('moveDown')]
+    public function moveDown($rowId): void
+    {
+        $project = Project::find($rowId);
+        $maxOrder = Project::max('order');
+
+        if ($project->order >= $maxOrder) {
+            return;
+        }
+
+        $projectBelow = Project::where('order', $project->order + 1)
+            ->first();
+
+        if ($projectBelow) {
+            DB::transaction(function () use ($project, $projectBelow) {
+                $originalOrder = $project->order;
+                $targetOrder = $projectBelow->order;
+
+                $project->order = 0;
+                $project->save();
+
+                $projectBelow->order = $originalOrder;
+                $projectBelow->save();
+
+                $project->order = $targetOrder;
+                $project->save();
+            });
+        }
+
+        $this->js('toastr.success("Project moved down successfully")');
     }
 
     #[\Livewire\Attributes\On('edit')]
@@ -158,7 +227,19 @@ final class ProjectsTable extends PowerGridComponent
 
     public function actions(Project $row): array
     {
+        $maxOrder = Project::max('order');
+
         return [
+            Button::add('moveUp')
+                ->slot('<i class="fas fa-arrow-up"></i>')
+                ->class('btn btn-secondary btn-icon btm-sm' . ($row->order <= 1 ? ' disabled' : ''))
+                ->dispatch('moveUp', ['rowId' => $row->id]),
+
+            Button::add('moveDown')
+                ->slot('<i class="fas fa-arrow-down"></i>')
+                ->class('btn btn-secondary btn-icon btm-sm' . ($row->order >= $maxOrder ? ' disabled' : ''))
+                ->dispatch('moveDown', ['rowId' => $row->id]),
+
             Button::add('edit')
                 ->slot('<i class="fas fa-edit"></i>')
                 ->class('btn btn-primary btn-sm rounded')
