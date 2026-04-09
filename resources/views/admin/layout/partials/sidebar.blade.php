@@ -35,18 +35,62 @@
                     </a>
                 </li>
 
-                {{-- Gallery --}}
-                <li class="nav-item">
-                    <a href="{{ route('dashboard.projects.index') }}" @class([
+
+                {{-- contact us start --}}
+
+                <li @class([
+                    'nav-item',
+                    'menu-open' => request()->routeIs('dashboard.projects.*') || request()->routeIs('dashboard.categories.*'),
+                ])>
+                    <a href="#" @class([
                         'nav-link',
-                        'active' => request()->routeIs('dashboard.projects.*'),
+                        'active' => request()->routeIs('dashboard.projects.*') || request()->routeIs('dashboard.categories.*'),
                     ])>
-                        <i class="nav-icon fas fa-images"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Projects
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.categories.index') }}" @class([
+                                'nav-link',
+                                'active' =>
+                                    request()->routeIs('dashboard.categories.index') ||
+                                    request()->routeIs('dashboard.categories.edit') ||
+                                    request()->routeIs('dashboard.categories.create'),
+                            ])>
+                                <i class="far fa-circle nav-icon"></i>
+
+                                <p>
+                                    Categories
+                                </p>
+                            </a>
+                        </li>
+
+                        {{-- ===== Contact us phones ===== --}}
+
+
+                        {{-- ===== Contact us requests ===== --}}
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.projects.index') }}"
+                                @class([
+                                    'nav-link',
+                                    'active' => request()->routeIs('dashboard.projects.index') || request()->routeIs('dashboard.projects.edit') || request()->routeIs('dashboard.projects.create') || request()->routeIs('dashboard.projects.gallery'),
+                                ])>
+                                <i class="far fa-circle nav-icon"></i>
+
+                                <p>
+                                    Projects
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
+                {{-- contact us end   --}}
 
                 {{-- About US --}}
 
@@ -210,8 +254,9 @@
                             <a href="{{ route('dashboard.contactUs.consultation-requests') }}"
                                 @class([
                                     'nav-link',
-                                    'active' => request()->routeIs('dashboard.contactUs.consultation-requests')
-                                    || request()->routeIs('dashboard.contactUs.consultation-request-show'),
+                                    'active' =>
+                                        request()->routeIs('dashboard.contactUs.consultation-requests') ||
+                                        request()->routeIs('dashboard.contactUs.consultation-request-show'),
                                 ])>
                                 <i class="far fa-circle nav-icon"></i>
 
