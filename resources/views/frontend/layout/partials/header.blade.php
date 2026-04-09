@@ -105,9 +105,9 @@
             <li class="mb-1">
                 <a href="{{ route('design-build-project') }}" class="nav-link p-3 pt-0">{{ __('frontend.navbar_design_build') }}</a>
             </li>
-            <li class="mb-1">
+            {{-- <li class="mb-1">
                 <a href="{{ route('gallery') }}" class="nav-link p-3 pt-0">{{ __('frontend.navbar_gallery') }}</a>
-            </li>
+            </li> --}}
             <li class="mb-1">
                 <a href="{{ route('projects') }}" class="nav-link p-3 pt-0">{{ __('frontend.navbar_projects') }}</a>
             </li>
