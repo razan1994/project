@@ -109,6 +109,9 @@
                 <a href="{{ route('gallery') }}" class="nav-link p-3 pt-0">{{ __('frontend.navbar_gallery') }}</a>
             </li>
             <li class="mb-1">
+                <a href="{{ route('projects') }}" class="nav-link p-3 pt-0">{{ __('frontend.navbar_projects') }}</a>
+            </li>
+            <li class="mb-1">
                 <a href="{{ route('contact-us') }}" class="nav-link p-3 pt-0">{{ __('frontend.navbar_contact') }}</a>
             </li>
         </ul>
