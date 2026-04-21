@@ -430,6 +430,32 @@ class FrontendController extends Controller
             $blogs   = Blog::query()->where('status', 1)->orderByDesc('id')->paginate(9);
             $contact = ContactUs::query()->first();
             $this->setupSeo($seo, 'blogs', __('frontend.navbar_blogs'));
+
+            $locale   = Config::get('app.locale');
+            $isArabic = $locale === 'ar';
+            $blogsUrl = route('blogs');
+
+            // Upgrade listing page schema to Blog
+            JsonLdMulti::setType('Blog');
+
+            // Breadcrumb schema
+            JsonLdMulti::newJsonLd();
+            JsonLdMulti::setType('BreadcrumbList');
+            JsonLdMulti::addValue('itemListElement', [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_blogs'), 'item' => $blogsUrl],
+            ]);
+
+            // ItemList of blog posts on this page
+            JsonLdMulti::newJsonLd();
+            JsonLdMulti::setType('ItemList');
+            JsonLdMulti::addValue('itemListElement', $blogs->getCollection()->map(fn($b, $i) => [
+                '@type'    => 'ListItem',
+                'position' => $i + 1,
+                'name'     => $isArabic ? $b->title_ar : $b->title_en,
+                'url'      => route('blogs.details', $b->alias_name_en ?: $b->id),
+            ])->values()->toArray());
+
             return view('frontend.blogs', compact('blogs', 'contact'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -469,10 +495,12 @@ class FrontendController extends Controller
 
             $h1 = $isArabic ? ($blog->h1_val_ar ?? '') : ($blog->h1_val_en ?? '');
             $h2 = $isArabic ? ($blog->h2_val_ar ?? '') : ($blog->h2_val_en ?? '');
+            $keywords = $isArabic ? ($blog->keywords_ar ?? '') : ($blog->keywords_en ?? '');
 
             $pageUrl   = url()->current();
             $ogLocale  = $isArabic ? 'ar_SA' : 'en_US';
-            $imageUrl  = $blog->image ? asset($blog->image) : asset('assets/images/Logo.png');
+            $appUrl    = rtrim(preg_replace('/^http:\/\//', 'https://', config('app.url')), '/');
+            $imageUrl  = $blog->image ? asset(ltrim($blog->image, '/')) : asset('assets/images/Logo.png');
             $blogsUrl  = route('blogs');
 
             SEOMeta::setTitle($seoTitle);
@@ -501,21 +529,22 @@ class FrontendController extends Controller
             $articleTitle = $isArabic ? $blog->title_ar : $blog->title_en;
             JsonLdMulti::setTitle($articleTitle);
             JsonLdMulti::setDescription($metaDesc);
-            JsonLdMulti::setType('Article');
+            JsonLdMulti::setType('BlogPosting');
             JsonLdMulti::setUrl($pageUrl);
             JsonLdMulti::addValue('inLanguage', $locale);
-            JsonLdMulti::addValue('headline', $articleTitle);
+            JsonLdMulti::addValue('headline', $seoTitle);
             JsonLdMulti::addValue('image', $imageUrl);
             JsonLdMulti::addValue('datePublished', $blog->created_at?->toIso8601String());
             JsonLdMulti::addValue('dateModified', $blog->updated_at?->toIso8601String());
             JsonLdMulti::addValue('author', [
                 '@type' => 'Organization',
                 'name'  => $siteName,
-                'url'   => config('app.url'),
+                'url'   => $appUrl,
             ]);
             JsonLdMulti::addValue('publisher', [
                 '@type' => 'Organization',
                 'name'  => $siteName,
+                'url'   => $appUrl,
                 'logo'  => [
                     '@type' => 'ImageObject',
                     'url'   => asset('assets/images/Logo.png'),
@@ -531,12 +560,24 @@ class FrontendController extends Controller
                 '@type' => 'WebPage',
                 '@id'   => $pageUrl,
             ]);
+            if ($keywords) {
+                JsonLdMulti::addValue('keywords', array_map('trim', explode(',', $keywords)));
+            }
             JsonLdMulti::addValue('hasPart', [
                 [
                     '@type' => 'ImageObject',
                     'url'   => $imageUrl,
                     'name'  => $altText,
                 ],
+            ]);
+
+            // Breadcrumb schema
+            JsonLdMulti::newJsonLd();
+            JsonLdMulti::setType('BreadcrumbList');
+            JsonLdMulti::addValue('itemListElement', [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_blogs'), 'item' => $blogsUrl],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $articleTitle, 'item' => $pageUrl],
             ]);
 
             View::share('seoH1', $h1);
