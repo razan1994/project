@@ -97,13 +97,13 @@ new class extends Component {
                 ->using(Provider::Mistral, 'mistral-large-latest')
                 ->withSchema($schema)
                 ->withPrompt($prompt)
-                ->withClientOptions(array_filter([
+                ->withClientOptions([
                     'timeout'         => 60,
                     'connect_timeout' => 10,
                     'verify'          => ($caFile = config('prism.providers.mistral.cafile'))
                         ? base_path($caFile)
-                        : null,
-                ]))
+                        : storage_path('certs/cacert.pem'),
+                ])
                 ->asStructured();
 
             $seoData = $response->structured;
