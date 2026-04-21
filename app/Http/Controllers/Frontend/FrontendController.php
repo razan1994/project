@@ -66,7 +66,6 @@ class FrontendController extends Controller
         $imageUrl  = asset('assets/images/Logo.png');
 
         SEOMeta::setTitle($seoTitle);
-        SEOMeta::addMeta('name', $siteName, 'property');
         SEOMeta::setDescription($metaDesc);
         SEOMeta::setCanonical($pageUrl);
         SEOMeta::setRobots('index, follow');
@@ -82,6 +81,7 @@ class FrontendController extends Controller
         OpenGraph::addProperty('locale', $ogLocale);
         OpenGraph::addProperty('locale:alternate', $isArabic ? 'en_US' : 'ar_SA');
         OpenGraph::addImage($imageUrl);
+        OpenGraph::addProperty('image:alt', $seoTitle);
 
         TwitterCard::setType('summary_large_image');
         TwitterCard::setTitle($seoTitle);
@@ -130,9 +130,36 @@ class FrontendController extends Controller
     public function services(Route $route)
     {
         try {
-            $seo     = SeoPage::getCached('services');
-            $contact = ContactUs::query()->first();
+            $seo      = SeoPage::getCached('services');
+            $contact  = ContactUs::query()->first();
+            $svcItems = Service::query()->where('status', 1)->orderBy('order')->get();
             $this->setupSeo($seo, 'services', __('frontend.navbar_services'));
+
+            $locale      = Config::get('app.locale');
+            $isArabic    = $locale === 'ar';
+            $servicesUrl = route('services');
+
+            // Upgrade listing page schema to CollectionPage
+            JsonLdMulti::setType('CollectionPage');
+
+            // Breadcrumb schema
+            JsonLdMulti::newJsonLd();
+            JsonLdMulti::setType('BreadcrumbList');
+            JsonLdMulti::addValue('itemListElement', [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_services'), 'item' => $servicesUrl],
+            ]);
+
+            // ItemList of all services for rich results
+            JsonLdMulti::newJsonLd();
+            JsonLdMulti::setType('ItemList');
+            JsonLdMulti::addValue('itemListElement', $svcItems->map(fn($s, $i) => [
+                '@type'    => 'ListItem',
+                'position' => $i + 1,
+                'name'     => $isArabic ? $s->title_ar : $s->title_en,
+                'url'      => route('services.details', $s->slug ?: $s->id),
+            ])->values()->toArray());
+
             return view('frontend.services', compact('contact'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -182,9 +209,10 @@ class FrontendController extends Controller
             $h1 = $isArabic ? ($service->h1_val_ar ?? '') : ($service->h1_val_en ?? '');
             $h2 = $isArabic ? ($service->h2_val_ar ?? '') : ($service->h2_val_en ?? '');
 
-            $pageUrl   = url()->current();
-            $ogLocale  = $isArabic ? 'ar_SA' : 'en_US';
-            $imageUrl  = $service->image ? asset($service->image) : asset('assets/images/Logo.png');
+            $pageUrl     = url()->current();
+            $ogLocale    = $isArabic ? 'ar_SA' : 'en_US';
+            $appUrl      = rtrim(preg_replace('/^http:\/\//', 'https://', config('app.url')), '/');
+            $imageUrl    = $service->image ? asset(ltrim($service->image, '/')) : asset('assets/images/Logo.png');
             $servicesUrl = route('services');
 
             SEOMeta::setTitle($seoTitle);
@@ -217,7 +245,7 @@ class FrontendController extends Controller
             JsonLdMulti::addValue('provider', [
                 '@type' => 'Organization',
                 'name'  => $siteName,
-                'url'   => config('app.url'),
+                'url'   => $appUrl,
             ]);
             JsonLdMulti::addValue('areaServed', [
                 ['@type' => 'Country', 'name' => 'Saudi Arabia'],
@@ -229,12 +257,30 @@ class FrontendController extends Controller
                 'name'  => __('frontend.navbar_services'),
                 'url'   => $servicesUrl,
             ]);
+            JsonLdMulti::addValue('serviceType', $serviceName);
+            JsonLdMulti::addValue('offers', [
+                '@type'        => 'Offer',
+                'availability' => 'https://schema.org/InStock',
+                'areaServed'   => [
+                    ['@type' => 'Country', 'name' => 'Saudi Arabia'],
+                    ['@type' => 'Country', 'name' => 'India'],
+                ],
+            ]);
 
             $hasParts = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
             foreach ($service->media->filter(fn($m) => str_starts_with((string) $m->mime_type, 'image/')) as $m) {
-                $hasParts[] = ['@type' => 'ImageObject', 'url' => asset($m->path), 'name' => $serviceName];
+                $hasParts[] = ['@type' => 'ImageObject', 'url' => asset(ltrim($m->path, '/')), 'name' => $serviceName];
             }
             JsonLdMulti::addValue('hasPart', $hasParts);
+
+            // Breadcrumb schema
+            JsonLdMulti::newJsonLd();
+            JsonLdMulti::setType('BreadcrumbList');
+            JsonLdMulti::addValue('itemListElement', [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_services'), 'item' => $servicesUrl],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $serviceName, 'item' => $pageUrl],
+            ]);
 
             View::share('seoH1', $h1);
             View::share('seoH2', $h2);

@@ -88,7 +88,7 @@ new class extends Component
             $prompt .= "H1 should clearly describe the service page purpose.\n";
             $prompt .= "H2 should highlight the value or benefit of choosing this service.\n";
             $prompt .= "SEO titles should be readable, ideally 50-60 characters, and MUST reference either 'Saudi Arabia' or 'India' (English) or 'في السعودية' (Arabic) for local SEO optimization (e.g., 'Structural Design Services in Saudi Arabia | {$siteName}').\n";
-            $prompt .= "Meta descriptions should be compelling, informative, and ideally 140-160 characters.\n";
+            $prompt .= "Meta descriptions should be compelling, informative, and ideally 140-160 characters. Focus the meta description on Saudi Arabia as the primary market — do not mention India in the meta description.\n";
             $prompt .= "Return clean, production-ready SEO content only.\n";
 
             $response = Prism::structured()
