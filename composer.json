@@ -19,6 +19,7 @@
         "mcamara/laravel-localization": "*",
         "power-components/livewire-powergrid": "*",
         "prism-php/prism": "*",
+        "spatie/laravel-sitemap": "^8.1",
         "spatie/livewire-filepond": "*"
     },
     "require-dev": {
