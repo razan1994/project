@@ -9,8 +9,8 @@
 
 {{-- Hreflang --}}
 @php
-    $hreflangEn = LaravelLocalization::getLocalizedURL('en');
-    $hreflangAr = LaravelLocalization::getLocalizedURL('ar');
+    $hreflangEn = View::shared('hreflang_en') ?? LaravelLocalization::getLocalizedURL('en');
+    $hreflangAr = View::shared('hreflang_ar') ?? LaravelLocalization::getLocalizedURL('ar');
 @endphp
 <link rel="alternate" hreflang="en" href="{{ $hreflangEn }}">
 <link rel="alternate" hreflang="ar" href="{{ $hreflangAr }}">

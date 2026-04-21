@@ -24,6 +24,7 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\TwitterCard;
 use Artesaos\SEOTools\Facades\JsonLdMulti;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class FrontendController extends Controller
 {
@@ -284,6 +285,12 @@ class FrontendController extends Controller
 
             View::share('seoH1', $h1);
             View::share('seoH2', $h2);
+
+            // Hreflang with locale-specific slugs
+            $enBase = LaravelLocalization::getURLFromRouteNameTranslated('en', 'routes.services');
+            $arBase = LaravelLocalization::getURLFromRouteNameTranslated('ar', 'routes.services');
+            View::share('hreflang_en', rtrim($enBase, '/') . '/' . ($service->alias_name_en ?: $service->id));
+            View::share('hreflang_ar', rtrim($arBase, '/') . '/' . ($service->alias_name_ar ?: $service->id));
 
             return view('frontend.service-details', compact('service'));
         } catch (\Throwable $th) {
@@ -583,6 +590,12 @@ class FrontendController extends Controller
             View::share('seoH1', $h1);
             View::share('seoH2', $h2);
 
+            // Hreflang with locale-specific slugs
+            $enBase = LaravelLocalization::getURLFromRouteNameTranslated('en', 'routes.blogs');
+            $arBase = LaravelLocalization::getURLFromRouteNameTranslated('ar', 'routes.blogs');
+            View::share('hreflang_en', rtrim($enBase, '/') . '/' . ($blog->alias_name_en ?: $blog->id));
+            View::share('hreflang_ar', rtrim($arBase, '/') . '/' . ($blog->alias_name_ar ?: $blog->id));
+
             return view('frontend.blog-details', compact('blog'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -745,6 +758,12 @@ class FrontendController extends Controller
 
             View::share('seoH1', $h1);
             View::share('seoH2', $h2);
+
+            // Hreflang with locale-specific slugs
+            $enBase = LaravelLocalization::getURLFromRouteNameTranslated('en', 'routes.projects');
+            $arBase = LaravelLocalization::getURLFromRouteNameTranslated('ar', 'routes.projects');
+            View::share('hreflang_en', rtrim($enBase, '/') . '/' . ($project->alias_name_en ?: $project->id));
+            View::share('hreflang_ar', rtrim($arBase, '/') . '/' . ($project->alias_name_ar ?: $project->id));
 
             return view('frontend.project-details', compact('project'));
         } catch (\Throwable $th) {
