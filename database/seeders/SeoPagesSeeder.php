@@ -21,7 +21,7 @@ class SeoPagesSeeder extends Seeder
                 'name' => 'about_us',
             ],
             [
-                'name' => 'faq'
+                'name' => 'faqs'
             ],
             [
                 'name' => 'contact_us'
@@ -41,6 +41,12 @@ class SeoPagesSeeder extends Seeder
             [
                 'name' => 'design_build_projects'
             ],
+            [
+                'name' => 'projects'
+            ],
+            [
+                'name' => 'gallery'
+            ]
         ];
 
         foreach ($seoPages as $seoPage) {

@@ -1,26 +1,5 @@
 @extends('frontend.layout.app')
 
-{{-- SEO SECTION --}}
-@section('title')
-    {{ $blog->seoTitle ?? $blog->title }}
-@endsection
-@section('meta_title')
-    {{ $blog->seoTitle ?? $blog->title }}
-@endsection
-@section('meta_desc')
-    {{ $blog->metaDesc ?? \Illuminate\Support\Str::limit(strip_tags($blog->description ?? ''), 160) }}
-@endsection
-@section('meta_keywords')
-    {{ $blog->keywords ?? '' }}
-@endsection
-{{-- SEO SECTION --}}
-
-@section('canonical')
-    <link rel="canonical" href="{{ config('app.url') . '/' . app()->getLocale() . '/blogs/' . $blog->slug }}" />
-    <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/blogs/' . $blog->slug }}" hreflang="en-jo" />
-    <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/blogs/' . $blog->slug }}" hreflang="ar-jo" />
-@endsection
-
 @section('content')
     <!-- Heading -->
     <div class="dextheme-heading" data-bg="{{ asset('assets/images/breadcamp.webp') }}">
@@ -40,9 +19,15 @@
         <div class="dextheme-container">
             <div class="dextheme-row g-4">
                 <div class="dextheme-col-lg-8 dextheme-col-12">
+                    @php
+                        $isArabic = app()->getLocale() === 'ar';
+                        $displayAlt = $isArabic ? ($blog->alt_text_ar ?: $blog->title) : ($blog->alt_text_en ?: $blog->title);
+                        $displayH1  = $isArabic ? ($blog->h1_val_ar ?: $blog->title) : ($blog->h1_val_en ?: $blog->title);
+                        $displayH2  = $isArabic ? ($blog->h2_val_ar ?? '') : ($blog->h2_val_en ?? '');
+                    @endphp
                     @if ($blog->image)
                         <div class="mb-4">
-                            <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}"
+                            <img src="{{ asset($blog->image) }}" alt="{{ $displayAlt }}"
                                 style="width:100%; max-height:460px; object-fit:cover; border-radius:8px;">
                         </div>
                     @endif
@@ -54,7 +39,10 @@
                         </div>
                     </div>
 
-                    <h1 class="dextheme-main-title mb-4">{{ $blog->title }}</h1>
+                    <h1 class="dextheme-main-title mb-4">{{ $displayH1 }}</h1>
+                    @if($displayH2)
+                        <h2 class="dextheme-title-text sm mb-3">{{ $displayH2 }}</h2>
+                    @endif
 
                     <div class="plain-text blog-content">
                         {!! $blog->description !!}

@@ -60,13 +60,21 @@
             <div class="dextheme-container">
                 <div class="dextheme-row gy-3">
                     <div class="dextheme-col-lg-8 dextheme-col-md-12">
-
+                        @php
+                            $isArabic   = app()->getLocale() === 'ar';
+                            $displayAlt = $isArabic ? ($service->alt_text_ar ?: $service->title) : ($service->alt_text_en ?: $service->title);
+                            $displayH1  = $isArabic ? ($service->h1_val_ar ?: $service->title) : ($service->h1_val_en ?: $service->title);
+                            $displayH2  = $isArabic ? ($service->h2_val_ar ?? '') : ($service->h2_val_en ?? '');
+                        @endphp
 
                         <div class="mb-4">
                             <img src="{{ $service->image ? asset($service->image) : asset('images/800x300.png') }}"
-                                alt="{{ $service->alt_text ?? $service->title }}" width="100%">
+                                alt="{{ $displayAlt }}" width="100%">
                         </div>
-                        <h2 class="dextheme-title-text xl mb-3">{{ $service->title }}</h2>
+                        <h2 class="dextheme-title-text xl mb-3">{{ $displayH1 }}</h2>
+                        @if($displayH2)
+                            <h3 class="dextheme-title-text sm mb-3">{{ $displayH2 }}</h3>
+                        @endif
                         <p class="plain-text mb-3">{!! $service->description !!}</p>
 
                         @if ($galleryMedia->isNotEmpty())

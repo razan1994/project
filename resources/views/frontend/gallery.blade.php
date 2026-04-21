@@ -1,35 +1,5 @@
 @extends('frontend.layout.app')
 
-{{-- SEO SECTION --}}
-@section('title')
-    {{ isset($seoData->title) ? $seoData->title : __('frontend.gallery_title') }}
-@endsection
-@section('meta_title')
-    {{ isset($seoData->title) ? $seoData->title : __('frontend.gallery_title') }}
-@endsection
-@section('meta_desc')
-    {{ isset($seoData->metaDesc) ? $seoData->metaDesc : __('frontend.gallery_subtitle') }}
-@endsection
-@section('meta_keywords')
-    {{ isset($seoData->keywords) ? $seoData->keywords : __('frontend.gallery_title') }}
-@endsection
-{{-- SEO SECTION --}}
-
-@section('canonical')
-    <link rel="canonical" href="{{ config('app.url') . '/' . app()->getLocale() . '/gallery' }}" />
-    <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/gallery' }}"
-        hreflang="en-jo" />
-    <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/gallery' }}"
-        hreflang="ar-jo" />
-@endsection
-
-@section('h1_val')
-    {{ isset($seoData->h1) ? $seoData->h1 : __('frontend.gallery_title') }}
-@endsection
-@section('h2_val')
-    {{ isset($seoData->h2) ? $seoData->h2 : __('frontend.gallery_title') }}
-@endsection
-
 @push('styles')
 <style>
     .gallery-section {

@@ -60,13 +60,21 @@
             <div class="dextheme-container">
                 <div class="dextheme-row gy-3">
                     <div class="dextheme-col-lg-8 dextheme-col-md-12">
-
+                        @php
+                            $isArabic   = app()->getLocale() === 'ar';
+                            $displayAlt = $isArabic ? ($project->alt_text_ar ?: $project->title) : ($project->alt_text_en ?: $project->title);
+                            $displayH1  = $isArabic ? ($project->h1_val_ar ?: $project->title) : ($project->h1_val_en ?: $project->title);
+                            $displayH2  = $isArabic ? ($project->h2_val_ar ?? '') : ($project->h2_val_en ?? '');
+                        @endphp
 
                         <div class="mb-4">
                             <img src="{{ $project->image ? asset($project->image) : asset('images/800x300.png') }}"
-                                alt="{{ $project->alt_text ?? $project->title }}" width="100%">
+                                alt="{{ $displayAlt }}" width="100%">
                         </div>
-                        <h2 class="dextheme-title-text xl mb-3">{{ $project->title }}</h2>
+                        <h2 class="dextheme-title-text xl mb-3">{{ $displayH1 }}</h2>
+                        @if($displayH2)
+                            <h3 class="dextheme-title-text sm mb-3">{{ $displayH2 }}</h3>
+                        @endif
                         <p class="plain-text mb-3">{!! $project->description !!}</p>
 
                         @if ($galleryMedia->isNotEmpty())

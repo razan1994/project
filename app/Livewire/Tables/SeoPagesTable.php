@@ -21,8 +21,8 @@ final class SeoPagesTable extends PowerGridComponent
                 ->showSearchInput(),
             PowerGrid::footer()
                 ->showPerPage(
-                    $perPage = 20,
-                    $perPageValues = [10, 20, 50, 100, 0]
+                    $perPage = 50,
+                    $perPageValues = [10, 20, 50, 100]
                 )
                 ->showRecordCount(),
         ];
@@ -45,7 +45,7 @@ final class SeoPagesTable extends PowerGridComponent
                 return "<p style='max-width: 350px ; text-wrap: wrap'>$row->seo_title_en</p>";
             })
             ->add('seo_title_ar', function ($row) {
-                return "<p style='max-width: 350px ; text-wrap: wrap'>$row->seo_title_en</p>";
+                return "<p style='max-width: 350px ; text-wrap: wrap'>$row->seo_title_ar</p>";
             })
         ;
     }

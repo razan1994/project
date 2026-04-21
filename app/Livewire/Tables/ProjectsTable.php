@@ -225,6 +225,12 @@ final class ProjectsTable extends PowerGridComponent
         $this->js('toastr.success("Project restored successfully")');
     }
 
+    #[\Livewire\Attributes\On('seo')]
+    public function seo($rowId): void
+    {
+        $this->dispatch('openProjectSeoModal', ['project' => $rowId]);
+    }
+
     public function actions(Project $row): array
     {
         $maxOrder = Project::max('order');
@@ -250,6 +256,11 @@ final class ProjectsTable extends PowerGridComponent
                 ->slot($row->status == 1 ? '<i class="fas fa-toggle-on"></i>' : '<i class="fas fa-toggle-off"></i>')
                 ->class('btn btn-info btn-sm rounded')
                 ->dispatch('toggleStatus', ['rowId' => $row->id]),
+
+            Button::add('seo')
+                ->slot('<i class="fas fa-search"></i> SEO')
+                ->class('btn btn-warning btn-sm rounded')
+                ->dispatch('seo', ['rowId' => $row->id]),
 
             Button::add('gallery')
                 ->slot('<i class="fas fa-images"></i>')
@@ -286,6 +297,10 @@ final class ProjectsTable extends PowerGridComponent
 
             Rule::button('toggleStatus')
                 ->when(fn($row) => $row->trashed())
+                ->hide(),
+
+            Rule::button('seo')
+                ->when(fn($row) => $row->trashed() || auth()->user()?->email !== 'seo-admin@smartzone.com')
                 ->hide(),
 
             Rule::button('gallery')

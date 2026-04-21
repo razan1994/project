@@ -15,6 +15,10 @@ return [
     'navbar_gallery' => 'Gallery',
     'navbar_contact' => 'Contact',
     'navbar_language_ar' => 'عربي',
+    'navbar_blogs' => 'Blogs',
+    'navbar_faqs' => 'FAQs',
+    'navbar_privacy' => 'Privacy & Policy',
+    'navbar_terms' => 'Terms & Conditions',
 
     // Gallery
     'gallery_title' => 'Gallery',

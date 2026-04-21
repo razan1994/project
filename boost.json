@@ -1,0 +1,15 @@
+{
+    "agents": [
+        "codex"
+    ],
+    "packages": [
+        "prism-php/prism"
+    ],
+    "skills": [
+        "fluxui-development",
+        "livewire-development",
+        "pest-testing",
+        "tailwindcss-development",
+        "developing-with-prism"
+    ]
+}

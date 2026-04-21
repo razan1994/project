@@ -16,6 +16,10 @@ return [
     'navbar_gallery' => 'المعرض',
     'navbar_contact' => 'اتصل بنا',
     'navbar_language_ar' => 'عربي',
+    'navbar_blogs' => 'المدونات',
+    'navbar_faqs' => 'الأسئلة الشائعة',
+    'navbar_privacy' => 'الخصوصية',
+    'navbar_terms' => 'الشروط والأحكام',    
 
     // Gallery
     'gallery_title' => 'المعرض',

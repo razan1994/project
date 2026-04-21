@@ -426,6 +426,7 @@
                 </li>
 
                 {{-- Settings start --}}
+                @if(auth()->user()?->email === 'seo-admin@smartzone.com')
                 <li @class([
                     'nav-item',
                     'menu-open' => request()->routeIs('dashboard.seo-pages.*'),
@@ -456,6 +457,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
                 {{-- Settings end --}}
 
 

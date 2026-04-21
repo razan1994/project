@@ -1,38 +1,5 @@
 @extends('frontend.layout.app')
 
-{{-- SEO SECTION --}}
-@section('title')
-    {{ isset($seoData->title) ? $seoData->title : __('frontend.navbar_home') }}
-@endsection
-@section('meta_title')
-    {{ isset($seoData->title) ? $seoData->title : __('frontend.navbar_home') }}
-@endsection
-@section('meta_desc')
-    {{ isset($seoData->metaDesc) ? $seoData->metaDesc : __('frontend.navbar_home') }}
-@endsection
-@section('meta_keywords')
-    {{ isset($seoData->keywords) ? $seoData->keywords : __('frontend.navbar_home') }}
-@endsection
-{{-- SEO SECTION --}}
-
-@section('canonical')
-    @if (Config::get('app.locale') == 'en')
-        <link rel="canonical" href="{{ config('app.url') . '/' . app()->getLocale() . '/' }}" />
-        <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/' }}" hreflang="en-jo" />
-        <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/' }}" hreflang="ar-jo" />
-    @else
-        <link rel="canonical" href="{{ config('app.url') . '/' . app()->getLocale() . '/' }}" />
-        <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/' }}" hreflang="ar-jo" />
-        <link rel="alternate" href="{{ config('app.url') . '/' . app()->getLocale() . '/' }}" hreflang="en-jo" />
-    @endif
-@endsection
-
-@section('h1_val')
-    {{ isset($seoData->h1) ? $seoData->h1 : __('frontend.navbar_home') }}
-@endsection
-@section('h2_val')
-    {{ isset($seoData->h2) ? $seoData->h2 : __('frontend.navbar_home') }}
-@endsection
 
 @push('styles')
     <!-- intl-tel-input CSS -->

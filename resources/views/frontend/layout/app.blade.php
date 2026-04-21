@@ -45,8 +45,12 @@
         </a>
     @endif
 
-    <h1 style="display: hidden; opacity: 0; position: absolute; top:-1000px">@yield('h1_val')</h1>
-    <h2 style="display: hidden; opacity: 0; position: absolute; top:-1000px">@yield('h2_val')</h2>
+    @if(!empty($seoH1))
+        <h1 style="display:none; opacity:0; position:absolute; top:-9999px">{{ $seoH1 }}</h1>
+    @endif
+    @if(!empty($seoH2))
+        <h2 style="display:none; opacity:0; position:absolute; top:-9999px">{{ $seoH2 }}</h2>
+    @endif
 
     <!-- ======================= header Start-->
     @include('frontend.layout.partials.header')
