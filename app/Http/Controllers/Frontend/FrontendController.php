@@ -132,7 +132,7 @@ class FrontendController extends Controller
         try {
             $seo      = SeoPage::getCached('services');
             $contact  = ContactUs::query()->first();
-            $svcItems = Service::query()->where('status', 1)->orderBy('order')->get();
+            $svcItems = Service::query()->where('status', 1)->get();
             $this->setupSeo($seo, 'services', __('frontend.navbar_services'));
 
             $locale      = Config::get('app.locale');
