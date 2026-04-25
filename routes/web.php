@@ -29,21 +29,17 @@ Route::group(
             Route::get(LaravelLocalization::transRoute('routes.privacy_policy'), 'privacyPolicy')->name('privacy-policy');
             Route::get(LaravelLocalization::transRoute('routes.gallery'), 'gallery')->name('gallery');
 
-                // Consultation Request
+            // Consultation Request
                 Route::post(LaravelLocalization::transRoute('routes.consultation_request'), 'submitConsultationRequest')->name('consultation-request.submit');
-
-             // ================== Test Email ==================
-    Route::get('/send-test-email', function () {
-        $emailContent = (object)[
-            'subject' => 'Hello from Aljeel',
-            'desc_ar' => 'test message from Aljeel '
-        ];
-        Mail::to('rznjamal@gmail.com')->send(new TestEmail($emailContent, null));
-        return 'Successfully sent';
-    });
+            // ================== Test Email ==================
+            Route::get('/send-test-email', function () {
+                $emailContent = (object)[
+                    'subject' => 'Hello from Aljeel',
+                    'desc_ar' => 'test message from Aljeel '
+                ];
+                Mail::to('rznjamal@gmail.com')->send(new TestEmail($emailContent, null));
+                return 'Successfully sent';
+            });
         });
-
-
     }
 );
-
