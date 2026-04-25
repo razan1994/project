@@ -2,6 +2,10 @@
 <html lang="{{ app()->getLocale() }}" @if(app()->getLocale() == 'ar') dir="rtl" class="rtl" @endif>
 
 <head>
+
+
+    <meta name="google-site-verification" content="uwsyaOD94O46ervvwv0OlC05xr3JYiKSmpJnlsqZJgY" />
+
     <!-- ======================= head Start-->
     @include('frontend.layout.partials.head')
     <!-- ======================= head End-->
@@ -9,7 +13,7 @@
     <!-- ======================= styles Start-->
     @include('frontend.layout.partials.styles')
     <style>
-     
+
     </style>
     <!-- ======================= styles End-->
 
