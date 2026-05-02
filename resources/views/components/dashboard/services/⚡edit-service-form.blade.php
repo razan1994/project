@@ -69,6 +69,7 @@ new class extends Component
         $this->status = $service->status;
         $this->alias_name_en = $service->alias_name_en;
         $this->alias_name_ar = $service->alias_name_ar;
+    }
 
 
     public function save()

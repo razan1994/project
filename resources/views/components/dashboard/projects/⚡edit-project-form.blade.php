@@ -72,6 +72,7 @@ new class extends Component {
         $this->category_id = $project->category_id ?? '';
         $this->alias_name_en = $project->alias_name_en;
         $this->alias_name_ar = $project->alias_name_ar;
+    }
 
     #[Computed]
     public function categories()
