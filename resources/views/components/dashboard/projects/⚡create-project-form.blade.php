@@ -41,6 +41,19 @@ new class extends Component {
     #[Validate('required|exists:categories,id')]
     public $category_id = '';
 
+    public $alias_name_en;
+    public $alias_name_ar;
+
+    public function updated($name, $value)
+    {
+        if ($name === 'title_en') {
+            $this->alias_name_en = $this->generateUniqueSlug(new Project(), $value, 'alias_name_en');
+        }
+        if ($name === 'title_ar') {
+            $this->alias_name_ar = $this->generateUniqueSlug(new Project(), $value, 'alias_name_ar');
+        }
+    }
+
 
 
 
@@ -76,8 +89,8 @@ new class extends Component {
             'status' => $this->status,
             'category_id' => $this->category_id,
             'order' => $this->getNextOrder(),
-            'alias_name_en' => $this->generateUniqueSlug(new Project(), $this->title_en, 'alias_name_en'),
-            'alias_name_ar' => $this->generateUniqueSlug(new Project(), $this->title_ar, 'alias_name_ar'),
+            'alias_name_en' => trim($this->alias_name_en) ?: $this->generateUniqueSlug(new Project(), $this->title_en, 'alias_name_en'),
+            'alias_name_ar' => trim($this->alias_name_ar) ?: $this->generateUniqueSlug(new Project(), $this->title_ar, 'alias_name_ar'),
             'image' => $this->image ? $this->saveImage($this->image, 'storage/projects/') : null,
         ]);
 
@@ -99,7 +112,7 @@ new class extends Component {
                                 *
                             </span>
                         </label>
-                        <input type="text" @class(['form-control', 'is-invalid' => $errors->has('title_en')]) id="title_en" wire:model='title_en'>
+                        <input type="text" @class(['form-control', 'is-invalid' => $errors->has('title_en')]) id="title_en" wire:model.live='title_en'>
                         @error('title_en')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -116,11 +129,37 @@ new class extends Component {
                                 *
                             </span>
                         </label>
-                        <input type="text" @class(['form-control', 'is-invalid' => $errors->has('title_ar')]) id="title_ar" wire:model='title_ar'>
+                        <input type="text" @class(['form-control', 'is-invalid' => $errors->has('title_ar')]) id="title_ar" wire:model.live='title_ar'>
                         @error('title_ar')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Slug En --}}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="alias_name_en">Slug (en)
+                            <span class="text-danger">*</span>
+                        </label>
+                        <textarea @class(['form-control', 'is-invalid' => $errors->has('alias_name_en')]) id="alias_name_en" wire:model='alias_name_en'></textarea>
+                        @error('alias_name_en')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Slug Ar --}}
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="alias_name_ar">Slug (ar)
+                            <span class="text-danger">*</span>
+                        </label>
+                        <textarea dir="rtl" @class(['form-control', 'is-invalid' => $errors->has('alias_name_ar')]) id="alias_name_ar" wire:model='alias_name_ar'></textarea>
+                        @error('alias_name_ar')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>

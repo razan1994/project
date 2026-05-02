@@ -44,6 +44,9 @@ new class extends Component {
     #[Validate('required|exists:categories,id')]
     public $category_id = '';
 
+    public $alias_name_en;
+    public $alias_name_ar;
+
 
 
 
@@ -67,7 +70,8 @@ new class extends Component {
         $this->sub_desc_en = $project->sub_desc_en;
         $this->status = $project->status;
         $this->category_id = $project->category_id ?? '';
-    }
+        $this->alias_name_en = $project->alias_name_en;
+        $this->alias_name_ar = $project->alias_name_ar;
 
     #[Computed]
     public function categories()
@@ -89,9 +93,8 @@ new class extends Component {
             'sub_desc_en' => $this->sub_desc_en ?? null,
             'status' => $this->status,
             'category_id' => $this->category_id,
-            'alias_name_en' => $this->generateUniqueSlug($this->project, $this->title_en, 'alias_name_en'),
-            'alias_name_ar' => $this->generateUniqueSlug($this->project, $this->title_ar, 'alias_name_ar'),
-
+            'alias_name_en' => trim($this->alias_name_en) ?: $this->generateUniqueSlug($this->project, $this->title_en, 'alias_name_en'),
+            'alias_name_ar' => trim($this->alias_name_ar) ?: $this->generateUniqueSlug($this->project, $this->title_ar, 'alias_name_ar'),
             'image' => $this->image ? $this->saveImage($this->image, 'storage/projects/') : $old_image,
         ]);
 
@@ -147,6 +150,32 @@ new class extends Component {
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Slug En --}}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="alias_name_en">Slug (en)
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <textarea @class(['form-control', 'is-invalid' => $errors->has('alias_name_en')]) id="alias_name_en" wire:model='alias_name_en'></textarea>
+                                @error('alias_name_en')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Slug Ar --}}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="alias_name_ar">Slug (ar)
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <textarea dir="rtl" @class(['form-control', 'is-invalid' => $errors->has('alias_name_ar')]) id="alias_name_ar" wire:model='alias_name_ar'></textarea>
+                                @error('alias_name_ar')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
