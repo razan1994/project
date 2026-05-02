@@ -44,7 +44,7 @@
                         <h2 class="dextheme-title-text sm mb-3">{{ $displayH2 }}</h2>
                     @endif
 
-                    <div class="plain-text blog-content">
+                    <div class="blog-content">
                         {!! $blog->description !!}
                     </div>
                 </div>
