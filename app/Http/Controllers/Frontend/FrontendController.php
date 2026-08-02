@@ -897,12 +897,37 @@ class FrontendController extends Controller
             $this->setupSeo($seo, 'projects', __('frontend.navbar_projects'));
 
             $locale   = Config::get('app.locale');
+            $isArabic = $locale === 'ar';
             $siteName = config('app.name', 'Aljeel Contracting');
             $baseUrl  = rtrim(config('app.url', url('/')), '/');
-            $pageUrl  = $this->normalizeUrl(route('projects'), $baseUrl);
+            $projectsUrl = $this->normalizeUrl(route('projects'), $baseUrl);
+            $pageUrl  = $projectsUrl;
             $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
             $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
-            $this->shareSeoJsonLd($this->buildBaseSeoNodes($pageUrl, __('frontend.navbar_projects'), $description ?: 'Browse completed residential, commercial, and industrial projects by Al Jeel Contracting.', $locale, $siteName, $baseUrl, $imageUrl, 'CollectionPage', '#webpage'));
+            $projects = Project::query()->where('status', 1)->orderByDesc('id')->get();
+
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, __('frontend.navbar_projects'), $description ?: 'Browse completed residential, commercial, and industrial projects by Al Jeel Contracting.', $locale, $siteName, $baseUrl, $imageUrl, 'CollectionPage', '#webpage');
+            $graphNodes[2]['description'] = 'Al Jeel Contracting delivers construction and engineering solutions across Saudi Arabia.';
+            $graphNodes[0]['mainEntity'] = ['@id' => $projectsUrl . '#project-list'];
+            $graphNodes[] = [
+                '@type' => 'ItemList',
+                '@id' => $projectsUrl . '#project-list',
+                'itemListElement' => $projects->map(fn ($project, $index) => [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'name' => $isArabic ? ($project->title_ar ?: $project->title_en) : ($project->title_en ?: $project->title_ar),
+                    'url' => $this->normalizeUrl(route('projects.details', $project->alias_name_en ?: $project->id), $baseUrl),
+                ])->values()->toArray(),
+            ];
+            $graphNodes[] = [
+                '@type' => 'BreadcrumbList',
+                '@id' => $projectsUrl . '#breadcrumbs',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => $this->normalizeUrl(route('home'), $baseUrl)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_projects'), 'item' => $projectsUrl],
+                ],
+            ];
+            $this->shareSeoJsonLd($graphNodes);
 
             return view('frontend.projects', compact('contact'));
         } catch (\Throwable $th) {
