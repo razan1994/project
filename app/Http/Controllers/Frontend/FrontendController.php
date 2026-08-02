@@ -119,6 +119,21 @@ class FrontendController extends Controller
         return $value;
     }
 
+    private function toSchemaAssetUrl(string $path, string $baseUrl): string
+    {
+        if (empty($path)) {
+            return $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $this->normalizeUrl($path, $baseUrl);
+        }
+
+        $cleanPath = preg_replace('#/+#', '/', '/' . ltrim($path, '/'));
+
+        return $this->normalizeUrl(asset($cleanPath), $baseUrl);
+    }
+
     private function setupSeo(
         ?SeoPage $seo,
         string   $routeName,
@@ -403,7 +418,7 @@ class FrontendController extends Controller
             $pageUrl     = $this->normalizeUrl(url()->current(), rtrim(url('/'), '/'));
             $ogLocale    = $isArabic ? 'ar_SA' : 'en_US';
             $appUrl      = rtrim(url('/'), '/');
-            $imageUrl    = $this->normalizeUrl($service->image ? asset(ltrim($service->image, '/')) : asset('assets/images/Logo.png'), $appUrl);
+            $imageUrl    = $this->toSchemaAssetUrl($service->image ? $service->image : 'assets/images/Logo.png', $appUrl);
             $brandImageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $appUrl);
             $servicesUrl = $this->normalizeUrl(route('services'), $appUrl);
 
@@ -429,23 +444,34 @@ class FrontendController extends Controller
             TwitterCard::setImage($imageUrl);
 
             $serviceName = $isArabic ? $service->title_ar : $service->title_en;
-            $graphNodes = $this->buildBaseSeoNodes($pageUrl, $seoTitle, $metaDesc ?: 'Detailed construction service information from Al Jeel Contracting.', $locale, $siteName, $appUrl, $brandImageUrl, 'Service', '#webpage', $brandImageUrl);
-            $graphNodes[0]['serviceType'] = $serviceName;
-            $graphNodes[0]['provider'] = ['@id' => $appUrl . '#organization'];
-            $graphNodes[0]['areaServed'] = [
-                ['@type' => 'Country', 'name' => 'Saudi Arabia'],
-                ['@type' => 'Country', 'name' => 'India'],
-            ];
+            $companyDescription = 'Al Jeel Contracting delivers construction and engineering solutions across Saudi Arabia.';
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, $seoTitle, $metaDesc ?: 'Detailed construction service information from Al Jeel Contracting.', $locale, $siteName, $appUrl, $brandImageUrl, 'WebPage', '#webpage', $brandImageUrl);
+            $graphNodes[2]['description'] = $companyDescription;
+            $graphNodes[0]['mainEntity'] = ['@id' => $pageUrl . '#service'];
             $graphNodes[0]['mainEntityOfPage'] = ['@id' => $pageUrl . '#webpage'];
             $graphNodes[0]['isPartOf'] = ['@id' => $servicesUrl . '#webpage'];
-            $graphNodes[0]['offers'] = [
-                '@type' => 'Offer',
-                'availability' => 'https://schema.org/InStock',
-            ];
             $graphNodes[0]['hasPart'] = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
             foreach ($service->media->filter(fn($m) => str_starts_with((string) $m->mime_type, 'image/')) as $m) {
-                $graphNodes[0]['hasPart'][] = ['@type' => 'ImageObject', 'url' => $this->normalizeUrl(asset(ltrim($m->path, '/')), $appUrl), 'name' => $serviceName];
+                $graphNodes[0]['hasPart'][] = ['@type' => 'ImageObject', 'url' => $this->toSchemaAssetUrl($m->path, $appUrl), 'name' => $serviceName];
             }
+            $graphNodes[] = [
+                '@type' => 'Service',
+                '@id' => $pageUrl . '#service',
+                'name' => $serviceName,
+                'url' => $pageUrl,
+                'description' => $metaDesc ?: 'Detailed construction service information from Al Jeel Contracting.',
+                'serviceType' => $serviceName,
+                'provider' => ['@id' => $appUrl . '#organization'],
+                'areaServed' => [
+                    ['@type' => 'Country', 'name' => 'Saudi Arabia'],
+                ],
+                'offers' => [
+                    '@type' => 'Offer',
+                    'availability' => 'https://schema.org/InStock',
+                ],
+                'image' => $imageUrl,
+                'hasPart' => [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]],
+            ];
             $graphNodes[] = [
                 '@type' => 'BreadcrumbList',
                 '@id' => $pageUrl . '#breadcrumbs',
