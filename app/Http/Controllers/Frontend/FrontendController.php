@@ -821,6 +821,8 @@ class FrontendController extends Controller
                         'text' => trim(preg_replace('/\s+/', ' ', strip_tags($faq->answer))),
                     ],
                 ])->values()->toArray();
+            } else {
+                $graphNodes[0]['mainEntity'] = [];
             }
             $this->shareSeoJsonLd($graphNodes);
 
