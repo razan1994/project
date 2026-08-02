@@ -1004,6 +1004,13 @@ class FrontendController extends Controller
                 'url' => $pageUrl,
                 'description' => $metaDesc ?: 'View a featured Al Jeel Contracting project profile.',
                 'image' => $imageUrl,
+                'location' => [
+                    '@type' => 'Place',
+                    'address' => [
+                        '@type' => 'PostalAddress',
+                        'addressCountry' => 'SA',
+                    ],
+                ],
                 'isPartOf' => ['@id' => $projectsUrl . '#webpage'],
             ];
             $graphNodes[] = [

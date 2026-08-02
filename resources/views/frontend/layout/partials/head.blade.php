@@ -4,9 +4,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-{!! SEO::metatags()->generate() !!}
-{!! SEO::opengraph()->generate() !!}
-{!! SEO::twitter()->generate() !!}
+@php
+    $metaTags = html_entity_decode(SEO::metatags()->generate(), ENT_QUOTES, 'UTF-8');
+    $ogTags = html_entity_decode(SEO::opengraph()->generate(), ENT_QUOTES, 'UTF-8');
+    $twitterTags = html_entity_decode(SEO::twitter()->generate(), ENT_QUOTES, 'UTF-8');
+@endphp
+
+{!! $metaTags !!}
+{!! $ogTags !!}
+{!! $twitterTags !!}
 
 @php
     $seoJsonLd = View::shared('seoJsonLd') ?? '';
