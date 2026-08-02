@@ -12981,7 +12981,7 @@ ul li {
     background-size: cover;
     z-index: -1;
 }
-.bg-line-o1::after {
+/* .bg-line-o1::after {
     background-image: url("../../src/assets/O1.png");
 }
 .bg-line-o2::after {
@@ -12989,7 +12989,7 @@ ul li {
 }
 .bg-line-o7::after {
     background-image: url("../../src/assets/O7.png");
-}
+} */
 .progress-container {
     position: relative;
     margin-bottom: 30px;
@@ -13910,7 +13910,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
@@ -14034,7 +14034,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O1.png");
+    /* background-image: url("../../src/assets/O1.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
@@ -14055,7 +14055,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14115,7 +14115,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14309,7 +14309,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O7.png");
+    /* background-image: url("../../src/assets/O7.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14326,7 +14326,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14505,7 +14505,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14541,7 +14541,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14569,7 +14569,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14587,7 +14587,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14605,7 +14605,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14622,7 +14622,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O1.png");
+    /* background-image: url("../../src/assets/O1.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
@@ -14691,7 +14691,7 @@ ul li {
     height: 100%;
     bottom: 0;
     right: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;

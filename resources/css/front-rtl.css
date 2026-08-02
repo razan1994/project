@@ -12977,13 +12977,13 @@ ul li {
     z-index: -1;
 }
 .bg-line-o1::after {
-    background-image: url("../../src/assets/O1.png");
+    /* background-image: url("../../src/assets/O1.png"); */
 }
 .bg-line-o2::after {
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
 }
 .bg-line-o7::after {
-    background-image: url("../../src/assets/O7.png");
+    /* background-image: url("../../src/assets/O7.png"); */
 }
 .progress-container {
     position: relative;
@@ -13905,7 +13905,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
@@ -14029,7 +14029,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O1.png");
+    /* background-image: url("../../src/assets/O1.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
@@ -14050,7 +14050,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14110,7 +14110,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14230,7 +14230,7 @@ ul li {
 }
 .contact-form {
     position: relative;
-    background-image: url("../../src/assets/20838501.jpg");
+    /* background-image: url("../../src/assets/20838501.jpg"); */
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -14286,7 +14286,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14304,7 +14304,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O7.png");
+    /* background-image: url("../../src/assets/O7.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14321,7 +14321,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14500,7 +14500,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14536,7 +14536,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14564,7 +14564,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14582,7 +14582,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14600,7 +14600,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -14617,7 +14617,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O1.png");
+    /* background-image: url("../../src/assets/O1.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
@@ -14686,7 +14686,7 @@ ul li {
     height: 100%;
     bottom: 0;
     left: 0;
-    background-image: url("../../src/assets/O2.png");
+    /* background-image: url("../../src/assets/O2.png"); */
     background-repeat: no-repeat;
     background-position: bottom center;
     background-size: cover;
