@@ -73,7 +73,6 @@ class FrontendController extends Controller
                 'name' => $pageName,
                 'description' => $description,
                 'inLanguage' => $locale,
-                'isPartOf' => ['@id' => $appUrl . '#website'],
                 'about' => ['@id' => $appUrl . '#organization'],
                 'publisher' => ['@id' => $appUrl . '#organization'],
             ],
@@ -455,7 +454,6 @@ class FrontendController extends Controller
             $graphNodes[2]['description'] = $companyDescription;
             $graphNodes[0]['mainEntity'] = ['@id' => $pageUrl . '#service'];
             $graphNodes[0]['mainEntityOfPage'] = ['@id' => $pageUrl . '#webpage'];
-            $graphNodes[0]['isPartOf'] = ['@id' => $servicesUrl . '#webpage'];
             $graphNodes[0]['hasPart'] = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
             foreach ($service->media->filter(fn($m) => str_starts_with((string) $m->mime_type, 'image/')) as $m) {
                 $graphNodes[0]['hasPart'][] = ['@type' => 'ImageObject', 'url' => $this->toSchemaAssetUrl($m->path, $appUrl), 'name' => $serviceName];
@@ -763,7 +761,6 @@ class FrontendController extends Controller
             $graphNodes[0]['dateModified'] = $blog->updated_at?->toIso8601String();
             $graphNodes[0]['author'] = ['@id' => $appUrl . '#organization'];
             $graphNodes[0]['publisher'] = ['@id' => $appUrl . '#organization'];
-            $graphNodes[0]['isPartOf'] = ['@id' => $blogsUrl . '#webpage'];
             $graphNodes[0]['mainEntityOfPage'] = ['@id' => $pageUrl . '#webpage'];
             if ($keywords) {
                 $graphNodes[0]['keywords'] = array_map('trim', explode(',', $keywords));
@@ -1021,7 +1018,6 @@ class FrontendController extends Controller
             $graphNodes[0]['name'] = $projectName;
             $graphNodes[0]['image'] = $imageUrl;
             $graphNodes[0]['about'] = ['@id' => $appUrl . '#organization'];
-            $graphNodes[0]['isPartOf'] = ['@id' => $projectsUrl . '#webpage'];
             $graphNodes[0]['mainEntity'] = ['@id' => $pageUrl . '#project'];
             $graphNodes[0]['hasPart'] = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
             foreach ($project->media->filter(fn($m) => str_starts_with((string) $m->mime_type, 'image/')) as $m) {
@@ -1042,7 +1038,6 @@ class FrontendController extends Controller
                         'addressCountry' => 'SA',
                     ],
                 ],
-                'isPartOf' => ['@id' => $projectsUrl . '#webpage'],
             ];
             $graphNodes[] = [
                 '@type' => 'BreadcrumbList',
