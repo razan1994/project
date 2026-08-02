@@ -845,18 +845,13 @@ class FrontendController extends Controller
             $baseUrl  = rtrim(config('app.url', url('/')), '/');
             $pageUrl  = $this->normalizeUrl(route('faqs'), $baseUrl);
             $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
-            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($isArabic ? ($seo?->meta_desc_ar ?? $seo?->meta_desc_en ?? '') : ($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? ''))));
             $faqItems = Faq::query()->active()->get();
 
             $graphNodes = $this->buildBaseSeoNodes($pageUrl, __('frontend.faqs_title'), $description ?: 'Frequently asked questions about Al Jeel Contracting services and project delivery.', $locale, $siteName, $baseUrl, $imageUrl, 'FAQPage', '#webpage');
+            $graphNodes[0]['description'] = $description ?: 'الأسئلة الشائعة عن خدمات ومشاريع شركة الجيل للمقاولات.';
+            $graphNodes[0]['mainEntity'] = $this->buildFaqMainEntity($faqItems->all(), $locale);
             $graphNodes[2]['description'] = 'Al Jeel Contracting delivers construction and engineering solutions across Saudi Arabia.';
-            $graphNodes[] = [
-                '@type' => 'FAQPage',
-                '@id' => $pageUrl . '#faqpage',
-                'url' => $pageUrl,
-                'name' => __('frontend.faqs_title'),
-                'mainEntity' => $this->buildFaqMainEntity($faqItems->all(), $locale),
-            ];
             $graphNodes[] = [
                 '@type' => 'BreadcrumbList',
                 '@id' => $pageUrl . '#breadcrumbs',
