@@ -42,7 +42,7 @@
     @endif
     <!-- Floating WhatsApp Icon -->
     @if (!empty($contact?->phone))
-        <a href="https://wa.me/{{ preg_replace('/\D+/', '', (string) $contact->phone) }}" class="floating-whatsapp" target="_blank" rel="noopener noreferrer"
+        <a href="https://wa.me/+{{ preg_replace('/\D+/', '', (string) $contact->phone) }}" class="floating-whatsapp" target="_blank" rel="noopener noreferrer"
             title="{{ __('frontend.whatsapp_title') }}">
             <span class="whatsapp-text">{{ __('frontend.whatsapp_text') }}</span>
             <i class="fab fa-whatsapp"></i>
