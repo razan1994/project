@@ -48,3 +48,15 @@ it('does not emit the unsupported isPartOf property in the shared schema graph',
     expect($nodes[1])->not->toHaveKey('isPartOf');
     expect($nodes[2])->not->toHaveKey('isPartOf');
 });
+
+it('uses a fallback FAQ entity when no active FAQs are available', function () {
+    $controller = new FrontendController();
+    $method = new \ReflectionMethod($controller, 'buildFaqMainEntity');
+    $method->setAccessible(true);
+
+    $entities = $method->invoke($controller, [], 'en');
+
+    expect($entities)->toHaveCount(1)
+        ->and($entities[0]['@type'])->toBe('Question')
+        ->and($entities[0]['acceptedAnswer']['text'])->toContain('Contact Al Jeel Contracting');
+});

@@ -124,6 +124,52 @@ class FrontendController extends Controller
         return $value;
     }
 
+    private function buildFaqMainEntity(array $faqItems, string $locale): array
+    {
+        $questions = collect($faqItems)
+            ->filter(fn ($faq) => $faq instanceof Faq)
+            ->map(function (Faq $faq) use ($locale): array {
+                $question = $locale === 'ar'
+                    ? ($faq->question_ar ?: $faq->question_en ?: $faq->question)
+                    : ($faq->question_en ?: $faq->question_ar ?: $faq->question);
+                $answer = $locale === 'ar'
+                    ? ($faq->answer_ar ?: $faq->answer_en ?: $faq->answer)
+                    : ($faq->answer_en ?: $faq->answer_ar ?: $faq->answer);
+
+                return [
+                    '@type' => 'Question',
+                    'name' => trim((string) $question),
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => trim(preg_replace('/\s+/', ' ', strip_tags((string) $answer))),
+                    ],
+                ];
+            })
+            ->filter(fn (array $entity) => !empty($entity['name']))
+            ->values()
+            ->toArray();
+
+        if (!empty($questions)) {
+            return $questions;
+        }
+
+        $fallbackQuestion = $locale === 'ar'
+            ? 'كيف يمكننا مساعدتك؟'
+            : 'How can we help you?';
+        $fallbackAnswer = $locale === 'ar'
+            ? 'تواصل مع شركة الجيل للمقاولات للحصول على المساعدة في خدمات البناء والهندسة والاستشارات في السعودية.'
+            : 'Contact Al Jeel Contracting for construction, engineering, and consultation support in Saudi Arabia.';
+
+        return [[
+            '@type' => 'Question',
+            'name' => $fallbackQuestion,
+            'acceptedAnswer' => [
+                '@type' => 'Answer',
+                'text' => $fallbackAnswer,
+            ],
+        ]];
+    }
+
     private function toSchemaAssetUrl(string $path, string $baseUrl): string
     {
         if (empty($path)) {
@@ -229,23 +275,13 @@ class FrontendController extends Controller
             $faqItems = Faq::query()->active()->get();
             $featuredServices = Service::query()->where('status', 1)->latest()->take(6)->get();
 
-            if ($faqItems->isNotEmpty()) {
-                $graphNodes[] = [
-                    '@type' => 'FAQPage',
-                    '@id' => $pageUrl . '#faqpage',
-                    'url' => $pageUrl,
-                    'name' => $seoTitle,
-                    'isPartOf' => ['@id' => $pageUrl . '#webpage'],
-                    'mainEntity' => $faqItems->map(fn ($faq) => [
-                        '@type' => 'Question',
-                        'name' => $faq->question,
-                        'acceptedAnswer' => [
-                            '@type' => 'Answer',
-                            'text' => trim(preg_replace('/\s+/', ' ', strip_tags($faq->answer))),
-                        ],
-                    ])->values()->toArray(),
-                ];
-            }
+            $graphNodes[] = [
+                '@type' => 'FAQPage',
+                '@id' => $pageUrl . '#faqpage',
+                'url' => $pageUrl,
+                'name' => $seoTitle,
+                'mainEntity' => $this->buildFaqMainEntity($faqItems->all(), $locale),
+            ];
 
             if ($featuredServices->isNotEmpty()) {
                 $serviceOffers = $featuredServices->map(function ($service) use ($appUrl, $locale) {
@@ -804,6 +840,7 @@ class FrontendController extends Controller
             $this->setupSeo($seo, 'faqs', __('frontend.faqs_title'));
 
             $locale   = Config::get('app.locale');
+            $isArabic = $locale === 'ar';
             $siteName = config('app.name', 'Aljeel Contracting');
             $baseUrl  = rtrim(config('app.url', url('/')), '/');
             $pageUrl  = $this->normalizeUrl(route('faqs'), $baseUrl);
@@ -812,18 +849,22 @@ class FrontendController extends Controller
             $faqItems = Faq::query()->active()->get();
 
             $graphNodes = $this->buildBaseSeoNodes($pageUrl, __('frontend.faqs_title'), $description ?: 'Frequently asked questions about Al Jeel Contracting services and project delivery.', $locale, $siteName, $baseUrl, $imageUrl, 'FAQPage', '#webpage');
-            if ($faqItems->isNotEmpty()) {
-                $graphNodes[0]['mainEntity'] = $faqItems->map(fn ($faq) => [
-                    '@type' => 'Question',
-                    'name' => $faq->question,
-                    'acceptedAnswer' => [
-                        '@type' => 'Answer',
-                        'text' => trim(preg_replace('/\s+/', ' ', strip_tags($faq->answer))),
-                    ],
-                ])->values()->toArray();
-            } else {
-                $graphNodes[0]['mainEntity'] = [];
-            }
+            $graphNodes[2]['description'] = 'Al Jeel Contracting delivers construction and engineering solutions across Saudi Arabia.';
+            $graphNodes[] = [
+                '@type' => 'FAQPage',
+                '@id' => $pageUrl . '#faqpage',
+                'url' => $pageUrl,
+                'name' => __('frontend.faqs_title'),
+                'mainEntity' => $this->buildFaqMainEntity($faqItems->all(), $locale),
+            ];
+            $graphNodes[] = [
+                '@type' => 'BreadcrumbList',
+                '@id' => $pageUrl . '#breadcrumbs',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => $this->normalizeUrl(route('home'), $baseUrl)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => $isArabic ? 'الأسئلة الشائعة' : 'FAQs', 'item' => $pageUrl],
+                ],
+            ];
             $this->shareSeoJsonLd($graphNodes);
 
             return view('frontend.faqs', compact('contact'));
