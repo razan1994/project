@@ -207,6 +207,8 @@ class FrontendController extends Controller
 
         if ($routeName === 'home') {
             $faqItems = Faq::query()->active()->get();
+            $featuredServices = Service::query()->where('status', 1)->latest()->take(6)->get();
+
             if ($faqItems->isNotEmpty()) {
                 $graphNodes[] = [
                     '@type' => 'FAQPage',
@@ -222,6 +224,28 @@ class FrontendController extends Controller
                             'text' => trim(preg_replace('/\s+/', ' ', strip_tags($faq->answer))),
                         ],
                     ])->values()->toArray(),
+                ];
+            }
+
+            if ($featuredServices->isNotEmpty()) {
+                $serviceOffers = $featuredServices->map(function ($service) use ($appUrl, $locale) {
+                    $serviceName = $locale === 'ar' ? ($service->title_ar ?: $service->title_en) : ($service->title_en ?: $service->title_ar);
+                    $serviceDescription = $locale === 'ar'
+                        ? trim(preg_replace('/\s+/', ' ', strip_tags($service->desc_ar ?? $service->desc_en ?? '')))
+                        : trim(preg_replace('/\s+/', ' ', strip_tags($service->desc_en ?? $service->desc_ar ?? '')));
+
+                    return [
+                        '@type' => 'Offer',
+                        'name' => $serviceName,
+                        'description' => $serviceDescription ?: 'Construction and engineering service by Al Jeel Contracting.',
+                        'url' => $this->normalizeUrl(route('services.details', $service->alias_name_en ?: $service->id), $appUrl),
+                    ];
+                })->values()->toArray();
+
+                $graphNodes[2]['hasOfferCatalog'] = [
+                    '@type' => 'OfferCatalog',
+                    'name' => $locale === 'ar' ? 'خدماتنا' : 'Our Services',
+                    'itemListElement' => $serviceOffers,
                 ];
             }
         }
