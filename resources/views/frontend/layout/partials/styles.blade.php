@@ -6,9 +6,11 @@
 
 <!-- Include Files -->
 @if (Config::get('app.locale') == 'en')
-    <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" />
-@else
-    <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}" /> --}}
+    @vite(['resources/css/front.css'])
+    @else
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/style-rtl.css') }}" /> --}}
+    @vite(['resources/css/front-rtl.css'])
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
         rel="stylesheet">
 @endif
