@@ -60,6 +60,11 @@ class FrontendController extends Controller
         $organizationLogoUrl ??= $pageImageUrl;
         $organizationExtra ??= [];
 
+        $organizationAddress = [
+            '@type' => 'PostalAddress',
+            'addressCountry' => 'SA',
+        ];
+
         return [
             [
                 '@type' => $pageType,
@@ -90,6 +95,7 @@ class FrontendController extends Controller
                     'url' => $organizationLogoUrl,
                 ],
                 'description' => $description,
+                'address' => $organizationAddress,
                 ...$organizationExtra,
             ],
         ];

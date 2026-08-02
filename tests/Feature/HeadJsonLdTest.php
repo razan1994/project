@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Frontend\FrontendController;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\View;
+use ReflectionMethod;
 
 it('renders JSON-LD in the head without HTML escaping', function () {
     View::share('seoJsonLd', '{"@context":"https://schema.org","@type":"WebSite"}');
@@ -21,4 +23,17 @@ it('renders apostrophes in meta and OpenGraph descriptions without HTML escaping
 
     expect($content)->toContain("Jane's project description");
     expect($content)->not->toContain('&#039;');
+});
+
+it('adds a fallback postal address to the organization schema for rich results', function () {
+    $controller = new FrontendController();
+    $method = new ReflectionMethod($controller, 'buildBaseSeoNodes');
+    $method->setAccessible(true);
+
+    $nodes = $method->invoke($controller, 'https://example.com/page', 'Page title', 'Page description', 'en', 'Al Jeel Contracting', 'https://example.com', 'https://example.com/logo');
+
+    expect($nodes[2]['address'])->toBe([
+        '@type' => 'PostalAddress',
+        'addressCountry' => 'SA',
+    ]);
 });
