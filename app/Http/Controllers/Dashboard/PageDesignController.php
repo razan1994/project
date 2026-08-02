@@ -19,6 +19,11 @@ class PageDesignController extends Controller
     {
         try {
             $pageDesign = PageDesign::first();
+            if (!$pageDesign) {
+                $pageDesign = new PageDesign();
+                $pageDesign->save();
+            }
+
             return view('admin.page-design.index', compact('pageDesign'));
         } catch (\Throwable $th) {
             $function_name =  $route->getActionName();

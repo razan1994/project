@@ -4,7 +4,18 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-{!! SEO::generate(true) !!}
+{!! SEO::metatags()->generate() !!}
+{!! SEO::opengraph()->generate() !!}
+{!! SEO::twitter()->generate() !!}
+
+@php
+    $seoJsonLd = View::shared('seoJsonLd') ?? '';
+@endphp
+@if(!empty($seoJsonLd))
+    <script type="application/ld+json">{!! $seoJsonLd !!}</script>
+@else
+    {!! SEO::jsonLdMulti()->generate() !!}
+@endif
 
 <meta name="author" content="{{ config('app.name') }}">
 <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.google.com https://maps.google.com;">

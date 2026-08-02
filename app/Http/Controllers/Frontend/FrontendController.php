@@ -10,6 +10,7 @@ use App\Models\ContactUsRequest;
 use App\Models\SeoPage;
 use App\Models\Blog;
 use App\Models\ConsultationRequest;
+use App\Models\Faq;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\SupportTicket;
@@ -32,15 +33,103 @@ class FrontendController extends Controller
     // SEO helper
     // -------------------------------------------------------------------------
 
+    private function shareSeoJsonLd(array $nodes): void
+    {
+        $cleanNodes = $this->removeEmptyValues($nodes);
+        $jsonLdGraph = json_encode([
+            '@context' => 'https://schema.org',
+            '@graph' => array_values(array_filter($cleanNodes, fn ($node) => is_array($node) && !empty($node))),
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        View::share('seoJsonLd', $jsonLdGraph);
+    }
+
+    private function buildBaseSeoNodes(
+        string $pageUrl,
+        string $pageName,
+        string $description,
+        string $locale,
+        string $siteName,
+        string $appUrl,
+        string $pageImageUrl,
+        string $pageType = 'WebPage',
+        string $pageIdSuffix = '#webpage',
+        ?string $organizationLogoUrl = null,
+        ?array $organizationExtra = null
+    ): array {
+        $organizationLogoUrl ??= $pageImageUrl;
+        $organizationExtra ??= [];
+
+        return [
+            [
+                '@type' => $pageType,
+                '@id' => $pageUrl . $pageIdSuffix,
+                'url' => $pageUrl,
+                'name' => $pageName,
+                'description' => $description,
+                'inLanguage' => $locale,
+                'isPartOf' => ['@id' => $appUrl . '#website'],
+                'about' => ['@id' => $appUrl . '#organization'],
+                'publisher' => ['@id' => $appUrl . '#organization'],
+            ],
+            [
+                '@type' => 'WebSite',
+                '@id' => $appUrl . '#website',
+                'url' => $appUrl,
+                'name' => $siteName,
+                'inLanguage' => $locale,
+                'publisher' => ['@id' => $appUrl . '#organization'],
+            ],
+            [
+                '@type' => 'HomeAndConstructionBusiness',
+                '@id' => $appUrl . '#organization',
+                'name' => $siteName,
+                'url' => $appUrl,
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => $organizationLogoUrl,
+                ],
+                'description' => $description,
+                ...$organizationExtra,
+            ],
+        ];
+    }
+
+    private function removeEmptyValues(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            $result = [];
+            foreach ($value as $key => $item) {
+                $cleaned = $this->removeEmptyValues($item);
+                if ($cleaned === null || $cleaned === '' || $cleaned === []) {
+                    continue;
+                }
+                $result[$key] = $cleaned;
+            }
+
+            return $result;
+        }
+
+        if (is_string($value)) {
+            $trimmed = trim($value);
+
+            return $trimmed === '' ? null : $trimmed;
+        }
+
+        return $value;
+    }
+
     private function setupSeo(
         ?SeoPage $seo,
         string   $routeName,
         string   $defaultTitle,
-        string   $type = 'website'
+        string   $type = 'website',
+        ?ContactUs $contact = null
     ): void {
         $locale   = Config::get('app.locale');
         $isArabic = $locale === 'ar';
         $siteName = config('app.name', 'Aljeel Contracting');
+        $contact  = $contact ?? ContactUs::query()->first();
 
         $seoTitle = $seo
             ? ($isArabic ? ($seo->seo_title_ar ?: $siteName) : ($seo->seo_title_en ?: $siteName))
@@ -62,9 +151,17 @@ class FrontendController extends Controller
             ? ($isArabic ? ($seo->h2_val_ar ?? '') : ($seo->h2_val_en ?? ''))
             : '';
 
-        $pageUrl   = route($routeName);
-        $ogLocale  = $isArabic ? 'ar_SA' : 'en_US';
-        $imageUrl  = asset('assets/images/Logo.png');
+        $baseUrl      = rtrim(config('app.url', url('/')), '/');
+        $normalizedBaseUrl = $this->normalizeUrl($baseUrl, $baseUrl);
+        $pageUrl      = $this->normalizeUrl(route($routeName), $normalizedBaseUrl);
+        $appUrl       = rtrim($normalizedBaseUrl, '/');
+        $ogLocale     = $isArabic ? 'ar_SA' : 'en_US';
+        $imageUrl     = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+        $phone        = trim((string) ($contact?->phone ?? ''));
+        $email        = trim((string) ($contact?->email ?? config('mail.from.address')));
+        $address      = trim((string) ($contact?->address ?? ''));
+        $safeDescription = trim(preg_replace('/\s+/', ' ', strip_tags($metaDesc ?: '')));
+        $defaultDescription = 'Al Jeel Contracting delivers construction and engineering solutions across Saudi Arabia.';
 
         SEOMeta::setTitle($seoTitle);
         SEOMeta::setDescription($metaDesc);
@@ -90,15 +187,69 @@ class FrontendController extends Controller
         TwitterCard::setUrl($pageUrl);
         TwitterCard::setImage($imageUrl);
 
-        JsonLdMulti::setTitle($seoTitle);
-        JsonLdMulti::setDescription($metaDesc);
-        JsonLdMulti::setType('WebPage');
-        JsonLdMulti::setUrl($pageUrl);
-        JsonLdMulti::addValue('inLanguage', $locale);
+        $organizationExtra = [];
+        if ($address) {
+            $organizationExtra['address'] = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $address,
+                'addressCountry' => 'SA',
+            ];
+        }
+        if ($phone) {
+            $organizationExtra['telephone'] = $phone;
+        }
+        if ($email) {
+            $organizationExtra['email'] = $email;
+        }
+
+        $graphNodes = $this->buildBaseSeoNodes($pageUrl, $seoTitle, $safeDescription ?: $defaultDescription, $locale, $siteName, $appUrl, $imageUrl, 'WebPage', '#webpage', null, $organizationExtra);
+        $graphNodes[2]['description'] = $safeDescription ?: $defaultDescription;
+
+        if ($routeName === 'home') {
+            $faqItems = Faq::query()->active()->get();
+            if ($faqItems->isNotEmpty()) {
+                $graphNodes[] = [
+                    '@type' => 'FAQPage',
+                    '@id' => $pageUrl . '#faqpage',
+                    'url' => $pageUrl,
+                    'name' => $seoTitle,
+                    'isPartOf' => ['@id' => $pageUrl . '#webpage'],
+                    'mainEntity' => $faqItems->map(fn ($faq) => [
+                        '@type' => 'Question',
+                        'name' => $faq->question,
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => trim(preg_replace('/\s+/', ' ', strip_tags($faq->answer))),
+                        ],
+                    ])->values()->toArray(),
+                ];
+            }
+        }
+
+        $this->shareSeoJsonLd($graphNodes);
 
         // Share h1/h2 with the layout view
         View::share('seoH1', $h1);
         View::share('seoH2', $h2);
+    }
+
+    private function normalizeUrl(string $url, string $baseUrl): string
+    {
+        if (empty($url)) {
+            return $baseUrl;
+        }
+
+        $normalizedBaseUrl = rtrim($baseUrl, '/');
+
+        if (str_starts_with($url, 'http://')) {
+            $url = 'https://' . substr($url, 7);
+        }
+
+        if (str_starts_with($url, 'https://')) {
+            return str_replace('http://', 'https://', $url);
+        }
+
+        return $normalizedBaseUrl . '/' . ltrim($url, '/');
     }
 
     // -------------------------------------------------------------------------
@@ -122,6 +273,16 @@ class FrontendController extends Controller
         try {
             $seo = SeoPage::getCached('about_us');
             $this->setupSeo($seo, 'about-us', __('frontend.navbar_about_us'));
+
+            $locale   = Config::get('app.locale');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $pageUrl  = $this->normalizeUrl(route('about-us'), $baseUrl);
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+
+            $this->shareSeoJsonLd($this->buildBaseSeoNodes($pageUrl, $seo?->seo_title_en ?: __('frontend.navbar_about_us'), $description ?: 'About Al Jeel Contracting and our experience in delivering high-quality construction services.', $locale, $siteName, $baseUrl, $imageUrl, 'AboutPage', '#webpage'));
+
             return view('frontend.about-us');
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -138,28 +299,33 @@ class FrontendController extends Controller
 
             $locale      = Config::get('app.locale');
             $isArabic    = $locale === 'ar';
-            $servicesUrl = route('services');
+            $siteName    = config('app.name', 'Aljeel Contracting');
+            $baseUrl     = rtrim(config('app.url', url('/')), '/');
+            $servicesUrl = $this->normalizeUrl(route('services'), $baseUrl);
+            $pageUrl     = $servicesUrl;
+            $imageUrl    = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
 
-            // Upgrade listing page schema to CollectionPage
-            JsonLdMulti::setType('CollectionPage');
-
-            // Breadcrumb schema
-            JsonLdMulti::newJsonLd();
-            JsonLdMulti::setType('BreadcrumbList');
-            JsonLdMulti::addValue('itemListElement', [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_services'), 'item' => $servicesUrl],
-            ]);
-
-            // ItemList of all services for rich results
-            JsonLdMulti::newJsonLd();
-            JsonLdMulti::setType('ItemList');
-            JsonLdMulti::addValue('itemListElement', $svcItems->map(fn($s, $i) => [
-                '@type'    => 'ListItem',
-                'position' => $i + 1,
-                'name'     => $isArabic ? $s->title_ar : $s->title_en,
-                'url'      => route('services.details', $s->slug ?: $s->id),
-            ])->values()->toArray());
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, __('frontend.navbar_services'), $description ?: 'Explore Al Jeel Contracting services and solutions across Saudi Arabia.', $locale, $siteName, $baseUrl, $imageUrl, 'CollectionPage', '#webpage');
+            $graphNodes[] = [
+                '@type' => 'BreadcrumbList',
+                '@id' => $servicesUrl . '#breadcrumbs',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => $this->normalizeUrl(route('home'), $baseUrl)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_services'), 'item' => $servicesUrl],
+                ],
+            ];
+            $graphNodes[] = [
+                '@type' => 'ItemList',
+                '@id' => $servicesUrl . '#services-list',
+                'itemListElement' => $svcItems->map(fn($s, $i) => [
+                    '@type' => 'ListItem',
+                    'position' => $i + 1,
+                    'name' => $isArabic ? $s->title_ar : $s->title_en,
+                    'url' => $this->normalizeUrl(route('services.details', $s->slug ?: $s->id), $baseUrl),
+                ])->values()->toArray(),
+            ];
+            $this->shareSeoJsonLd($graphNodes);
 
             return view('frontend.services', compact('contact'));
         } catch (\Throwable $th) {
@@ -210,11 +376,12 @@ class FrontendController extends Controller
             $h1 = $isArabic ? ($service->h1_val_ar ?? '') : ($service->h1_val_en ?? '');
             $h2 = $isArabic ? ($service->h2_val_ar ?? '') : ($service->h2_val_en ?? '');
 
-            $pageUrl     = url()->current();
+            $pageUrl     = $this->normalizeUrl(url()->current(), rtrim(url('/'), '/'));
             $ogLocale    = $isArabic ? 'ar_SA' : 'en_US';
-            $appUrl      = rtrim(preg_replace('/^http:\/\//', 'https://', config('app.url')), '/');
-            $imageUrl    = $service->image ? asset(ltrim($service->image, '/')) : asset('assets/images/Logo.png');
-            $servicesUrl = route('services');
+            $appUrl      = rtrim(url('/'), '/');
+            $imageUrl    = $this->normalizeUrl($service->image ? asset(ltrim($service->image, '/')) : asset('assets/images/Logo.png'), $appUrl);
+            $brandImageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $appUrl);
+            $servicesUrl = $this->normalizeUrl(route('services'), $appUrl);
 
             SEOMeta::setTitle($seoTitle);
             SEOMeta::setDescription($metaDesc);
@@ -238,50 +405,33 @@ class FrontendController extends Controller
             TwitterCard::setImage($imageUrl);
 
             $serviceName = $isArabic ? $service->title_ar : $service->title_en;
-            JsonLdMulti::setTitle($serviceName);
-            JsonLdMulti::setDescription($metaDesc);
-            JsonLdMulti::setType('Service');
-            JsonLdMulti::setUrl($pageUrl);
-            JsonLdMulti::addValue('inLanguage', $locale);
-            JsonLdMulti::addValue('provider', [
-                '@type' => 'Organization',
-                'name'  => $siteName,
-                'url'   => $appUrl,
-            ]);
-            JsonLdMulti::addValue('areaServed', [
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, $seoTitle, $metaDesc ?: 'Detailed construction service information from Al Jeel Contracting.', $locale, $siteName, $appUrl, $brandImageUrl, 'Service', '#webpage', $brandImageUrl);
+            $graphNodes[0]['serviceType'] = $serviceName;
+            $graphNodes[0]['provider'] = ['@id' => $appUrl . '#organization'];
+            $graphNodes[0]['areaServed'] = [
                 ['@type' => 'Country', 'name' => 'Saudi Arabia'],
                 ['@type' => 'Country', 'name' => 'India'],
-            ]);
-            JsonLdMulti::addValue('isPartOf', [
-                '@type' => 'WebPage',
-                '@id'   => $servicesUrl,
-                'name'  => __('frontend.navbar_services'),
-                'url'   => $servicesUrl,
-            ]);
-            JsonLdMulti::addValue('serviceType', $serviceName);
-            JsonLdMulti::addValue('offers', [
-                '@type'        => 'Offer',
+            ];
+            $graphNodes[0]['mainEntityOfPage'] = ['@id' => $pageUrl . '#webpage'];
+            $graphNodes[0]['isPartOf'] = ['@id' => $servicesUrl . '#webpage'];
+            $graphNodes[0]['offers'] = [
+                '@type' => 'Offer',
                 'availability' => 'https://schema.org/InStock',
-                'areaServed'   => [
-                    ['@type' => 'Country', 'name' => 'Saudi Arabia'],
-                    ['@type' => 'Country', 'name' => 'India'],
-                ],
-            ]);
-
-            $hasParts = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
+            ];
+            $graphNodes[0]['hasPart'] = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
             foreach ($service->media->filter(fn($m) => str_starts_with((string) $m->mime_type, 'image/')) as $m) {
-                $hasParts[] = ['@type' => 'ImageObject', 'url' => asset(ltrim($m->path, '/')), 'name' => $serviceName];
+                $graphNodes[0]['hasPart'][] = ['@type' => 'ImageObject', 'url' => $this->normalizeUrl(asset(ltrim($m->path, '/')), $appUrl), 'name' => $serviceName];
             }
-            JsonLdMulti::addValue('hasPart', $hasParts);
-
-            // Breadcrumb schema
-            JsonLdMulti::newJsonLd();
-            JsonLdMulti::setType('BreadcrumbList');
-            JsonLdMulti::addValue('itemListElement', [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_services'), 'item' => $servicesUrl],
-                ['@type' => 'ListItem', 'position' => 3, 'name' => $serviceName, 'item' => $pageUrl],
-            ]);
+            $graphNodes[] = [
+                '@type' => 'BreadcrumbList',
+                '@id' => $pageUrl . '#breadcrumbs',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => $this->normalizeUrl(route('home'), $appUrl)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_services'), 'item' => $servicesUrl],
+                    ['@type' => 'ListItem', 'position' => 3, 'name' => $serviceName, 'item' => $pageUrl],
+                ],
+            ];
+            $this->shareSeoJsonLd($graphNodes);
 
             View::share('seoH1', $h1);
             View::share('seoH2', $h2);
@@ -315,6 +465,16 @@ class FrontendController extends Controller
             $seo     = SeoPage::getCached('contact_us');
             $contact = ContactUs::query()->first();
             $this->setupSeo($seo, 'contact-us', __('frontend.navbar_contact'));
+
+            $locale   = Config::get('app.locale');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $pageUrl  = $this->normalizeUrl(route('contact-us'), $baseUrl);
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+
+            $this->shareSeoJsonLd($this->buildBaseSeoNodes($pageUrl, __('frontend.navbar_contact'), $description ?: 'Contact Al Jeel Contracting for construction, engineering, and consultation services in Saudi Arabia.', $locale, $siteName, $baseUrl, $imageUrl, 'ContactPage', '#webpage'));
+
             return view('frontend.contact-us', compact('contact'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -440,28 +600,33 @@ class FrontendController extends Controller
 
             $locale   = Config::get('app.locale');
             $isArabic = $locale === 'ar';
-            $blogsUrl = route('blogs');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $blogsUrl = $this->normalizeUrl(route('blogs'), $baseUrl);
+            $pageUrl  = $blogsUrl;
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
 
-            // Upgrade listing page schema to Blog
-            JsonLdMulti::setType('Blog');
-
-            // Breadcrumb schema
-            JsonLdMulti::newJsonLd();
-            JsonLdMulti::setType('BreadcrumbList');
-            JsonLdMulti::addValue('itemListElement', [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_blogs'), 'item' => $blogsUrl],
-            ]);
-
-            // ItemList of blog posts on this page
-            JsonLdMulti::newJsonLd();
-            JsonLdMulti::setType('ItemList');
-            JsonLdMulti::addValue('itemListElement', $blogs->getCollection()->map(fn($b, $i) => [
-                '@type'    => 'ListItem',
-                'position' => $i + 1,
-                'name'     => $isArabic ? $b->title_ar : $b->title_en,
-                'url'      => route('blogs.details', $b->alias_name_en ?: $b->id),
-            ])->values()->toArray());
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, __('frontend.navbar_blogs'), $description ?: 'Read the latest construction and engineering insights from Al Jeel Contracting.', $locale, $siteName, $baseUrl, $imageUrl, 'Blog', '#webpage');
+            $graphNodes[] = [
+                '@type' => 'BreadcrumbList',
+                '@id' => $blogsUrl . '#breadcrumbs',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => $this->normalizeUrl(route('home'), $baseUrl)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_blogs'), 'item' => $blogsUrl],
+                ],
+            ];
+            $graphNodes[] = [
+                '@type' => 'ItemList',
+                '@id' => $blogsUrl . '#blog-list',
+                'itemListElement' => $blogs->getCollection()->map(fn($b, $i) => [
+                    '@type' => 'ListItem',
+                    'position' => $i + 1,
+                    'name' => $isArabic ? $b->title_ar : $b->title_en,
+                    'url' => $this->normalizeUrl(route('blogs.details', $b->alias_name_en ?: $b->id), $baseUrl),
+                ])->values()->toArray(),
+            ];
+            $this->shareSeoJsonLd($graphNodes);
 
             return view('frontend.blogs', compact('blogs', 'contact'));
         } catch (\Throwable $th) {
@@ -504,11 +669,12 @@ class FrontendController extends Controller
             $h2 = $isArabic ? ($blog->h2_val_ar ?? '') : ($blog->h2_val_en ?? '');
             $keywords = $isArabic ? ($blog->keywords_ar ?? '') : ($blog->keywords_en ?? '');
 
-            $pageUrl   = url()->current();
+            $pageUrl   = $this->normalizeUrl(url()->current(), rtrim(url('/'), '/'));
             $ogLocale  = $isArabic ? 'ar_SA' : 'en_US';
-            $appUrl    = rtrim(preg_replace('/^http:\/\//', 'https://', config('app.url')), '/');
-            $imageUrl  = $blog->image ? asset(ltrim($blog->image, '/')) : asset('assets/images/Logo.png');
-            $blogsUrl  = route('blogs');
+            $appUrl    = rtrim(url('/'), '/');
+            $imageUrl  = $this->normalizeUrl($blog->image ? asset(ltrim($blog->image, '/')) : asset('assets/images/Logo.png'), $appUrl);
+            $brandImageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $appUrl);
+            $blogsUrl  = $this->normalizeUrl(route('blogs'), $appUrl);
 
             SEOMeta::setTitle($seoTitle);
             SEOMeta::setDescription($metaDesc);
@@ -534,58 +700,33 @@ class FrontendController extends Controller
             TwitterCard::setImage($imageUrl);
 
             $articleTitle = $isArabic ? $blog->title_ar : $blog->title_en;
-            JsonLdMulti::setTitle($articleTitle);
-            JsonLdMulti::setDescription($metaDesc);
-            JsonLdMulti::setType('BlogPosting');
-            JsonLdMulti::setUrl($pageUrl);
-            JsonLdMulti::addValue('inLanguage', $locale);
-            JsonLdMulti::addValue('headline', $seoTitle);
-            JsonLdMulti::addValue('image', $imageUrl);
-            JsonLdMulti::addValue('datePublished', $blog->created_at?->toIso8601String());
-            JsonLdMulti::addValue('dateModified', $blog->updated_at?->toIso8601String());
-            JsonLdMulti::addValue('author', [
-                '@type' => 'Organization',
-                'name'  => $siteName,
-                'url'   => $appUrl,
-            ]);
-            JsonLdMulti::addValue('publisher', [
-                '@type' => 'Organization',
-                'name'  => $siteName,
-                'url'   => $appUrl,
-                'logo'  => [
-                    '@type' => 'ImageObject',
-                    'url'   => asset('assets/images/Logo.png'),
-                ],
-            ]);
-            JsonLdMulti::addValue('isPartOf', [
-                '@type' => 'Blog',
-                '@id'   => $blogsUrl,
-                'name'  => __('frontend.navbar_blogs'),
-                'url'   => $blogsUrl,
-            ]);
-            JsonLdMulti::addValue('mainEntityOfPage', [
-                '@type' => 'WebPage',
-                '@id'   => $pageUrl,
-            ]);
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, $seoTitle, $metaDesc ?: 'Read the latest blog post from Al Jeel Contracting.', $locale, $siteName, $appUrl, $brandImageUrl, 'BlogPosting', '#webpage', $brandImageUrl);
+            $graphNodes[0]['headline'] = $seoTitle;
+            $graphNodes[0]['image'] = $imageUrl;
+            $graphNodes[0]['datePublished'] = $blog->created_at?->toIso8601String();
+            $graphNodes[0]['dateModified'] = $blog->updated_at?->toIso8601String();
+            $graphNodes[0]['author'] = ['@id' => $appUrl . '#organization'];
+            $graphNodes[0]['publisher'] = ['@id' => $appUrl . '#organization'];
+            $graphNodes[0]['isPartOf'] = ['@id' => $blogsUrl . '#webpage'];
+            $graphNodes[0]['mainEntityOfPage'] = ['@id' => $pageUrl . '#webpage'];
             if ($keywords) {
-                JsonLdMulti::addValue('keywords', array_map('trim', explode(',', $keywords)));
+                $graphNodes[0]['keywords'] = array_map('trim', explode(',', $keywords));
             }
-            JsonLdMulti::addValue('hasPart', [
-                [
-                    '@type' => 'ImageObject',
-                    'url'   => $imageUrl,
-                    'name'  => $altText,
+            $graphNodes[0]['hasPart'] = [[
+                '@type' => 'ImageObject',
+                'url' => $imageUrl,
+                'name' => $altText,
+            ]];
+            $graphNodes[] = [
+                '@type' => 'BreadcrumbList',
+                '@id' => $pageUrl . '#breadcrumbs',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => $this->normalizeUrl(route('home'), $appUrl)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_blogs'), 'item' => $blogsUrl],
+                    ['@type' => 'ListItem', 'position' => 3, 'name' => $articleTitle, 'item' => $pageUrl],
                 ],
-            ]);
-
-            // Breadcrumb schema
-            JsonLdMulti::newJsonLd();
-            JsonLdMulti::setType('BreadcrumbList');
-            JsonLdMulti::addValue('itemListElement', [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => route('home')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_blogs'), 'item' => $blogsUrl],
-                ['@type' => 'ListItem', 'position' => 3, 'name' => $articleTitle, 'item' => $pageUrl],
-            ]);
+            ];
+            $this->shareSeoJsonLd($graphNodes);
 
             View::share('seoH1', $h1);
             View::share('seoH2', $h2);
@@ -608,6 +749,28 @@ class FrontendController extends Controller
             $seo     = SeoPage::getCached('faqs');
             $contact = ContactUs::query()->first();
             $this->setupSeo($seo, 'faqs', __('frontend.faqs_title'));
+
+            $locale   = Config::get('app.locale');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $pageUrl  = $this->normalizeUrl(route('faqs'), $baseUrl);
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+            $faqItems = Faq::query()->active()->get();
+
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, __('frontend.faqs_title'), $description ?: 'Frequently asked questions about Al Jeel Contracting services and project delivery.', $locale, $siteName, $baseUrl, $imageUrl, 'FAQPage', '#webpage');
+            if ($faqItems->isNotEmpty()) {
+                $graphNodes[0]['mainEntity'] = $faqItems->map(fn ($faq) => [
+                    '@type' => 'Question',
+                    'name' => $faq->question,
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => trim(preg_replace('/\s+/', ' ', strip_tags($faq->answer))),
+                    ],
+                ])->values()->toArray();
+            }
+            $this->shareSeoJsonLd($graphNodes);
+
             return view('frontend.faqs', compact('contact'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -619,6 +782,15 @@ class FrontendController extends Controller
         try {
             $seo = SeoPage::getCached('terms_and_conditions');
             $this->setupSeo($seo, 'terms-and-conditions', __('frontend.terms_title'));
+
+            $locale   = Config::get('app.locale');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $pageUrl  = $this->normalizeUrl(route('terms-and-conditions'), $baseUrl);
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+            $this->shareSeoJsonLd($this->buildBaseSeoNodes($pageUrl, __('frontend.terms_title'), $description ?: 'Read the terms and conditions for Al Jeel Contracting services.', $locale, $siteName, $baseUrl, $imageUrl, 'WebPage', '#webpage'));
+
             return view('frontend.terms-and-conditions');
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -630,6 +802,15 @@ class FrontendController extends Controller
         try {
             $seo = SeoPage::getCached('privacy_policy');
             $this->setupSeo($seo, 'privacy-policy', __('frontend.privacy_title'));
+
+            $locale   = Config::get('app.locale');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $pageUrl  = $this->normalizeUrl(route('privacy-policy'), $baseUrl);
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+            $this->shareSeoJsonLd($this->buildBaseSeoNodes($pageUrl, __('frontend.privacy_title'), $description ?: 'Review the privacy policy for Al Jeel Contracting.', $locale, $siteName, $baseUrl, $imageUrl, 'WebPage', '#webpage'));
+
             return view('frontend.privacy-policy');
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -643,6 +824,15 @@ class FrontendController extends Controller
             $gallery = \App\Models\Gallery::with('images')->first();
             $images  = $gallery ? $gallery->images()->latest()->get() : collect();
             $this->setupSeo($seo, 'gallery', __('frontend.gallery_title'));
+
+            $locale   = Config::get('app.locale');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $pageUrl  = $this->normalizeUrl(route('gallery'), $baseUrl);
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+            $this->shareSeoJsonLd($this->buildBaseSeoNodes($pageUrl, __('frontend.gallery_title'), $description ?: 'View project and construction gallery content from Al Jeel Contracting.', $locale, $siteName, $baseUrl, $imageUrl, 'CollectionPage', '#webpage'));
+
             return view('frontend.gallery', compact('images'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -655,6 +845,15 @@ class FrontendController extends Controller
             $seo     = SeoPage::getCached('projects');
             $contact = ContactUs::query()->first();
             $this->setupSeo($seo, 'projects', __('frontend.navbar_projects'));
+
+            $locale   = Config::get('app.locale');
+            $siteName = config('app.name', 'Aljeel Contracting');
+            $baseUrl  = rtrim(config('app.url', url('/')), '/');
+            $pageUrl  = $this->normalizeUrl(route('projects'), $baseUrl);
+            $imageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $baseUrl);
+            $description = trim(preg_replace('/\s+/', ' ', strip_tags($seo?->meta_desc_en ?? $seo?->meta_desc_ar ?? '')));
+            $this->shareSeoJsonLd($this->buildBaseSeoNodes($pageUrl, __('frontend.navbar_projects'), $description ?: 'Browse completed residential, commercial, and industrial projects by Al Jeel Contracting.', $locale, $siteName, $baseUrl, $imageUrl, 'CollectionPage', '#webpage'));
+
             return view('frontend.projects', compact('contact'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
@@ -704,10 +903,14 @@ class FrontendController extends Controller
             $h1 = $isArabic ? ($project->h1_val_ar ?? '') : ($project->h1_val_en ?? '');
             $h2 = $isArabic ? ($project->h2_val_ar ?? '') : ($project->h2_val_en ?? '');
 
-            $pageUrl     = url()->current();
+            $pageUrl     = $this->normalizeUrl(url()->current(), rtrim(config('app.url', url('/')), '/'));
             $ogLocale    = $isArabic ? 'ar_SA' : 'en_US';
-            $imageUrl    = $project->image ? asset($project->image) : asset('assets/images/Logo.png');
-            $projectsUrl = route('projects');
+            $baseUrl     = rtrim(config('app.url', url('/')), '/');
+            $appUrl      = $this->normalizeUrl('', $baseUrl);
+            $projectImagePath = $project->image ? preg_replace('#/+#', '/', ltrim($project->image, '/')) : 'assets/images/Logo.png';
+            $imageUrl    = $this->normalizeUrl($project->image ? asset($projectImagePath) : asset('assets/images/Logo.png'), $appUrl);
+            $brandImageUrl = $this->normalizeUrl(asset('assets/images/Logo.png'), $appUrl);
+            $projectsUrl = $this->normalizeUrl(route('projects'), $appUrl);
 
             SEOMeta::setTitle($seoTitle);
             SEOMeta::setDescription($metaDesc);
@@ -731,30 +934,38 @@ class FrontendController extends Controller
             TwitterCard::setImage($imageUrl);
 
             $projectName = $isArabic ? $project->title_ar : $project->title_en;
-            JsonLdMulti::setTitle($projectName);
-            JsonLdMulti::setDescription($metaDesc);
-            JsonLdMulti::setType('WebPage');
-            JsonLdMulti::setUrl($pageUrl);
-            JsonLdMulti::addValue('inLanguage', $locale);
-            JsonLdMulti::addValue('name', $projectName);
-            JsonLdMulti::addValue('image', $imageUrl);
-            JsonLdMulti::addValue('about', [
-                '@type' => 'Organization',
-                'name'  => $siteName,
-                'url'   => config('app.url'),
-            ]);
-            JsonLdMulti::addValue('isPartOf', [
-                '@type' => 'WebPage',
-                '@id'   => $projectsUrl,
-                'name'  => __('frontend.navbar_projects'),
-                'url'   => $projectsUrl,
-            ]);
-
-            $hasParts = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
+            $companyDescription = 'Al Jeel Contracting delivers construction and engineering solutions across Saudi Arabia.';
+            $graphNodes = $this->buildBaseSeoNodes($pageUrl, $seoTitle, $metaDesc ?: 'View a featured Al Jeel Contracting project profile.', $locale, $siteName, $appUrl, $brandImageUrl, 'WebPage', '#webpage', $brandImageUrl);
+            $graphNodes[2]['description'] = $companyDescription;
+            $graphNodes[0]['name'] = $projectName;
+            $graphNodes[0]['image'] = $imageUrl;
+            $graphNodes[0]['about'] = ['@id' => $appUrl . '#organization'];
+            $graphNodes[0]['isPartOf'] = ['@id' => $projectsUrl . '#webpage'];
+            $graphNodes[0]['mainEntity'] = ['@id' => $pageUrl . '#project'];
+            $graphNodes[0]['hasPart'] = [['@type' => 'ImageObject', 'url' => $imageUrl, 'name' => $altText]];
             foreach ($project->media->filter(fn($m) => str_starts_with((string) $m->mime_type, 'image/')) as $m) {
-                $hasParts[] = ['@type' => 'ImageObject', 'url' => asset($m->path), 'name' => $projectName];
+                $mediaPath = preg_replace('#/+#', '/', ltrim($m->path, '/'));
+                $graphNodes[0]['hasPart'][] = ['@type' => 'ImageObject', 'url' => $this->normalizeUrl(asset($mediaPath), $appUrl), 'name' => $projectName];
             }
-            JsonLdMulti::addValue('hasPart', $hasParts);
+            $graphNodes[] = [
+                '@type' => 'Project',
+                '@id' => $pageUrl . '#project',
+                'name' => $projectName,
+                'url' => $pageUrl,
+                'description' => $metaDesc ?: 'View a featured Al Jeel Contracting project profile.',
+                'image' => $imageUrl,
+                'isPartOf' => ['@id' => $projectsUrl . '#webpage'],
+            ];
+            $graphNodes[] = [
+                '@type' => 'BreadcrumbList',
+                '@id' => $pageUrl . '#breadcrumbs',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => $isArabic ? 'الرئيسية' : 'Home', 'item' => $this->normalizeUrl(route('home'), $appUrl)],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => __('frontend.navbar_projects'), 'item' => $projectsUrl],
+                    ['@type' => 'ListItem', 'position' => 3, 'name' => $projectName, 'item' => $pageUrl],
+                ],
+            ];
+            $this->shareSeoJsonLd($graphNodes);
 
             View::share('seoH1', $h1);
             View::share('seoH2', $h2);

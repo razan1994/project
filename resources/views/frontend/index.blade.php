@@ -152,9 +152,10 @@
 
 
     <!-- Section 10 -->
+
     @include('frontend.layout.partials.contact-section')
 
-    <!-- Section 11 -->
+    <!-- Section 12 -->
     <div id="latest-news-section">
         <livewire:frontend.latest-news-section />
     </div>
