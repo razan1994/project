@@ -1,6 +1,5 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="{{ route('dashboard') }}"
-        class="brand-link d-flex align-items-center justify-content-center"
+    <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center justify-content-center"
         style="height: 140px; background: #f4f6f9;">
         <img src="{{ asset('assets/images/logo.png') }}" alt="Smart Zone" class="p-3 h-100" style="object-fit: contain;">
     </a>
@@ -8,7 +7,8 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center justify-content-between px-3">
             <div class="info d-flex align-items-center">
-                <div class="mr-2 rounded-circle bg-light text-dark d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                <div class="mr-2 rounded-circle bg-light text-dark d-flex align-items-center justify-content-center"
+                    style="width: 36px; height: 36px;">
                     <i class="fas fa-user"></i>
                 </div>
                 <a href="#" class="d-block text-white text-sm font-weight-bold">
@@ -21,7 +21,8 @@
         </div>
 
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <li class="nav-header text-uppercase text-xs text-secondary px-3 mt-2 mb-2">Main</li>
 
                 <li class="nav-item">
@@ -35,11 +36,15 @@
 
                 <li @class([
                     'nav-item',
-                    'menu-open' => request()->routeIs('dashboard.projects.*') || request()->routeIs('dashboard.categories.*'),
+                    'menu-open' =>
+                        request()->routeIs('dashboard.projects.*') ||
+                        request()->routeIs('dashboard.categories.*'),
                 ])>
                     <a href="#" @class([
                         'nav-link',
-                        'active' => request()->routeIs('dashboard.projects.*') || request()->routeIs('dashboard.categories.*'),
+                        'active' =>
+                            request()->routeIs('dashboard.projects.*') ||
+                            request()->routeIs('dashboard.categories.*'),
                     ])>
                         <i class="nav-icon fas fa-project-diagram"></i>
                         <p class="mb-0">
@@ -63,7 +68,11 @@
                         <li class="nav-item">
                             <a href="{{ route('dashboard.projects.index') }}" @class([
                                 'nav-link',
-                                'active' => request()->routeIs('dashboard.projects.index') || request()->routeIs('dashboard.projects.edit') || request()->routeIs('dashboard.projects.create') || request()->routeIs('dashboard.projects.gallery'),
+                                'active' =>
+                                    request()->routeIs('dashboard.projects.index') ||
+                                    request()->routeIs('dashboard.projects.edit') ||
+                                    request()->routeIs('dashboard.projects.create') ||
+                                    request()->routeIs('dashboard.projects.gallery'),
                             ])>
                                 <i class="far fa-images nav-icon"></i>
                                 <p class="mb-0">Projects</p>
@@ -163,26 +172,32 @@
                         <li class="nav-item">
                             <a href="{{ route('dashboard.contactUs.index') }}" @class([
                                 'nav-link',
-                                'active' => request()->routeIs('dashboard.contactUs.index') || request()->routeIs('dashboard.contactUs.edit'),
+                                'active' =>
+                                    request()->routeIs('dashboard.contactUs.index') ||
+                                    request()->routeIs('dashboard.contactUs.edit'),
                             ])>
                                 <i class="far fa-address-card nav-icon"></i>
                                 <p class="mb-0">Contact us</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('dashboard.contactUs.contact-us-requests') }}" @class([
-                                'nav-link',
-                                'active' => request()->routeIs('dashboard.contactUs.contact-us-requests'),
-                            ])>
+                            <a href="{{ route('dashboard.contactUs.contact-us-requests') }}"
+                                @class([
+                                    'nav-link',
+                                    'active' => request()->routeIs('dashboard.contactUs.contact-us-requests'),
+                                ])>
                                 <i class="fas fa-inbox nav-icon"></i>
                                 <p class="mb-0">Contact us requests</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('dashboard.contactUs.consultation-requests') }}" @class([
-                                'nav-link',
-                                'active' => request()->routeIs('dashboard.contactUs.consultation-requests') || request()->routeIs('dashboard.contactUs.consultation-request-show'),
-                            ])>
+                            <a href="{{ route('dashboard.contactUs.consultation-requests') }}"
+                                @class([
+                                    'nav-link',
+                                    'active' =>
+                                        request()->routeIs('dashboard.contactUs.consultation-requests') ||
+                                        request()->routeIs('dashboard.contactUs.consultation-request-show'),
+                                ])>
                                 <i class="fas fa-comment-medical nav-icon"></i>
                                 <p class="mb-0">Consultation Requests</p>
                             </a>
@@ -317,7 +332,7 @@
 
                 <li class="nav-header text-uppercase text-xs text-secondary px-3 mt-3 mb-2">Administration</li>
 
-                @if(auth()->user()?->email === 'seo-admin@smartzone.com')
+                @if (auth()->user()?->email === 'seo-admin@smartzone.com')
                     <li @class([
                         'nav-item',
                         'menu-open' => request()->routeIs('dashboard.seo-pages.*'),
@@ -340,6 +355,18 @@
                                 ])>
                                     <i class="fas fa-search nav-icon"></i>
                                     <p class="mb-0">SEO Pages</p>
+                                </a>
+                            </li>
+
+                            {{-- SEO Sections --}}
+                            <li class="nav-item">
+                                <a href="{{ route('dashboard.seo-sections.index') }}" @class([
+                                    'nav-link',
+                                    'active' => request()->routeIs('dashboard.seo-sections.*'),
+                                ])>
+
+                                    <p>SEO Sections</p>
+
                                 </a>
                             </li>
                         </ul>

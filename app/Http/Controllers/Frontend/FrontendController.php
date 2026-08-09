@@ -12,6 +12,7 @@ use App\Models\Blog;
 use App\Models\ConsultationRequest;
 use App\Models\Faq;
 use App\Models\Project;
+use App\Models\SeoSection;
 use App\Models\Service;
 use App\Models\SupportTicket;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class FrontendController extends Controller
         $cleanNodes = $this->removeEmptyValues($nodes);
         $jsonLdGraph = json_encode([
             '@context' => 'https://schema.org',
-            '@graph' => array_values(array_filter($cleanNodes, fn ($node) => is_array($node) && !empty($node))),
+            '@graph' => array_values(array_filter($cleanNodes, fn($node) => is_array($node) && !empty($node))),
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         View::share('seoJsonLd', $jsonLdGraph);
@@ -127,7 +128,7 @@ class FrontendController extends Controller
     private function buildFaqMainEntity(array $faqItems, string $locale): array
     {
         $questions = collect($faqItems)
-            ->filter(fn ($faq) => $faq instanceof Faq)
+            ->filter(fn($faq) => $faq instanceof Faq)
             ->map(function (Faq $faq) use ($locale): array {
                 $question = $locale === 'ar'
                     ? ($faq->question_ar ?: $faq->question_en ?: $faq->question)
@@ -145,7 +146,7 @@ class FrontendController extends Controller
                     ],
                 ];
             })
-            ->filter(fn (array $entity) => !empty($entity['name']))
+            ->filter(fn(array $entity) => !empty($entity['name']))
             ->values()
             ->toArray();
 
@@ -341,8 +342,12 @@ class FrontendController extends Controller
         try {
             $seo     = SeoPage::getCached('home');
             $contact = ContactUs::query()->first();
+            $seoSections = SeoSection::query()
+                ->where('status', 1)
+                ->orderBy('id')
+                ->get();
             $this->setupSeo($seo, 'home', config('app.name', 'Aljeel'));
-            return view('frontend.index', compact('contact'));
+            return view('frontend.index', compact('contact', 'seoSections'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
         }
@@ -953,7 +958,7 @@ class FrontendController extends Controller
             $graphNodes[] = [
                 '@type' => 'ItemList',
                 '@id' => $projectsUrl . '#project-list',
-                'itemListElement' => $projects->map(fn ($project, $index) => [
+                'itemListElement' => $projects->map(fn($project, $index) => [
                     '@type' => 'ListItem',
                     'position' => $index + 1,
                     'name' => $isArabic ? ($project->title_ar ?: $project->title_en) : ($project->title_en ?: $project->title_ar),

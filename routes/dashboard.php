@@ -8,11 +8,13 @@ use App\Http\Controllers\Dashboard\ContactUsController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\FeatureController;
+use App\Http\Controllers\Dashboard\GalleryController;
 use App\Http\Controllers\Dashboard\MissionController;
 use App\Http\Controllers\Dashboard\PageDesignController;
 use App\Http\Controllers\Dashboard\PrivacyPolicyController;
 use App\Http\Controllers\Dashboard\ProjectsController;
 use App\Http\Controllers\Dashboard\SeoPagesController;
+use App\Http\Controllers\Dashboard\SeoSectionController;
 use App\Http\Controllers\Dashboard\ServiceController;
 use App\Http\Controllers\Dashboard\SlidersController;
 use App\Http\Controllers\Dashboard\SupportTicketController;
@@ -241,13 +243,22 @@ Route::name('dashboard.')
 
         // Gallery Routes :
         // ------------------------------------------
-        Route::controller(App\Http\Controllers\Dashboard\GalleryController::class)
+        Route::controller(GalleryController::class)
             ->name('gallery.')
             ->prefix('gallery')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::post('/upload', 'uploadImages')->name('upload');
                 Route::delete('/delete-image/{imageId}', 'deleteImage')->name('delete-image');
+            });
+
+        Route::controller(SeoSectionController::class)
+            ->name('seo-sections.')
+            ->prefix('seo-sections')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::get('/create', 'create')->name('create');
             });
 
 
