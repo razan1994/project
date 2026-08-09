@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.14.1/build/css/intlTelInput.css">
     <!-- country-select-js CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/country-select-js/2.0.1/css/countrySelect.min.css">
-    
+
     <style>
         .home-seo-row {
             display: flex;
@@ -18,7 +18,7 @@
 
         .home-seo-title-link {
             color: #233658;
-            font-weight: 600;
+            font-weight: 900;
             text-decoration: none;
             transition: all 0.3s ease;
         }
@@ -279,15 +279,10 @@
             <p dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="home-seo-row">
 
                 @foreach ($seoSections as $section)
-                    @php
-                        $title = app()->getLocale() === 'ar' ? $section->title_ar : $section->title_en;
-                    @endphp
 
                     <a href="#" class="home-seo-title-link" data-section-id="{{ $section->id }}">
 
                         <i class="fas fa-minus"></i>
-
-                        {{ $title }}
 
                     </a>
                 @endforeach
