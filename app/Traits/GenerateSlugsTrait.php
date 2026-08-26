@@ -10,7 +10,7 @@ trait GenerateSlugsTrait
     {
 
         // Generate slug from title
-        $slug = trim(strtolower(str_replace(array(' ', '"', '>', '<', '#', '%', '|', '/' ,'+' , '.'), '-', trim($title_en))));
+        $slug = trim(strtolower(str_replace(array(' ', '"', '>', '<', '#', '%', '|', '/' ,'+' , '.', '?', '؟'), '-', trim($title_en))));
         // Remove duplicate hyphens
         $slug = preg_replace('/-+/', '-', $slug);
 
