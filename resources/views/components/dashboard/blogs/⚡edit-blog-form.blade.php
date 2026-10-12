@@ -38,17 +38,6 @@ new class extends Component {
     #[Validate('nullable|sometimes|image|mimes:jpg,jpeg,png,gif,svg')]
     public $image;
 
-
-
-
-
-
-
-
-
-
-
-
     public function mount(Blog $blog)
     {
         $this->blog = $blog;

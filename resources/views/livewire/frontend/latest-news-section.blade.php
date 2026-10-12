@@ -3,9 +3,6 @@
         <div class="block-heading text-center mb-4">
             <p class="dextheme-sub-title mb-4">{{ __('frontend.news_subtitle') }}</p>
             <h2 class="dextheme-main-title dextheme-w-60 mx-auto mb-4">{{ __('frontend.news_title') }}</h2>
-            <p class="plain-text dextheme-w-75 mx-auto">
-                {{ __('frontend.news_desc') }}
-            </p>
         </div>
 
         <div class="dextheme-row g-4 mt-4">

@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-         $admin = User::where('name', 'Admin')->first();
+        $admin = User::where('name', 'Admin')->first();
         if (! $admin) {
             User::create([
                 'name' => 'Admin',
