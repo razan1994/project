@@ -1,126 +1,35 @@
- <!-- Footer Section -->
- <footer class="dextheme-content-footer">
-     <div class="dextheme-container">
-         <div class="dextheme-content-footer__middle">
-             <div class="dextheme-row">
-                 <div class="dextheme-col-lg-4 dextheme-col-md-6 dextheme-col-sm-12">
-                     <div class="dextheme-flex dextheme-flex-column align-items-start h-100">
-                         <img src="{{ asset('assets/images/Logo.png') }}" alt="logo" height="81" class="logo-brand">
-                         <p>
-                             {{ __('frontend.footer_description') }}
-                         </p>
-                     </div>
-                 </div>
-                 <div class="dextheme-col-lg-2 dextheme-col-md-6 dextheme-col-sm-12">
-                     <h4>{{ __('frontend.footer_extra_links') }}</h4>
-                     <ul class="extra-links">
-                         <li class="nav-item">
-                             <a class="nav-link" href="{{ route('about-us') }}">{{ __('frontend.footer_about_us') }}</a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="{{ route('blogs') }}">{{ __('frontend.footer_blogs') }}</a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="{{ route('services') }}">{{ __('frontend.footer_services') }}</a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="{{ route('design-build-project') }}">{{ __('frontend.footer_project') }}</a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="{{ route('faqs') }}">{{ __('frontend.footer_faqs') }}</a>
-                         </li>
-                     </ul>
-                 </div>
-                 <div class="dextheme-col-lg-2 dextheme-col-md-6 dextheme-col-sm-12">
-                     <h4>{{ __('frontend.footer_services_title') }}</h4>
-                     <ul class="services">
-                         @if (isset($services) && $services->count())
-                             @foreach ($services as $footerService)
-                                 <li class="nav-item">
-                                     <a class="nav-link" href="{{ route('services.details', $footerService->slug ?: $footerService->id) }}">
-                                         <i aria-hidden="true" class="icon icon-right-arrow1"></i>
-                                         {{ $footerService->title }}
-                                     </a>
-                                 </li>
-                             @endforeach
-                         @else
-                             <li class="nav-item">
-                                 <a class="nav-link" href="{{ route('services') }}">
-                                     <i aria-hidden="true" class="icon icon-right-arrow1"></i>
-                                     {{ __('frontend.footer_services') }}
-                                 </a>
-                             </li>
-                         @endif
-                     </ul>
-                 </div>
-                 <div class="dextheme-col-lg-4 dextheme-col-md-6 dextheme-col-sm-12">
-                     <h4>{{ __('frontend.footer_address_title') }}</h4>
-                     <ul class="address">
-                         <li class="nav-item">
-                             <a class="nav-link" href="#">
-                                 <i class="bg-primary svg-icon map-point-icon mt-1"></i>
-                                 {{ $contact?->address ?? __('frontend.footer_add_address') }}
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="#">
-                                 <i class="bg-primary svg-icon email-icon mt-1"></i>
-                                 {{ $contact?->email ?? __('frontend.footer_add_email') }}
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="#">
-                                 <i class="bg-primary svg-icon phone-icon mt-1"></i>
-                                 @php
-                                     function formatPhoneNumber($number) {
-                                         // Remove all non-digit except +
-                                         $number = preg_replace('/[^\d+]/', '', $number);
-                                         // Ensure + is at the start
-                                         if (strpos($number, '+') !== 0) {
-                                             $number = '+' . ltrim($number, '+');
-                                         }
-                                         // Format: +CCC XX XXX XXXX (for 12 digits after +)
-                                         if (preg_match('/^\+(\d{3})(\d{2})(\d{3})(\d{4})$/', $number, $m)) {
-                                             return "+$m[1] $m[2] $m[3] $m[4]";
-                                         }
-                                         // Fallback: just add a space after country code if possible
-                                         if (preg_match('/^\+(\d{3})(.+)$/', $number, $m)) {
-                                             return "+$m[1] " . trim(chunk_split($m[2], 3, ' '));
-                                         }
-                                         return $number;
-                                     }
-                                     $footerPhone = $contact?->phone ?? __('frontend.footer_add_phone');
-                                 @endphp
-                                 <span style="direction: ltr; unicode-bidi: embed; letter-spacing: 1px;">
-                                     {{ formatPhoneNumber($footerPhone) }}
-                                 </span>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link" href="#">
-                                 <i class="bg-primary svg-icon time-icon mt-1"></i>
-                                 {{ __('frontend.footer_working_hours') }}
-                             </a>
-                         </li>
-                     </ul>
-                 </div>
-             </div>
-         </div>
-         <div class="dextheme-content-footer__bottom">
-             <div class="dextheme-flex justify-content-between">
-                 <ul>
-                     <li>
-                         <a href="{{ route('terms-and-conditions') }}">{{ __('frontend.footer_terms') }}</a>
-                     </li>
-                     <li>
-                         <a href="{{ route('privacy-policy') }}">{{ __('frontend.footer_privacy') }}</a>
-                     </li>
-                     <li>
-                         <a href="{{ route('contact-us') }}">{{ __('frontend.footer_help') }}</a>
-                     </li>
-                 </ul>
-                 <p>© {{ __('frontend.footer_copyright') }} <a href="https://smartzone-jo.com" target="_blank"> <span style="color: #24395f !important; font-weight: 600;">SmartZone Co.</span></a>.</p>
-             </div>
-         </div>
-     </div>
- </footer>
+<footer class="footer">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4"><a class="brand text-white" href="index.html"><span
+                        class="brand-mark">A</span>ARMADA<span>.</span></a>
+                <p class="mt-4" data-i18n="footer_desc">Thoughtful digital solutions for ambitious businesses.</p>
+            </div>
+            <div class="col-6 col-lg-2">
+                <div class="footer-title" data-i18n="quick_links">Quick links</div>
+                <p><a href="about.html" data-i18n="nav_about">About</a></p>
+                <p><a href="blog.html" data-i18n="nav_articles">Articles</a></p>
+                <p><a href="projects.html" data-i18n="nav_projects">Projects</a></p>
+                <p><a href="faq.html">FAQ</a></p>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="footer-title" data-i18n="footer_services">Services</div>
+                <p><a href="services.html">Web Development</a></p>
+                <p><a href="services.html">Systems Development</a></p>
+                <p><a href="services.html">Website Care</a></p>
+                <p><a href="pricing.html">Pricing</a></p>
+            </div>
+            <div class="col-lg-3">
+                <div class="footer-title" data-i18n="footer_contact">Get in touch</div>
+                <p>hello@armada.example</p>
+                <p>Amman, Jordan</p><a class="btn btn-outline-light rounded-pill px-4" href="get-a-quote.html"
+                    data-i18n="nav_quote">Get a quote</a>
+            </div>
+        </div>
+        <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between gap-3"><span>© <span
+                    data-year></span> Armada. <span data-i18n="rights">All rights reserved.</span></span>
+            <div class="d-flex gap-3"><a href="privacy-policy.html" data-i18n="page_privacy">Privacy Policy</a><a
+                    href="terms.html" data-i18n="page_terms">Terms</a></div>
+        </div>
+    </div>
+</footer>

@@ -1,7 +1,5 @@
-<script type="text/javascript" src="{{ asset('assets/js/countUp.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/progressbar.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/main.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
 
 @livewireScripts
 

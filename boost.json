@@ -2,10 +2,14 @@
     "agents": [
         "codex"
     ],
+    "cloud": false,
     "packages": [
         "prism-php/prism"
     ],
     "skills": [
+        "infer-conventions",
+        "fortify-development",
+        "laravel-best-practices",
         "fluxui-development",
         "livewire-development",
         "pest-testing",

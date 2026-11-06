@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app()->getLocale() }}" @if(app()->getLocale() == 'ar') dir="rtl" class="rtl" @endif>
+<html lang="{{ app()->getLocale() }}" @if (app()->getLocale() == 'ar') dir="rtl" class="rtl" @endif>
 
 <head>
 
@@ -21,38 +21,47 @@
 
 </head>
 
-<body data-update-uri="/{{ LaravelLocalization::getCurrentLocale() }}/livewire/update" @if(app()->getLocale() == 'ar') dir="rtl" class="rtl" @endif>
+<body data-update-uri="/{{ LaravelLocalization::getCurrentLocale() }}/livewire/update"
+    @if (app()->getLocale() == 'ar') dir="rtl" class="rtl" @endif>
 
     <!-- Fixed Social Media Bar -->
-    @if (!empty($contact?->facebook) || !empty($contact?->youtube) || !empty($contact?->instagram) || !empty($contact?->linkedin))
+    @if (
+        !empty($contact?->facebook) ||
+            !empty($contact?->youtube) ||
+            !empty($contact?->instagram) ||
+            !empty($contact?->linkedin))
         <div class="fixed-social-bar d-none d-md-flex">
             @if (!empty($contact?->facebook))
-                <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer" title="Facebook"><i
+                        class="fab fa-facebook-f"></i></a>
             @endif
             @if (!empty($contact?->youtube))
-                <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer" title="YouTube"><i
+                        class="fab fa-youtube"></i></a>
             @endif
             @if (!empty($contact?->instagram))
-                <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer" title="Instagram"><i
+                        class="fab fa-instagram"></i></a>
             @endif
             @if (!empty($contact?->linkedin))
-                <a href="{{ $contact->linkedin }}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="{{ $contact->linkedin }}" target="_blank" rel="noopener noreferrer" title="LinkedIn"><i
+                        class="fab fa-linkedin-in"></i></a>
             @endif
         </div>
     @endif
     <!-- Floating WhatsApp Icon -->
     @if (!empty($contact?->phone))
-        <a href="https://wa.me/+{{ preg_replace('/\D+/', '', (string) $contact->phone) }}" class="floating-whatsapp" target="_blank" rel="noopener noreferrer"
-            title="{{ __('frontend.whatsapp_title') }}">
+        <a href="https://wa.me/+{{ preg_replace('/\D+/', '', (string) $contact->phone) }}" class="floating-whatsapp"
+            target="_blank" rel="noopener noreferrer" title="{{ __('frontend.whatsapp_title') }}">
             <span class="whatsapp-text">{{ __('frontend.whatsapp_text') }}</span>
             <i class="fab fa-whatsapp"></i>
         </a>
     @endif
 
-    @if(!empty($seoH1))
+    @if (!empty($seoH1))
         <h1 style="display:none; opacity:0; position:absolute; top:-9999px">{{ $seoH1 }}</h1>
     @endif
-    @if(!empty($seoH2))
+    @if (!empty($seoH2))
         <h2 style="display:none; opacity:0; position:absolute; top:-9999px">{{ $seoH2 }}</h2>
     @endif
 
@@ -73,8 +82,8 @@
     <!-- ======================= footer End  -->
 
 
-    <!-- Back to top -->
-    <div> <a href="#" class="back-top btn btn-grad"><i class="ti-angle-up"></i></a> </div>
+    <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
+    
 
     <!-- ======================= scripts Start -->
     @include('frontend.layout.partials.scripts')
