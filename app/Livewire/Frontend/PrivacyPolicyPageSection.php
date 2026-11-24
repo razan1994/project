@@ -9,7 +9,12 @@ class PrivacyPolicyPageSection extends Component
 {
     public function getPrivacyProperty(): ?PrivacyAndPolicy
     {
-        return PrivacyAndPolicy::query()->latest('id')->first();
+        $privacy = PrivacyAndPolicy::first();
+
+        if (!$privacy) {
+            $privacy = new PrivacyAndPolicy();
+        }
+        return $privacy;
     }
 
     public function render()

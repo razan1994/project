@@ -28,8 +28,8 @@
         </div>
         <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between gap-3"><span>© <span
                     data-year></span> Armada. <span data-i18n="rights">All rights reserved.</span></span>
-            <div class="d-flex gap-3"><a href="privacy-policy.html" data-i18n="page_privacy">Privacy Policy</a><a
-                    href="terms.html" data-i18n="page_terms">Terms</a></div>
+            <div class="d-flex gap-3"><a href="{{route('privacy-policy')}}" data-i18n="page_privacy">Privacy Policy</a><a
+                    href="{{route('terms-and-conditions')}}">Terms And Conditions</a></div>
         </div>
     </div>
 </footer>

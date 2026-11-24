@@ -17,6 +17,7 @@ use App\Http\Controllers\Dashboard\SeoPagesController;
 use App\Http\Controllers\Dashboard\SeoSectionController;
 use App\Http\Controllers\Dashboard\ServiceController;
 use App\Http\Controllers\Dashboard\SlidersController;
+use App\Http\Controllers\Dashboard\SubServicesController;
 use App\Http\Controllers\Dashboard\SupportTicketController;
 use App\Http\Controllers\Dashboard\TermsAndConditionController;
 use App\Http\Controllers\Dashboard\ValuesController;
@@ -140,6 +141,17 @@ Route::name('dashboard.')
                 Route::get('/edit/{id}', 'edit')->name('edit');
                 Route::get('/create', 'create')->name('create');
                 Route::get('/service/{id}/gallery', 'gallery')->name('gallery');
+            });
+
+            // Sub Services Routes :
+        // ------------------------------------------
+        Route::controller(SubServicesController::class)
+            ->name('sub-services.')
+            ->prefix('sub-services')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/edit/{id}', 'edit')->name('edit');
+                Route::get('/create', 'create')->name('create');
             });
 
         // Categories Routes :

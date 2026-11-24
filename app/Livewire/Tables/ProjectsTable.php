@@ -300,7 +300,7 @@ final class ProjectsTable extends PowerGridComponent
                 ->hide(),
 
             Rule::button('seo')
-                ->when(fn($row) => $row->trashed() || auth()->user()?->email !== 'seo-admin@smartzone.com')
+                ->when(fn($row) => $row->trashed() || auth()->user())
                 ->hide(),
 
             Rule::button('gallery')

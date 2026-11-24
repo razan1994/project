@@ -9,7 +9,12 @@ class TermsAndConditionsPageSection extends Component
 {
     public function getTermsProperty(): ?TermAndCondition
     {
-        return TermAndCondition::query()->latest('id')->first();
+        $terms =  TermAndCondition::first();
+
+        if (!$terms) {
+            $terms = new TermAndCondition();
+        }
+        return $terms;
     }
 
     public function render()

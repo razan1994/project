@@ -1,5 +1,20 @@
 @extends('frontend.layout.app')
 
 @section('content')
-    <livewire:frontend.about-us-section />
+@section('breadcrumb')
+    @include('frontend.layout.partials.breadcrumb', [
+        'image' => null,
+        'title' => 'About Us',
+        'links' => [
+            [
+                'name' => 'Home',
+                'url' => route('home'),
+            ],
+            [
+                'name' => 'About Us',
+            ],
+        ],
+    ])
+@endsection
+<livewire:frontend.about-us-section />
 @endsection

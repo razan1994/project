@@ -207,11 +207,15 @@
 
                 <li @class([
                     'nav-item',
-                    'menu-open' => request()->routeIs('dashboard.Services.*'),
+                    'menu-open' =>
+                        request()->routeIs('dashboard.Services.*') ||
+                        request()->routeIs('dashboard.SubServices.*'),
                 ])>
                     <a href="#" @class([
                         'nav-link',
-                        'active' => request()->routeIs('dashboard.Services.*'),
+                        'active' =>
+                            request()->routeIs('dashboard.Services.*') ||
+                            request()->routeIs('dashboard.SubServices.*'),
                     ])>
                         <i class="nav-icon fas fa-concierge-bell"></i>
                         <p class="mb-0">
@@ -231,6 +235,19 @@
                             ])>
                                 <i class="fas fa-tools nav-icon"></i>
                                 <p class="mb-0">Services</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.sub-services.index') }}" @class([
+                                'nav-link',
+                                'active' =>
+                                    request()->routeIs('dashboard.sub-services.index') ||
+                                    request()->routeIs('dashboard.sub-services.edit') ||
+                                    request()->routeIs('dashboard.sub-services.create'),
+                            ])>
+                                <i class="fas fa-boxes nav-icon"></i>
+                                <p class="mb-0">Sub Services</p>
                             </a>
                         </li>
                     </ul>
@@ -332,46 +349,44 @@
 
                 <li class="nav-header text-uppercase text-xs text-secondary px-3 mt-3 mb-2">Administration</li>
 
-                @if (auth()->user()?->email === 'seo-admin@smartzone.com')
-                    <li @class([
-                        'nav-item',
-                        'menu-open' => request()->routeIs('dashboard.seo-pages.*'),
+                <li @class([
+                    'nav-item',
+                    'menu-open' => request()->routeIs('dashboard.seo-pages.*'),
+                ])>
+                    <a href="#" @class([
+                        'nav-link',
+                        'active' => request()->routeIs('dashboard.seo-pages.*'),
                     ])>
-                        <a href="#" @class([
-                            'nav-link',
-                            'active' => request()->routeIs('dashboard.seo-pages.*'),
-                        ])>
-                            <i class="nav-icon fas fa-cog"></i>
-                            <p class="mb-0">
-                                Settings
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard.seo-pages.index') }}" @class([
-                                    'nav-link',
-                                    'active' => request()->routeIs('dashboard.seo-pages.*'),
-                                ])>
-                                    <i class="fas fa-search nav-icon"></i>
-                                    <p class="mb-0">SEO Pages</p>
-                                </a>
-                            </li>
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p class="mb-0">
+                            Settings
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.seo-pages.index') }}" @class([
+                                'nav-link',
+                                'active' => request()->routeIs('dashboard.seo-pages.*'),
+                            ])>
+                                <i class="fas fa-search nav-icon"></i>
+                                <p class="mb-0">SEO Pages</p>
+                            </a>
+                        </li>
 
-                            {{-- SEO Sections --}}
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard.seo-sections.index') }}" @class([
-                                    'nav-link',
-                                    'active' => request()->routeIs('dashboard.seo-sections.*'),
-                                ])>
+                        {{-- SEO Sections --}}
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard.seo-sections.index') }}" @class([
+                                'nav-link',
+                                'active' => request()->routeIs('dashboard.seo-sections.*'),
+                            ])>
 
-                                    <p>SEO Sections</p>
+                                <p>SEO Sections</p>
 
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="nav-item">
                     <a href="{{ route('dashboard.support-tickets.index') }}" @class([

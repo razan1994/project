@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\ConsultationRequestEmail;
 use App\Mail\ContactUsEmail;
+use App\Models\About;
 use App\Models\ContactUs;
 use App\Models\ContactUsRequest;
 use App\Models\SeoPage;
@@ -347,7 +348,11 @@ class FrontendController extends Controller
                 ->orderBy('id')
                 ->get();
             $this->setupSeo($seo, 'home', config('app.name', 'Aljeel'));
-            return view('frontend.index', compact('contact', 'seoSections'));
+            $services = Service::query()->where('status', 1)->get();
+            $aboutUs = About::first();
+            $projects = Project::query()->where('status', 1)->get();
+            $blogs = Blog::query()->where('status', 1)->get();
+            return view('frontend.index', compact('contact', 'seoSections', 'services', 'aboutUs', 'projects', 'blogs'));
         } catch (\Throwable $th) {
             return $this->handleError($th, $route);
         }
